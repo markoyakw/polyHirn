@@ -6,14 +6,15 @@
     background-color: var(--color-bg-card-1);
     box-shadow: var(--box-shadow);
     border-radius: var(--radius-m);
+    align-self: flex-start;
 }
 
 .link-group {
-    padding: var(--spacing-xs) 0px;
+    padding: var(--spacing-s) 0px;
 }
 
 .link:only-of-type {
-    padding: var(--spacing-xs) var(--spacing-m);
+    padding: var(--spacing-s) var(--spacing-m);
 }
 
 .link-group__stack {
@@ -31,14 +32,17 @@
 }
 
 .link {
-    color: var(--color-text-primary);
-    text-decoration: none;
-    font-size: var(--font-size-m);
-    padding: 0px var(--spacing-m);
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-xxs) var(--spacing-m);
+    transition: background-color var(--duration-normal) ease;
+}
+
+.link:hover {
+    background-color: var(--color-bg-card-2);
 }
 
 .link-group:not(:last-child),
 .link:only-of-type {
-    border-bottom: var(--border);
-    width: 100%;
+    box-shadow: var(--box-shadow-down);
 }

@@ -1,7 +1,13 @@
 import { CSSProperties } from "react"
 import { IconType } from "react-icons"
-import { CgAlarm, CgNotes } from "react-icons/cg"
-
+import { BiSolidBank } from "react-icons/bi"
+import { CgAlarm, CgMediaLive, CgNotes } from "react-icons/cg"
+import { FaCirclePlus, FaRegCalendarDays } from "react-icons/fa6"
+import { GoProjectTemplate } from "react-icons/go"
+import { IoMdCheckmark } from "react-icons/io"
+import { IoSettingsSharp } from "react-icons/io5"
+import { PiExportBold } from "react-icons/pi"
+import { RiGeminiLine } from "react-icons/ri"
 
 type TBadge = {
     text: string,
@@ -16,13 +22,17 @@ export type TNavLink = {
     href: string
 }
 
-type TNavLinkGroup = {
+export type TNavLinkGroup = {
     type: "group",
     groupName: string,
     links: TNavLink[]
 }
 
-export const NAV_LINKS: (TNavLinkGroup | TNavLink)[] = [
+export type TNavBarItem = TNavLink | TNavLinkGroup
+
+const BADGE_COLOR_SUCCESS = "var(--color-success)"
+
+export const NAV_LINKS: TNavBarItem[] = [
     {
         type: "group",
         groupName: "Tests",
@@ -37,21 +47,21 @@ export const NAV_LINKS: (TNavLinkGroup | TNavLink)[] = [
             {
                 type: "link",
                 text: "Live now",
-                icon: CgAlarm,
+                icon: CgMediaLive,
                 badge: null,
                 href: "/tests/live",
             },
             {
                 type: "link",
                 text: "Upcoming",
-                icon: null,
+                icon: CgAlarm,
                 badge: null,
                 href: "/tests/upcoming",
             },
             {
                 type: "link",
                 text: "Past & results",
-                icon: null,
+                icon: IoMdCheckmark,
                 badge: null,
                 href: "/tests/past",
             }
@@ -60,7 +70,7 @@ export const NAV_LINKS: (TNavLinkGroup | TNavLink)[] = [
     {
         type: "link",
         text: "New test",
-        icon: null,
+        icon: FaCirclePlus,
         badge: null,
         href: "/tests/new",
     },
@@ -71,15 +81,15 @@ export const NAV_LINKS: (TNavLinkGroup | TNavLink)[] = [
             {
                 type: "link",
                 text: "Activity log",
-                icon: null,
+                icon: FaRegCalendarDays,
                 badge: null,
                 href: "/activity",
             },
             {
                 type: "link",
                 text: "Question bank",
-                icon: null,
-                badge: { text: "AI", color: "green" },
+                icon: BiSolidBank,
+                badge: { text: "AI", color: BADGE_COLOR_SUCCESS },
                 href: "/questions",
             },
         ],
@@ -91,49 +101,28 @@ export const NAV_LINKS: (TNavLinkGroup | TNavLink)[] = [
             {
                 type: "link",
                 text: "General",
-                icon: null,
+                icon: IoSettingsSharp,
                 badge: null,
                 href: "/settings/general",
             },
             {
                 type: "link",
                 text: "Test defaults",
-                icon: null,
+                icon: GoProjectTemplate,
                 badge: null,
                 href: "/settings/defaults",
             },
             {
                 type: "link",
-                text: "Scoring & grading",
-                icon: null,
-                badge: null,
-                href: "/settings/scoring",
-            },
-            {
-                type: "link",
-                text: "Timer & access",
-                icon: null,
-                badge: null,
-                href: "/settings/timer",
-            },
-            {
-                type: "link",
-                text: "Question types",
-                icon: null,
-                badge: null,
-                href: "/settings/types",
-            },
-            {
-                type: "link",
-                text: "AI & API keys",
-                icon: null,
-                badge: { text: "AI", color: "green" },
+                text: "Agents & API keys",
+                icon: RiGeminiLine,
+                badge: { text: "AI", color: BADGE_COLOR_SUCCESS },
                 href: "/settings/api",
             },
             {
                 type: "link",
                 text: "Backup & export",
-                icon: null,
+                icon: PiExportBold,
                 badge: null,
                 href: "/settings/backup",
             },

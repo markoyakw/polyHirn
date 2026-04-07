@@ -1,0 +1,13 @@
+.link {
+    color: var(--color-text-primary);
+    gap: var(--spacing-s);
+    text-decoration: none;
+    font-size: var(--font-size-m);
+}
+
+.badge {
+    padding: 0px var(--spacing-s);
+    border-radius: var(--radius-l);
+    font-size: var(--font-size-xs);
+    margin-left: auto;
+}
