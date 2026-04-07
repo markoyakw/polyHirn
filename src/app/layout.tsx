@@ -1,14 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import { Manrope, Inter } from "next/font/google";
+import "@/globalStyles/reset.css"
+import "@/globalStyles/variables.css"
+import "@/globalStyles/global.css"
+import NavBar from "@/components/layout/nav/NavBar/NavBar/NavBar";
+import classes from "./layout.module.css"
+import clsx from "clsx";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const manrope = Manrope({
+  variable: "--font-main",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-headings",
   subsets: ["latin"],
 });
 
@@ -23,8 +28,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body>{children}</body>
+    <html lang="en" className={clsx(manrope.variable, inter.variable)}>
+      <body className={classes["layout"]}>
+        <NavBar />
+        {children}
+      </body>
     </html>
   );
 }

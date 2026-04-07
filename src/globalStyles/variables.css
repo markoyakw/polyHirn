@@ -1,0 +1,113 @@
+:root {
+    --color-brand-primary: #000000;
+    /* buttons, links, accents etc. */
+    --color-brand-secondary: #D9D9D9;
+    /* secondary brand color - gradients, hovers etcc. */
+    --color-brand-accent: #10B981;
+    /* contrast - notifications etc. */
+
+    --color-bg-page: #000000;
+    --color-bg-card-1: #1C1B1B;
+    --color-bg-card-2: #313030;
+    --color-bg-card-3: #474746;
+    --color-bg-card-4: #5F5E5E;
+    --color-bg-subtle: #F3F4F6;
+    /* lighter for tables/inputs */
+    --color-bg-overlay: rgba(0, 0, 0, 0.45);
+    /* darkening behind modals */
+
+    --color-text-primary: #E7E5E5;
+    /* main one - titles, body */
+    --color-text-secondary: #ACABAB;
+    /* secondary text - placeholders, labels */
+    --color-text-disabled: #9CA3AF;
+    --color-text-link: #4F46E5;
+
+    --color-success: #10B981;
+    --color-success-bg: #ECFDF5;
+    --color-warning: #F59E0B;
+    --color-warning-bg: #FFFBEB;
+    --color-error: #EF4444;
+    --color-error-bg: #FEF2F2;
+    --color-info: #3B82F6;
+    --color-info-bg: #EFF6FF;
+
+    --box-shadow-border-color: rgba(229, 229, 229, 0.232);
+    --box-shadow:
+        0 0 0 1px var(--box-shadow-border-color),
+        0px 1px 3px rgba(0, 0, 0, 0.7),
+        0px 2px 4px rgba(0, 0, 0, 0.4),
+        0px 4px 8px rgba(0, 0, 0, 0.2);
+    ;
+    --border: 1px solid #5F5E5E;
+    --border-strong: 1px solid #5E5E5E;
+    --border-header-action: 7px solid var(--color-brand-primary);
+
+    --font-sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    --font-serif: 'Georgia', 'Times New Roman', serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+    --font-size-xs: 0.75rem;
+    --font-size-s: 0.875rem;
+    --font-size-m: 1rem;
+    --font-size-l: 1.125rem;
+    --font-size-xl: 1.5rem;
+    --font-size-xxl: 2rem;
+    --font-size-xxxl: 3rem;
+
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-bold: 700;
+
+    --line-height-tight: 1.25;
+    --line-height-normal: 1.5;
+    --line-height-loose: 1.75;
+
+    --spacing-xxs: 0.125rem;
+    --spacing-xs: 0.25rem;
+    --spacing-s: 0.5rem;
+    --spacing-m: 1rem;
+    --spacing-l: 2rem;
+    --spacing-xl: 4rem;
+
+    --radius-s: 4px;
+    --radius-m: 8px;
+    --radius-l: 12px;
+    --radius-xl: 16px;
+
+    --shadow-s: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-m: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-l: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+    --duration-fast: 100ms;
+    --duration-normal: 200ms;
+    --duration-slow: 400ms;
+    --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    --z-base: 0;
+    --z-dropdown: 100;
+    --z-sticky: 200;
+    --z-overlay: 300;
+    --z-modal: 400;
+    --z-toast: 500;
+}
+
+
+/* dark theme */
+
+/* @media (prefers-color-scheme: dark) {
+    :root {
+        --color-bg-page: #0F172A;
+        --color-bg-surface: #1E293B;
+        --color-bg-subtle: #334155;
+
+        --color-text-primary: #F1F5F9;
+        --color-text-secondary: #94A3B8;
+        --color-text-disabled: #475569;
+
+        --color-border: #334155;
+        --color-border-strong: #475569;
+    }
+} */
