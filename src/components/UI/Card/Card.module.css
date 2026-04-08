@@ -8,6 +8,10 @@
     box-shadow: var(--box-shadow);
 }
 
+.spacingNone{
+    padding: 0px;
+}
+
 .spacingXxs {
     padding: var(--spacing-xxs);
 }

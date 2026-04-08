@@ -1,9 +1,6 @@
 .stack {
-    padding: var(--spacing-m) 0px;
-    background-color: var(--color-bg-card-1);
-    box-shadow: var(--box-shadow);
-    border-radius: var(--radius-m);
     align-self: flex-start;
+    padding: var(--spacing-s) 0px;
 }
 
 .stack>* {

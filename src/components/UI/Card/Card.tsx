@@ -2,7 +2,7 @@ import clsx from "clsx"
 import type { CSSProperties, ComponentPropsWithoutRef, ElementType, ReactNode } from "react"
 import classes from "./Card.module.css"
 
-type CardSpacing = "xxs" | "xs" | "s" | "m" | "l" | "xl"
+type CardSpacing = "xxs" | "xs" | "s" | "m" | "l" | "xl" | "none"
 type CardRadius = "s" | "m" | "l" | "xl"
 type CardTone = 1 | 2 | 3 | 4
 
@@ -34,6 +34,7 @@ const spacingClassNameMap: Record<CardSpacing, string> = {
     m: classes["spacingM"],
     l: classes["spacingL"],
     xl: classes["spacingXl"],
+    none: classes["spacingNone"]
 }
 
 const radiusClassNameMap: Record<CardRadius, string> = {
