@@ -1,25 +1,17 @@
 .stack {
-    /* horisontal padding is specified in .link and .link-group__name for frame to stretch */
     padding: var(--spacing-m) 0px;
-    display: flex;
-    flex-direction: column;
     background-color: var(--color-bg-card-1);
     box-shadow: var(--box-shadow);
     border-radius: var(--radius-m);
     align-self: flex-start;
 }
 
-.link-group {
-    padding: var(--spacing-s) 0px;
+.stack>* {
+    padding: var(--spacing-xs) 0px;
 }
 
-.link:only-of-type {
-    padding: var(--spacing-s) var(--spacing-m);
-}
-
-.link-group__stack {
-    display: flex;
-    flex-direction: column;
+.stack>*:not(:last-child) {
+    box-shadow: var(--box-shadow-down);
 }
 
 .link-group__name {
@@ -32,17 +24,9 @@
 }
 
 .link {
-    display: flex;
-    align-items: center;
-    padding: var(--spacing-xxs) var(--spacing-m);
     transition: background-color var(--duration-normal) ease;
 }
 
 .link:hover {
     background-color: var(--color-bg-card-2);
-}
-
-.link-group:not(:last-child),
-.link:only-of-type {
-    box-shadow: var(--box-shadow-down);
 }

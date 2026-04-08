@@ -43,8 +43,6 @@
         0 1px 0 0 var(--box-shadow-border-color),
         0px 1px 0px rgba(0, 0, 0, 0.9);
 
-    --border: 1px solid #5F5E5E;
-    --border-strong: 1px solid #5E5E5E;
     --border-header-action: 7px solid var(--color-brand-primary);
 
     --font-sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;

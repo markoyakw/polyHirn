@@ -1,5 +1,5 @@
 import classes from "./NavBar.module.css"
-import NavBarItem from "./NavBarItem"
+import NavBarItem from "./NavBarGroupItem"
 import { TNavLinkGroup } from "./navLinks"
 
 type TNavBarGroupProps = {
@@ -7,19 +7,20 @@ type TNavBarGroupProps = {
 }
 
 const NavBarGroup = ({ group }: TNavBarGroupProps) => {
-    const headingId = `nav-group-${group.groupName.toLowerCase().replace(/\s+/g, "-")}`
+
+    const labelBy = `nav-group-${group.groupName}`
 
     return (
-        <section className={classes["link-group"]} aria-labelledby={headingId}>
-            <h2 id={headingId} className={classes["link-group__name"]}>
+        <li>
+            <h2 id={`nav-group-${group.groupName}`} className={classes["link-group__name"]}>
                 {group.groupName}
             </h2>
-            <div className={classes["link-group__stack"]}>
+            <ul aria-labelledby={labelBy} className={classes["link-group__stack"]}>
                 {group.links.map((link) => (
                     <NavBarItem key={link.href} item={link} />
                 ))}
-            </div>
-        </section>
+            </ul>
+        </li>
     )
 }
 

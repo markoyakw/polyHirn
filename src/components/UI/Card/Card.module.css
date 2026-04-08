@@ -1,0 +1,65 @@
+.card {
+    background-color: var(--card-background);
+    color: var(--color-text-primary);
+    border-radius: var(--card-radius);
+}
+
+.withBorder {
+    box-shadow: var(--box-shadow);
+}
+
+.spacingXxs {
+    padding: var(--spacing-xxs);
+}
+
+.spacingXs {
+    padding: var(--spacing-xs);
+}
+
+.spacingS {
+    padding: var(--spacing-s);
+}
+
+.spacingM {
+    padding: var(--spacing-m);
+}
+
+.spacingL {
+    padding: var(--spacing-l);
+}
+
+.spacingXl {
+    padding: var(--spacing-xl);
+}
+
+.radiusS {
+    --card-radius: var(--radius-s);
+}
+
+.radiusM {
+    --card-radius: var(--radius-m);
+}
+
+.radiusL {
+    --card-radius: var(--radius-l);
+}
+
+.radiusXl {
+    --card-radius: var(--radius-xl);
+}
+
+.tone1 {
+    --card-background: var(--color-bg-card-1);
+}
+
+.tone2 {
+    --card-background: var(--color-bg-card-2);
+}
+
+.tone3 {
+    --card-background: var(--color-bg-card-3);
+}
+
+.tone4 {
+    --card-background: var(--color-bg-card-4);
+}

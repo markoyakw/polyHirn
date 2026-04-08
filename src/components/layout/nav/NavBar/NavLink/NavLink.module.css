@@ -1,8 +1,37 @@
 .link {
+    padding: var(--spacing-xxs) var(--spacing-m);
+    display: flex;
+    align-items: center;
     color: var(--color-text-primary);
     gap: var(--spacing-s);
     text-decoration: none;
     font-size: var(--font-size-m);
+}
+
+.link:hover .badge {
+    animation: shake 0.4s ease-out;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateY(-1px);
+    }
+
+    25% {
+        transform: translateY(1px);
+    }
+
+    50% {
+        transform: translateY(-1px);
+    }
+
+    75% {
+        transform: translateY(0px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
 }
 
 .badge {
