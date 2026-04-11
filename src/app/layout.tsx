@@ -32,7 +32,7 @@ export default function RootLayout({
     <html lang="en" className={clsx(manrope.variable, inter.variable)}>
       <body className={classes["layout"]}>
         <NavBar />
-        <Card withBorder>
+        <Card withBorder spacing="m">
           {children}
         </Card>
       </body>

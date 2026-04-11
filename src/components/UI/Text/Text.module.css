@@ -1,0 +1,68 @@
+.text {
+    margin: 0;
+    font-family: var(--font-main), var(--font-sans), sans-serif;
+    color: var(--text-color);
+    font-size: var(--text-size);
+    font-weight: var(--text-weight);
+    line-height: var(--text-line-height);
+}
+
+.primary {
+    --text-color: var(--color-text-primary);
+}
+
+.secondary {
+    --text-color: var(--color-text-secondary);
+}
+
+.disabled {
+    --text-color: var(--color-text-disabled);
+}
+
+.link {
+    --text-color: var(--color-text-link);
+}
+
+.xs {
+    --text-size: var(--font-size-xs);
+}
+
+.s {
+    --text-size: var(--font-size-s);
+}
+
+.m {
+    --text-size: var(--font-size-m);
+}
+
+.l {
+    --text-size: var(--font-size-l);
+}
+
+.xl {
+    --text-size: var(--font-size-xl);
+}
+
+.regular {
+    --text-weight: var(--font-weight-regular);
+}
+
+.medium {
+    --text-weight: var(--font-weight-medium);
+}
+
+.bold {
+    --text-weight: var(--font-weight-bold);
+}
+
+.tight {
+    --text-line-height: var(--line-height-tight);
+}
+
+.normal {
+    --text-line-height: var(--line-height-normal);
+}
+
+.loose {
+    --text-line-height: var(--line-height-loose);
+}

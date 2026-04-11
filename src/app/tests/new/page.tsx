@@ -1,6 +1,10 @@
+import TestConstructor from "@/features/TestConstructor/TestConstructor"
+
 const NewTestPage = () => {
   return (
-    <div>NewTestPage</div>
+    <div>
+      <TestConstructor />
+    </div>
   )
 }
 

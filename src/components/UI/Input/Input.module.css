@@ -1,0 +1,85 @@
+.input {
+    width: 100%;
+    border: none;
+    border-radius: var(--input-radius);
+    background-color: var(--input-background);
+    color: var(--color-text-primary);
+    font-family: var(--font-main), var(--font-sans), sans-serif;
+    font-size: var(--input-font-size);
+    line-height: var(--line-height-normal);
+    padding: var(--input-padding-y) var(--input-padding-x);
+    transition:
+        border-color var(--duration-normal) var(--ease-default),
+        box-shadow var(--duration-normal) var(--ease-default),
+        background-color var(--duration-normal) var(--ease-default);
+}
+
+.input::placeholder {
+    color: var(--color-text-secondary);
+}
+
+.input:focus {
+    outline: none;
+    filter: brightness(1.2);
+    box-shadow: var(--box-shadow-border);
+}
+
+.input:disabled {
+    cursor: not-allowed;
+    color: var(--color-text-disabled);
+    opacity: 0.7;
+}
+
+.tone1 {
+    --input-background: var(--color-bg-card-1);
+}
+
+.tone2 {
+    --input-background: var(--color-bg-card-2);
+}
+
+.tone3 {
+    --input-background: var(--color-bg-card-3);
+}
+
+.tone4 {
+    --input-background: var(--color-bg-card-4);
+}
+
+.s {
+    --input-font-size: var(--font-size-s);
+    --input-padding-x: var(--spacing-s);
+    --input-padding-y: var(--spacing-xs);
+}
+
+.m {
+    --input-font-size: var(--font-size-m);
+    --input-padding-x: var(--spacing-m);
+    --input-padding-y: var(--spacing-s);
+}
+
+.l {
+    --input-font-size: var(--font-size-l);
+    --input-padding-x: var(--spacing-m);
+    --input-padding-y: var(--spacing-s);
+}
+
+.radiusS {
+    --input-radius: var(--radius-s);
+}
+
+.radiusM {
+    --input-radius: var(--radius-m);
+}
+
+.radiusL {
+    --input-radius: var(--radius-l);
+}
+
+.radiusXl {
+    --input-radius: var(--radius-xl);
+}
+
+.withShadow {
+    box-shadow: var(--box-shadow);
+}
