@@ -1,5 +1,16 @@
 import { StateCreator } from "zustand"
-import { RootStore, TQuestion, TTest, TestTestConstructorSlice } from "../types"
+import {
+    RootStore,
+    TConnectPairsQuestion,
+    TMultipleChoiceQuestion,
+    TQuestion,
+    TQuestionUpdates,
+    TQuestionType,
+    TShortAnswerQuestion,
+    TTest,
+    TestTestConstructorSlice,
+    TTrueFalseQuestion,
+} from "../types"
 
 const defaultDraft: TTest = {
     name: "",
@@ -7,26 +18,75 @@ const defaultDraft: TTest = {
     questionArr: [],
 }
 
-const reorderArray = <T>(items: T[], from: number, to: number) => {
+const getBlankQuestion = (type: TQuestionType, id: string = ""): TQuestion => {
+    switch (type) {
+        case "multipleChoice":
+            return getBlankMultipleChoiceQuestion(id)
+        case "trueFalse":
+            return getBlankTrueFalseQuestion(id)
+        case "connectPairs":
+            return getBlankConnectPairsQuestion(id)
+        case "shortAnswer":
+            return getBlankShortAnswerQuestion(id)
+    }
+}
+
+const getBlankMultipleChoiceQuestion = (id: TMultipleChoiceQuestion["id"]): TMultipleChoiceQuestion => {
+    return {
+        id,
+        type: "multipleChoice",
+        questionText: "",
+        answerArr: []
+    }
+}
+
+const getBlankTrueFalseQuestion = (id: TTrueFalseQuestion["id"]): TTrueFalseQuestion => {
+    return {
+        id,
+        type: "trueFalse",
+        questionText: "",
+        correctAnswer: null,
+    }
+}
+
+const getBlankConnectPairsQuestion = (id: TConnectPairsQuestion["id"]): TConnectPairsQuestion => {
+    return {
+        id,
+        type: "connectPairs",
+        questionText: "",
+        pairArr: [],
+    }
+}
+
+const getBlankShortAnswerQuestion = (id: TShortAnswerQuestion["id"]): TShortAnswerQuestion => {
+    return {
+        id,
+        type: "shortAnswer",
+        questionText: "",
+        correctAnswerArr: [],
+    }
+}
+
+const reorderQuestionArr = (questionArr: TQuestion[], from: number, to: number) => {
     if (
         from < 0 ||
         to < 0 ||
-        from >= items.length ||
-        to >= items.length ||
+        from >= questionArr.length ||
+        to >= questionArr.length ||
         from === to
     ) {
-        return items
+        return questionArr
     }
 
-    const nextItems = [...items]
-    const [movedItem] = nextItems.splice(from, 1)
+    const nextQuestionArr = [...questionArr]
+    const [movedQuestion] = nextQuestionArr.splice(from, 1)
 
-    if (movedItem === undefined) {
-        return items
+    if (movedQuestion === undefined) {
+        return questionArr
     }
 
-    nextItems.splice(to, 0, movedItem)
-    return nextItems
+    nextQuestionArr.splice(to, 0, movedQuestion)
+    return nextQuestionArr
 }
 
 export const createTestBuilderSlice: StateCreator<
@@ -45,21 +105,11 @@ export const createTestBuilderSlice: StateCreator<
             },
         })),
 
-    addQuestion: (question: TQuestion) =>
+    addQuestion: (questionType: TQuestionType) =>
         set((state) => ({
             draft: {
                 ...state.draft,
-                questionArr: [...state.draft.questionArr, question],
-            },
-        })),
-
-    updateQuestion: (id, updates) =>
-        set((state) => ({
-            draft: {
-                ...state.draft,
-                questionArr: state.draft.questionArr.map((question) =>
-                    question.id === id ? { ...question, ...updates } : question
-                ),
+                questionArr: [...state.draft.questionArr, getBlankQuestion(questionType)],
             },
         })),
 
@@ -75,7 +125,7 @@ export const createTestBuilderSlice: StateCreator<
         set((state) => ({
             draft: {
                 ...state.draft,
-                questionArr: reorderArray(state.draft.questionArr, from, to),
+                questionArr: reorderQuestionArr(state.draft.questionArr, from, to),
             },
         })),
 

@@ -1,0 +1,105 @@
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    border: none;
+    border-radius: var(--button-radius);
+    background-color: var(--button-background);
+    color: var(--button-color);
+    box-shadow: var(--button-shadow);
+    font-family: var(--font-sans), sans-serif;
+    font-size: var(--button-font-size);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-normal);
+    padding: var(--button-padding-y) var(--button-padding-x);
+    cursor: pointer;
+    transition:
+        transform var(--duration-fast) var(--ease-default),
+        filter var(--duration-normal) var(--ease-default),
+        background-color var(--duration-normal) var(--ease-default),
+        color var(--duration-normal) var(--ease-default),
+        box-shadow var(--duration-normal) var(--ease-default);
+}
+
+.button:hover:not(:disabled) {
+    filter: brightness(1.12);
+}
+
+.button:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: var(--box-shadow-down);
+}
+
+.button:focus-visible {
+    outline: none;
+    box-shadow: var(--box-shadow);
+}
+
+.button:disabled {
+    cursor: not-allowed;
+    color: var(--color-text-disabled);
+    opacity: 0.7;
+}
+
+.primary {
+    --button-background: var(--color-brand-accent);
+    --button-color: var(--color-brand-primary);
+    --button-shadow: var(--box-shadow);
+}
+
+.secondary {
+    --button-background: var(--color-bg-card-2);
+    --button-color: var(--color-text-primary);
+    --button-shadow: var(--box-shadow);
+}
+
+.ghost {
+    --button-background: transparent;
+    --button-color: var(--color-text-primary);
+    --button-shadow: var(--box-shadow-border);
+}
+
+.danger {
+    --button-background: var(--color-error);
+    --button-color: var(--color-text-primary);
+    --button-shadow: var(--box-shadow);
+}
+
+.s {
+    --button-font-size: var(--font-size-s);
+    --button-padding-x: var(--spacing-s);
+    --button-padding-y: var(--spacing-xs);
+}
+
+.m {
+    --button-font-size: var(--font-size-m);
+    --button-padding-x: var(--spacing-m);
+    --button-padding-y: var(--spacing-s);
+}
+
+.l {
+    --button-font-size: var(--font-size-l);
+    --button-padding-x: var(--spacing-l);
+    --button-padding-y: var(--spacing-s);
+}
+
+.radiusS {
+    --button-radius: var(--radius-s);
+}
+
+.radiusM {
+    --button-radius: var(--radius-m);
+}
+
+.radiusL {
+    --button-radius: var(--radius-l);
+}
+
+.radiusXl {
+    --button-radius: var(--radius-xl);
+}
+
+.fullWidth {
+    width: 100%;
+}
