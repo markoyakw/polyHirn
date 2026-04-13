@@ -28,7 +28,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 |---|---|
 | Framework | Next.js 15 (App Router, RSC-first) |
 | Language | TypeScript (strict mode) |
-| Styling | React modules, standartised CSS variables in folder ./src/globalStyles/variables.css |
+| Styling | React modules, standartised CSS variables in folder ./src/globalStyles/variables.css, always use BEM methodology |
 | Database | MongoDB with mongoose |
 | Auth | NextAuth.js (Auth.js) |
 | State | TanStack Query (server state + cache) |
@@ -60,6 +60,168 @@ export function QuizTimer({ durationSeconds }: { durationSeconds: number }) {
   // ...
 }
 ```
+
+### CSS and styling
+
+  - Always use BEM methodology if complex classes needed, if it improves readability or always when there is a modifier.
+  - Always use CSS modules for non-global css
+
+BEM (Block Element Modifier) is a naming convention:
+	- Block → standalone component (button)
+	- Element → part of component (__icon)
+	- Modifier → state/variant (--active)
+
+CSS Modules + BEM (React) — Good vs Bad Examples:
+
+---
+
+GOOD — Clean CSS Modules + BEM-inspired naming
+
+<!-- good Dropdown.tsx -->
+```tsx
+import styles from "./Dropdown.module.css";
+
+export function Dropdown() {
+  return (
+    <div className={styles.dropdown}>
+      <button className={styles.button}>
+        Open
+      </button>
+
+      <div className={styles.menu}>
+        <input
+          className={styles.search}
+          placeholder="Search..."
+        />
+
+        <ul className={styles.list}>
+          <li className={styles.item}>Option 1</li>
+          <li className={`${styles.item} ${styles["item--active"]}`}>
+            Option 2
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+```
+
+good Dropdown.module.css
+```css
+.dropdown {
+  position: relative;
+}
+
+.button {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+}
+
+.search {
+  width: 100%;
+  padding: 6px;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  padding: 6px 10px;
+}
+
+.item--active {
+  background: #e0e0e0;
+}
+```
+
+---
+
+BAD — Over-BEM + deep nesting inside CSS Modules
+
+bad Dropdown.tsx
+```tsx
+import styles from "./Dropdown.module.css";
+
+export function Dropdown() {
+  return (
+    <div className={styles["dropdown__container"]}>
+      <button className={styles["dropdown__button--primary"]}>
+        Open
+      </button>
+
+      <div className={styles["dropdown__menu__wrapper"]}>
+        <input className={styles["dropdown__menu__search"]} />
+
+        <ul className={styles["dropdown__menu__list"]}>
+          <li className={styles["dropdown__menu__item--active"]}>
+            Option 1
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+```
+
+bad Dropdown.module.css
+```css
+.dropdown__container {
+  position: relative;
+}
+
+.dropdown__button--primary {
+  padding: 8px 12px;
+}
+
+.dropdown__menu__wrapper {
+  position: absolute;
+}
+
+.dropdown__menu__search {
+  width: 100%;
+}
+
+.dropdown__menu__list {
+  list-style: none;
+}
+
+.dropdown__menu__item--active {
+  background: red;
+}
+```
+
+---
+
+RULES — CSS Modules + BEM style in React:
+
+✔ Use CSS Modules for scoping (no global conflicts)
+✔ Keep class names flat per component
+✔ Use simple BEM-inspired modifiers (--active, --disabled)
+✔ Treat component = "Block"
+✔ Treat internal parts = "Elements"
+✔ Treat state = "Modifiers"
+
+- Avoid deep nesting like: dropdown__menu__item__icon
+- Avoid turning BEM into hierarchy inside React
+
+Best Mental Model:
+
+- Component = Block
+- Internal UI parts = flat elements
+- State = modifiers (--active)
+- CSS Modules = automatic scoping layer (no need for strict BEM rules)
+
+---
 
 ## Data Fetching
 - **Server components**: call service functions directly (no fetch wrapper needed)
