@@ -3,13 +3,14 @@ import { NAV_LINKS, TNavBarItem } from "./navLinks"
 import NavBarGroup from "./NavBarGroup"
 import NavBarItem from "./NavBarGroupItem"
 import Card from "@/components/UI/Card/Card"
+import { Stack } from "@/components/UI/Stack/Stack"
 
 const isNavGroup = (item: TNavBarItem) => item.type === "group"
 
 const NavBar = () => {
     return (
         <Card as="nav" aria-label="primary-navigation" spacing="none" withBorder>
-            <ul className={classes["stack"]}>
+            <Stack as={"ul"} border={"wholeSize"} gap="s" paddingBlock="m">
                 {NAV_LINKS.map((item, itemId) =>
                     isNavGroup(item) ? (
                         <NavBarGroup key={item.groupName + itemId} group={item} />
@@ -17,7 +18,7 @@ const NavBar = () => {
                         <NavBarItem key={item.href + itemId} item={item} />
                     )
                 )}
-            </ul>
+            </Stack>
         </Card>
     )
 }

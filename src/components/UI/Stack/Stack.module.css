@@ -1,0 +1,174 @@
+.stack {
+    display: flex;
+    padding-block: var(--stack-padding-block);
+    padding-inline: var(--stack-padding-inline);
+    gap: var(--stack-gap-size);
+    --stack-padding-size: 0px;
+    --stack-gap-size: 0px;
+    --stack-padding-block: var(--stack-padding-size);
+    --stack-padding-inline: var(--stack-padding-size);
+    --stack-half-gap: calc(var(--stack-gap-size) / 2);
+}
+
+.directionRow {
+    flex-direction: row; 
+}
+
+.directionColumn {
+    flex-direction: column;
+}
+
+.withBorder>* {
+    position: relative;
+}
+
+.withBorder>*::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    background-color: var(--box-shadow-border-color);
+}
+
+.directionColumn.withBorder>*::after {
+    right: var(--stack-border-inline-end, 0px);
+    bottom: calc(var(--stack-half-gap) * -1);
+    left: var(--stack-border-inline-start, 0px);
+    height: 1px;
+}
+
+.directionRow.withBorder>*::after {
+    top: var(--stack-border-block-start, 0px);
+    bottom: var(--stack-border-block-end, 0px);
+    left: 0px;
+    width: 1px;
+}
+
+.withBorder>*:last-child::after {
+    display: none;
+}
+
+.borderWholeSize {
+    --stack-border-inline-start: 0px;
+    --stack-border-inline-end: 0px;
+    --stack-border-block-start: 0px;
+    --stack-border-block-end: 0px;
+}
+
+.borderConsiderPadding {
+    --stack-border-inline-start: var(--stack-padding-inline);
+    --stack-border-inline-end: var(--stack-padding-inline);
+    --stack-border-block-start: var(--stack-padding-block);
+    --stack-border-block-end: var(--stack-padding-block);
+}
+
+.paddingNone {
+    --stack-padding-size: 0px;
+}
+
+.paddingXxs {
+    --stack-padding-size: var(--spacing-xxs);
+}
+
+.paddingXs {
+    --stack-padding-size: var(--spacing-xs);
+}
+
+.paddingS {
+    --stack-padding-size: var(--spacing-s);
+}
+
+.paddingM {
+    --stack-padding-size: var(--spacing-m);
+}
+
+.paddingL {
+    --stack-padding-size: var(--spacing-l);
+}
+
+.paddingXl {
+    --stack-padding-size: var(--spacing-xl);
+}
+
+.paddingBlockNone {
+    --stack-padding-block: 0px;
+}
+
+.paddingBlockXxs {
+    --stack-padding-block: var(--spacing-xxs);
+}
+
+.paddingBlockXs {
+    --stack-padding-block: var(--spacing-xs);
+}
+
+.paddingBlockS {
+    --stack-padding-block: var(--spacing-s);
+}
+
+.paddingBlockM {
+    --stack-padding-block: var(--spacing-m);
+}
+
+.paddingBlockL {
+    --stack-padding-block: var(--spacing-l);
+}
+
+.paddingBlockXl {
+    --stack-padding-block: var(--spacing-xl);
+}
+
+.paddingInlineNone {
+    --stack-padding-inline: 0px;
+}
+
+.paddingInlineXxs {
+    --stack-padding-inline: var(--spacing-xxs);
+}
+
+.paddingInlineXs {
+    --stack-padding-inline: var(--spacing-xs);
+}
+
+.paddingInlineS {
+    --stack-padding-inline: var(--spacing-s);
+}
+
+.paddingInlineM {
+    --stack-padding-inline: var(--spacing-m);
+}
+
+.paddingInlineL {
+    --stack-padding-inline: var(--spacing-l);
+}
+
+.paddingInlineXl {
+    --stack-padding-inline: var(--spacing-xl);
+}
+
+.gapNone {
+    --stack-gap-size: 0px;
+}
+
+.gapXxs {
+    --stack-gap-size: var(--spacing-xxs);
+}
+
+.gapXs {
+    --stack-gap-size: var(--spacing-xs);
+}
+
+.gapS {
+    --stack-gap-size: var(--spacing-s);
+}
+
+.gapM {
+    --stack-gap-size: var(--spacing-m);
+}
+
+.gapL {
+    --stack-gap-size: var(--spacing-l);
+}
+
+.gapXl {
+    --stack-gap-size: var(--spacing-xl);
+}
