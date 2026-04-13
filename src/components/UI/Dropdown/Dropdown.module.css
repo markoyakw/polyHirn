@@ -1,0 +1,52 @@
+.container {
+    position: relative;
+    width: fit-content;
+}
+
+.button {
+    z-index: calc(var(--z-dropdown) + 1);
+    position: relative;
+}
+
+.card {
+    position: absolute;
+    z-index: var(--z-dropdown);
+    left: 0px;
+    top: calc(100% + var(--spacing-s));
+    transform-origin: top left;
+    transition:
+        opacity var(--duration-normal) var(--ease-default),
+        transform var(--duration-normal) var(--ease-spring),
+        visibility 0s linear var(--duration-normal);
+}
+
+.card--open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0px) scale(1);
+    transition:
+        opacity var(--duration-fast) var(--ease-default),
+        transform var(--duration-normal) var(--ease-default),
+        visibility 0s linear 0s;
+}
+
+.card--closed {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-15px) scale(1, 0.8);
+}
+
+.stack>* {
+    text-align: start;
+}
+
+.dropdown-button__icon {
+    transition: transform var(--duration-slow) var(--ease-spring);
+}
+
+.dropdown-button__icon--open {
+    transform-style: preserve-3d;
+    transform: perspective(1000px) rotate3d(1, 0, 0, 180deg);
+}
