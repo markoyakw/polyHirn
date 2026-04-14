@@ -5,6 +5,7 @@ import classes from "./Stack.module.css"
 type TStackDirection = "row" | "column"
 type TStackSize = "xxs" | "xs" | "s" | "m" | "l" | "xl" | "none"
 type TStackBorder = "wholeSize" | "considerPadding"
+type TStackSecondaryAxisAlignment = "start" | "center" | "end" | "stretch"
 
 type TStackOwnProps<T extends ElementType> = {
     as?: T
@@ -17,6 +18,7 @@ type TStackOwnProps<T extends ElementType> = {
     paddingInline?: TStackSize
     gap?: TStackSize
     border?: TStackBorder
+    secondaryAxisAlignment?: TStackSecondaryAxisAlignment
 }
 
 type TStackProps<T extends ElementType> = TStackOwnProps<T> &
@@ -72,6 +74,13 @@ const borderClassNameMap: Record<TStackBorder, string> = {
     considerPadding: classes["borderConsiderPadding"],
 }
 
+const secondaryAxisAlignmentClassNameMap: Record<TStackSecondaryAxisAlignment, string> = {
+    start: classes["secondaryAxisAlignmentStart"],
+    center: classes["secondaryAxisAlignmentCenter"],
+    end: classes["secondaryAxisAlignmentEnd"],
+    stretch: classes["secondaryAxisAlignmentStretch"],
+}
+
 const Stack = <T extends ElementType = "div">({
     as,
     children,
@@ -83,6 +92,7 @@ const Stack = <T extends ElementType = "div">({
     paddingInline,
     gap = "none",
     border,
+    secondaryAxisAlignment,
     ...props
 }: TStackProps<T>) => {
     const Component = as ?? "div"
@@ -98,6 +108,8 @@ const Stack = <T extends ElementType = "div">({
                 gapClassNameMap[gap],
                 border && classes["withBorder"],
                 border && borderClassNameMap[border],
+                secondaryAxisAlignment &&
+                    secondaryAxisAlignmentClassNameMap[secondaryAxisAlignment],
                 className
             )}
             style={style}
@@ -109,4 +121,4 @@ const Stack = <T extends ElementType = "div">({
 }
 
 export { Stack }
-export type { TStackBorder, TStackDirection, TStackProps, TStackSize }
+export type { TStackBorder, TStackDirection, TStackProps, TStackSecondaryAxisAlignment, TStackSize }

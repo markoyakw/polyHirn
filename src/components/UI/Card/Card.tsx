@@ -5,6 +5,8 @@ import classes from "./Card.module.css"
 type CardSpacing = "xxs" | "xs" | "s" | "m" | "l" | "xl" | "none"
 type CardRadius = "s" | "m" | "l" | "xl"
 type CardTone = 1 | 2 | 3 | 4
+type CardWidth = "auto" | "full" | "fitContent"
+type CardOverflow = "hidden" | "visible"
 
 type CardOwnProps<T extends ElementType> = {
     as?: T
@@ -14,6 +16,8 @@ type CardOwnProps<T extends ElementType> = {
     tone?: CardTone
     spacing?: CardSpacing
     radius?: CardRadius
+    width?: CardWidth
+    overflow?: CardOverflow
     withBorder?: boolean
 }
 
@@ -44,6 +48,17 @@ const radiusClassNameMap: Record<CardRadius, string> = {
     xl: classes["radiusXl"],
 }
 
+const widthClassNameMap: Record<CardWidth, string | undefined> = {
+    auto: undefined,
+    full: classes["widthFull"],
+    fitContent: classes["widthFitContent"],
+}
+
+const overflowClassNameMap: Record<CardOverflow, string> = {
+    hidden: classes["overflowHidden"],
+    visible: classes["overflowVisible"],
+}
+
 const Card = <T extends ElementType = "div">({
     as,
     children,
@@ -52,6 +67,8 @@ const Card = <T extends ElementType = "div">({
     tone = 1,
     spacing = "m",
     radius = "m",
+    width = "auto",
+    overflow = "visible",
     withBorder = false,
     ...props
 }: CardProps<T>) => {
@@ -65,6 +82,8 @@ const Card = <T extends ElementType = "div">({
                 toneClassNameMap[tone],
                 spacingClassNameMap[spacing],
                 radiusClassNameMap[radius],
+                widthClassNameMap[width],
+                overflowClassNameMap[overflow],
                 withBorder && classes["withBorder"],
                 className
             )}
@@ -77,4 +96,4 @@ const Card = <T extends ElementType = "div">({
 }
 
 export default Card
-export type { CardProps, CardRadius, CardSpacing, CardTone }
+export type { CardOverflow, CardProps, CardRadius, CardSpacing, CardTone, CardWidth }

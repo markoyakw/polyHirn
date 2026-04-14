@@ -2,8 +2,8 @@ import classes from "./NavBar.module.css"
 import { NAV_LINKS, TNavBarItem } from "./navLinks"
 import NavBarGroup from "./NavBarGroup"
 import NavBarItem from "./NavBarGroupItem"
-import Card from "@/components/UI/Card/Card"
-import { Stack } from "@/components/UI/Stack/Stack"
+import Card from "@/components/ui/Card/Card"
+import { Stack } from "@/components/ui/Stack/Stack"
 
 const isNavGroup = (item: TNavBarItem) => item.type === "group"
 

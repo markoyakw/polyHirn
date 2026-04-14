@@ -1,75 +1,16 @@
-export type TMultipleChoiceAnswer = {
-    id: string,
-    type: "multipleChoice",
-    answerwhyText: string,
-    isRight: boolean
-}
+import type { TQuestion, TQuestionType, TTest } from "@/features/TestConstructor/model/types"
 
-export type TMultipleChoiceQuestion = {
-    id: string,
-    type: "multipleChoice",
-    questionText: string,
-    answerArr: TMultipleChoiceAnswer[]
-}
-
-export type TTrueFalseQuestion = {
-    id: string,
-    type: "trueFalse",
-    questionText: string,
-    correctAnswer: boolean | null
-}
-
-export type TConnectPairsQuestionItem = {
-    id: string,
-    leftText: string,
-    rightText: string
-}
-
-export type TConnectPairsQuestion = {
-    id: string,
-    type: "connectPairs",
-    questionText: string,
-    pairArr: TConnectPairsQuestionItem[]
-}
-
-export type TShortAnswerQuestion = {
-    id: string,
-    type: "shortAnswer",
-    questionText: string,
-    correctAnswerArr: string[]
-}
-
-export type TQuestion =
-    | TMultipleChoiceQuestion
-    | TTrueFalseQuestion
-    | TConnectPairsQuestion
-    | TShortAnswerQuestion
-
-export type TQuestionType = TQuestion["type"]
-
-export type TQuestionUpdates = {
-    type?: TQuestionType
-    questionText?: string
-    answerArr?: TMultipleChoiceAnswer[]
-    correctAnswer?: boolean | null
-    pairArr?: TConnectPairsQuestionItem[]
-    correctAnswerArr?: string[]
-}
-
-export type TTest = {
-    timeLimit?: number
-    passMark: number
-    name: string,
-    questionArr: TQuestion[],
-}
-
-export type TestTestConstructorSlice = {
+type TestTestConstructorSlice = {
     draft: TTest
     setTitle: (title: string) => void
     addQuestion: (questionType: TQuestionType) => void
     removeQuestion: (id: string) => void
     reorderQuestions: (from: number, to: number) => void
     resetDraft: () => void
+    updateQuestion<T extends TQuestion>(id: T["id"], update: Partial<Omit<T, "id" | "type">>): void
+    updateQuestionFn<T extends TQuestion>(questionId: T["id"], update: (question: T) => T): void
 }
 
-export type RootStore = TestTestConstructorSlice
+type RootStore = TestTestConstructorSlice
+
+export type { RootStore, TestTestConstructorSlice }

@@ -6,7 +6,7 @@ import "@/globalStyles/global.css"
 import NavBar from "@/components/layout/nav/NavBar/NavBar";
 import classes from "./layout.module.css"
 import clsx from "clsx";
-import Card from "@/components/UI/Card/Card";
+import Card from "@/components/ui/Card/Card";
 
 const manrope = Manrope({
   variable: "--font-main",
@@ -32,9 +32,7 @@ export default function RootLayout({
     <html lang="en" className={clsx(manrope.variable, inter.variable)}>
       <body className={classes["layout"]}>
         <NavBar />
-        <Card withBorder spacing="m">
-          {children}
-        </Card>
+        {children}
       </body>
     </html>
   );

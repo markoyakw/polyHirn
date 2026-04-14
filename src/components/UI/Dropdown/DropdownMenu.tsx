@@ -1,8 +1,8 @@
 import { FC, ReactNode } from "react";
-import Card from "../Card/Card";
-import { Stack } from "../Stack/Stack";
 import classes from "./Dropdown.module.css"
 import clsx from "clsx";
+import Card from "../Card/Card";
+import { Stack } from "../Stack/Stack";
 
 type TDropdownMenuProps = {
     children: ReactNode[]

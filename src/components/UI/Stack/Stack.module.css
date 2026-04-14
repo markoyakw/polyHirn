@@ -18,6 +18,22 @@
     flex-direction: column;
 }
 
+.secondaryAxisAlignmentStart {
+    align-items: flex-start;
+}
+
+.secondaryAxisAlignmentCenter {
+    align-items: center;
+}
+
+.secondaryAxisAlignmentEnd {
+    align-items: flex-end;
+}
+
+.secondaryAxisAlignmentStretch {
+    align-items: stretch;
+}
+
 .withBorder>* {
     position: relative;
 }

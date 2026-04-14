@@ -1,12 +1,12 @@
 "use client"
 
 import { FC, ReactNode } from "react";
-import Button from "../Button/Button";
 import { IoIosArrowDown } from "react-icons/io";
-import DropdownMenu from "./DropdownMenu";
-import { Stack } from "../Stack/Stack";
 import classes from "./Dropdown.module.css"
 import clsx from "clsx";
+import Button from "../Button/Button";
+import { Stack } from "../Stack/Stack";
+import DropdownMenu from "./DropdownMenu";
 
 type TDropdownProps = {
     isOpen: boolean

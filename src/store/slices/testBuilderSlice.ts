@@ -1,101 +1,39 @@
-import { StateCreator } from "zustand"
+import type { TQuestionType } from "@/features/TestConstructor/model/types"
 import {
-    RootStore,
-    TConnectPairsQuestion,
-    TMultipleChoiceQuestion,
-    TQuestion,
-    TQuestionUpdates,
-    TQuestionType,
-    TShortAnswerQuestion,
-    TTest,
-    TestTestConstructorSlice,
-    TTrueFalseQuestion,
-} from "../types"
-
-const defaultDraft: TTest = {
-    name: "",
-    passMark: 50,
-    questionArr: [],
-}
-
-const getBlankQuestion = (type: TQuestionType, id: string = ""): TQuestion => {
-    switch (type) {
-        case "multipleChoice":
-            return getBlankMultipleChoiceQuestion(id)
-        case "trueFalse":
-            return getBlankTrueFalseQuestion(id)
-        case "connectPairs":
-            return getBlankConnectPairsQuestion(id)
-        case "shortAnswer":
-            return getBlankShortAnswerQuestion(id)
-    }
-}
-
-const getBlankMultipleChoiceQuestion = (id: TMultipleChoiceQuestion["id"]): TMultipleChoiceQuestion => {
-    return {
-        id,
-        type: "multipleChoice",
-        questionText: "",
-        answerArr: []
-    }
-}
-
-const getBlankTrueFalseQuestion = (id: TTrueFalseQuestion["id"]): TTrueFalseQuestion => {
-    return {
-        id,
-        type: "trueFalse",
-        questionText: "",
-        correctAnswer: null,
-    }
-}
-
-const getBlankConnectPairsQuestion = (id: TConnectPairsQuestion["id"]): TConnectPairsQuestion => {
-    return {
-        id,
-        type: "connectPairs",
-        questionText: "",
-        pairArr: [],
-    }
-}
-
-const getBlankShortAnswerQuestion = (id: TShortAnswerQuestion["id"]): TShortAnswerQuestion => {
-    return {
-        id,
-        type: "shortAnswer",
-        questionText: "",
-        correctAnswerArr: [],
-    }
-}
-
-const reorderQuestionArr = (questionArr: TQuestion[], from: number, to: number) => {
-    if (
-        from < 0 ||
-        to < 0 ||
-        from >= questionArr.length ||
-        to >= questionArr.length ||
-        from === to
-    ) {
-        return questionArr
-    }
-
-    const nextQuestionArr = [...questionArr]
-    const [movedQuestion] = nextQuestionArr.splice(from, 1)
-
-    if (movedQuestion === undefined) {
-        return questionArr
-    }
-
-    nextQuestionArr.splice(to, 0, movedQuestion)
-    return nextQuestionArr
-}
+    getBlankQuestion
+} from "@/features/TestConstructor/model/utils/blankQuestion"
+import type { StateCreator } from "zustand"
+import type { RootStore, TestTestConstructorSlice } from "../types"
+import { DEFAULT_DRAFT } from "@/features/TestConstructor/model/constants"
+import { reorderQuestionArr } from "@/features/TestConstructor/model/utils/updateTest"
 
 export const createTestBuilderSlice: StateCreator<
     RootStore,
-    [],
+    [["zustand/immer", never]],
     [],
     TestTestConstructorSlice
 > = (set) => ({
-    draft: defaultDraft,
+    draft: DEFAULT_DRAFT,
+
+    updateQuestion: (id, update) => {
+        set((state) => ({
+            draft: {
+                ...state.draft,
+                questionArr: state.draft.questionArr.map(question => question.id === id
+                    ? { ...question, ...update }
+                    : question)
+            }
+        }))
+    },
+
+    updateQuestionFn: (questionId, update) => {
+        set((state) => ({
+            draft: {
+                ...state.draft,
+                questionArr: state.draft.questionArr.map(question => question.id === questionId ? update(question) : question)
+            }
+        }))
+    },
 
     setTitle: (title) =>
         set((state) => ({
@@ -131,6 +69,6 @@ export const createTestBuilderSlice: StateCreator<
 
     resetDraft: () =>
         set({
-            draft: defaultDraft,
+            draft: DEFAULT_DRAFT,
         }),
 })

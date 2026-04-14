@@ -1,4 +1,4 @@
-import TestConstructor from "@/features/TestConstructor/TestConstructor"
+import TestConstructor from "@/features/TestConstructor/ui/TestConstructor"
 
 const NewTestPage = () => {
   return (

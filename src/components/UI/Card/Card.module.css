@@ -4,8 +4,24 @@
     border-radius: var(--card-radius);
 }
 
+.overflowHidden {
+    overflow: hidden;
+}
+
+.overflowVisible {
+    overflow: visible;
+}
+
 .withBorder {
     box-shadow: var(--box-shadow);
+}
+
+.widthFull {
+    width: 100%;
+}
+
+.widthFitContent {
+    width: fit-content;
 }
 
 .spacingNone{

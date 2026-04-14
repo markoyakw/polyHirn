@@ -1,17 +1,11 @@
 .button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--spacing-xs);
     border: none;
     border-radius: var(--button-radius);
     background-color: var(--button-background);
     color: var(--button-color);
-    box-shadow: var(--button-shadow);
     font-family: var(--font-sans), sans-serif;
     font-size: var(--button-font-size);
     font-weight: var(--font-weight-medium);
-    line-height: var(--line-height-normal);
     padding: var(--button-padding-y) var(--button-padding-x);
     cursor: pointer;
     transition:
@@ -22,9 +16,14 @@
         box-shadow var(--duration-normal) var(--ease-default);
 }
 
-.button:hover:not(:disabled) {
+.button.brightness:hover:not(:disabled) {
     filter: brightness(1.12);
 }
+
+.button.brandColorBg:hover:not(:disabled) {
+    background-color: var(--color-brand-accent);
+}
+
 
 .button:active:not(:disabled) {
     transform: translateY(1px);
@@ -102,4 +101,8 @@
 
 .fullWidth {
     width: 100%;
+}
+
+.withBorder {
+    box-shadow: var(--button-shadow);
 }
