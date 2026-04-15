@@ -1,0 +1,21 @@
+.sticky {
+    position: sticky;
+    top: var(--sticky-top);
+    z-index: var(--z-sticky);
+    transition:
+        transform var(--duration-normal) var(--ease-default),
+        opacity var(--duration-normal) var(--ease-default);
+    will-change: transform, opacity;
+}
+
+.sticky--visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.sticky--hidden {
+    opacity: 0;
+    transform: translateY(calc(-100% - var(--spacing-xs)));
+    pointer-events: none;
+}
