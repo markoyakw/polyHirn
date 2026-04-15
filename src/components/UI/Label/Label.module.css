@@ -1,0 +1,6 @@
+.label {
+    color: var(--color-text-secondary);
+    font-family: var(--font-main), var(--font-sans), sans-serif;
+    font-size: var(--font-size-s);
+    line-height: var(--line-height-normal);
+}
