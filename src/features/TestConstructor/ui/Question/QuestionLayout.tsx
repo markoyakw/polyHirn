@@ -11,11 +11,13 @@ import DragableIcon from "@/components/ui/DragableIcon/DragableIcon"
 import { useSortable } from "@dnd-kit/react/sortable"
 import clsx from "clsx"
 import QuestionRenderer from "./QuestionRenderer"
+import { closestCenter } from '@dnd-kit/collision'
+import dragClasses from "@/globalStyles/drag.module.css"
 
 type TQuestionProps = {
     question: TQuestion,
     index: number,
-    isDragOverlay?: boolean
+    isDragOverlay?: boolean,
 }
 
 const QuestionLayout: FC<TQuestionProps> = ({ question, index, isDragOverlay }) => {
@@ -23,11 +25,12 @@ const QuestionLayout: FC<TQuestionProps> = ({ question, index, isDragOverlay }) 
     const removeQuestion = useStore((state) => state.removeQuestion)
 
     const QuestionHeading = `QUESTION ${index + 1} – ${QUESTION_TYPE_LABELS[question.type].toLocaleUpperCase()}`
-    const { ref, isDragging } = useSortable({ id: question.id, index })
+    const { ref: sortableRef, isDragging } = useSortable({ id: question.id, index, collisionDetector: closestCenter })
+
     const layoutClassName = clsx(
         classes["card-layout"],
-        isDragging && !isDragOverlay && classes["card-layout--is-dragging"],
-        isDragOverlay && classes["card-layout--is-drag-overlay"]
+        isDragging && !isDragOverlay && dragClasses["drag-item--dragging"],
+        isDragOverlay && dragClasses["drag-item--overlay"]
     )
 
     return (
@@ -35,7 +38,7 @@ const QuestionLayout: FC<TQuestionProps> = ({ question, index, isDragOverlay }) 
             withBorder
             spacing="m"
             className={layoutClassName}
-            ref={ref}
+            ref={sortableRef}
         >
             <Stack gap="s">
                 <Stack

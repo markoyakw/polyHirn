@@ -1,5 +1,6 @@
 import getWrongQuestionTypeError from "@/utils/getWrongQuestionTypeError"
 import type {
+    TMatchPairsAnswerPair,
     TMatchPairsAnswerPosition,
     TMatchPairsQuestion,
     TQuestion,
@@ -64,9 +65,9 @@ const reorderMatchPairsAnswers = (
     sourceId: string,
     targetId: string,
 ) =>
-    (question: TQuestion): TQuestion => {
+    (question: TQuestion): TMatchPairsQuestion => {
         if (question.type !== "matchPairs") {
-            throw new Error("Question type mismatch. Expected matchPairs, got " + question.type)
+            throw new Error(getWrongQuestionTypeError(question.type, "matchPairs"))
         }
 
         const getPairPositionFromId = (id: string): TMatchPairsAnswerPosition | null => {

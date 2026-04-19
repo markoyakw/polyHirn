@@ -1,4 +1,4 @@
-import type { FC } from "react"
+import { type FC } from "react"
 import type { TMatchPairsAnswerPosition, TMatchPairsQuestion } from "../../../model/types"
 import Input from "@/components/ui/Input/Input"
 import { useStore } from "@/store"
@@ -41,27 +41,29 @@ const MatchPairsQuestion: FC<TMatchPairsQuestionProps> = ({ question }) => {
     }
 
     return (
-        <Stack gap="m">
-            <Input placeholder="Question text"
-                onChange={e => updateQuestion(question.id, { ...question, questionText: e.target.value })}
-                tone={2}
-                value={question.questionText}
-            />
-            <DragDropProvider onDragEnd={onDragEnd}>
-                {question.pairArr.map((answerPair, index) =>
-                    <MatchPairsAnswerPair
-                        answerPair={answerPair}
-                        index={index}
-                        onAnswerChange={(newValue, answerPosition) => handleMatchPairsAnswerChange(answerPair.id, newValue, answerPosition)}
-                        onDelete={handleMatchPairAnswerDelete}
-                        isDeleteDisabled={question.pairArr.length <= MINIMUM_MATCH_PAIRS_PAIR_COUNT}
-                        key={answerPair.id}
-                    />)}
-            </DragDropProvider>
-            <Button onClick={handleMatchPairAnswerAdd}>
-                add new pair +
-            </Button>
-        </Stack>
+        <DragDropProvider onDragEnd={onDragEnd}>
+            <Stack gap="m">
+                <Input placeholder="Question text"
+                    onChange={e => updateQuestion(question.id, { ...question, questionText: e.target.value })}
+                    tone={2}
+                    value={question.questionText}
+                />
+                <Stack gap="s">
+                    {question.pairArr.map((answerPair, index) =>
+                        <MatchPairsAnswerPair
+                            answerPair={answerPair}
+                            index={index}
+                            onAnswerChange={(newValue, answerPosition) => handleMatchPairsAnswerChange(answerPair.id, newValue, answerPosition)}
+                            onDelete={handleMatchPairAnswerDelete}
+                            isDeleteDisabled={question.pairArr.length <= MINIMUM_MATCH_PAIRS_PAIR_COUNT}
+                            key={answerPair.id}
+                        />)}
+                </Stack>
+                <Button onClick={handleMatchPairAnswerAdd}>
+                    add new pair +
+                </Button>
+            </Stack>
+        </DragDropProvider >
     )
 }
 

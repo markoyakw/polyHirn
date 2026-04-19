@@ -92,6 +92,8 @@
     --z-modal: 400;
     --z-toast: 500;
 
+    --opacity-drag: 50%;
+
     /* Test/Quizz values */
 
     --max-question-width: 500px

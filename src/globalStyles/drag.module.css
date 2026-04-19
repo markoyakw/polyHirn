@@ -1,0 +1,8 @@
+.drag-item--overlay {
+    opacity: 50%;
+}
+
+.drag-item--dragging {
+    border: var(--border-is-dragging);
+    opacity: 50%;
+}

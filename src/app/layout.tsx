@@ -6,7 +6,6 @@ import "@/globalStyles/global.css"
 import NavBar from "@/components/layout/nav/NavBar/NavBar";
 import classes from "./layout.module.css"
 import clsx from "clsx";
-import Card from "@/components/ui/Card/Card";
 import { Stack } from "@/components/ui/Stack/Stack";
 
 const manrope = Manrope({
@@ -36,6 +35,7 @@ export default function RootLayout({
         <main>
           {children}
         </main>
+        <div id="portal-root" />
       </Stack>
     </html>
   );

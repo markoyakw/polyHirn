@@ -6,6 +6,7 @@ import { DragDropProvider, DragEndEvent, DragOverlay } from "@dnd-kit/react"
 import { isSortable } from "@dnd-kit/react/sortable"
 import { Fragment } from "react/jsx-runtime"
 import QuestionLayout from "./Question/QuestionLayout"
+import Portal from "@/components/ui/Portal/Portal"
 
 const TestConstructor = () => {
     const questionArr = useStore(state => state.draft.questionArr)
@@ -20,10 +21,10 @@ const TestConstructor = () => {
     }
 
     return (
-        <Stack gap="m">
-            <Header />
+        <DragDropProvider onDragEnd={handleDragEnd}>
             <Stack gap="m">
-                <DragDropProvider onDragEnd={handleDragEnd}>
+                <Header />
+                <Stack gap="m">
                     {
                         questionArr.map((question, index) =>
                             <Fragment key={question.id}>
@@ -34,25 +35,29 @@ const TestConstructor = () => {
                             </Fragment>
                         )
                     }
-                    <DragOverlay dropAnimation={null}>
-                        {source => {
-                            if (!isSortable(source)) return null
+                </Stack>
+            </Stack >
 
-                            const draggedQuestion = questionArr[source.initialIndex]
-                            if (!draggedQuestion) return null
+            <Portal>
+                <DragOverlay dropAnimation={null}>
+                    {source => {
+                        if (!isSortable(source)) return null
 
-                            return (
-                                <QuestionLayout
-                                    isDragOverlay={true}
-                                    question={draggedQuestion}
-                                    index={source.initialIndex}
-                                />
-                            )
-                        }}
-                    </DragOverlay>
-                </DragDropProvider>
-            </Stack>
-        </Stack >
+                        const draggedQuestion = questionArr[source.initialIndex]
+                        if (!draggedQuestion) return null
+
+                        return (
+                            <QuestionLayout
+                                question={draggedQuestion}
+                                index={source.initialIndex}
+                                isDragOverlay
+                            />
+                        )
+                    }}
+                </DragOverlay>
+            </Portal>
+
+        </DragDropProvider>
     )
 }
 

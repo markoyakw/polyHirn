@@ -42,30 +42,30 @@ const deleteMultipleChoiceAnswer = (answerId: TMultipleChoiceAnswer["id"]) =>
         }
     }
 
-const reorderMultipleChoiceAnswers = (targetId: string, sourceId: string) =>
+const reorderMultipleChoiceAnswers = (targetIndex: number, sourceIndex: number) =>
     (question: TQuestion): TMultipleChoiceQuestion => {
         if (question.type !== "multipleChoice") {
             throw new Error(getWrongQuestionTypeError(question.type, "multipleChoice"))
         }
 
-        const targetItem = question.answerArr.find((answer) => answer.id === targetId)
-        const sourceItem = question.answerArr.find((answer) => answer.id === sourceId)
+        const targetItem = question.answerArr[targetIndex]
+        const sourceItem = question.answerArr[sourceIndex]
 
         if (targetItem == null || sourceItem == null) {
             throw new Error(
                 "Could not reorder multiple choice answers: " +
                 "sourceItem = " + String(sourceItem?.id) + ", " +
                 "targetItem = " + String(targetItem?.id) + ", " +
-                "sourceId = " + String(sourceId) + ", " +
-                "targetId = " + String(targetId)
+                "sourceIndex = " + String(sourceIndex) + ", " +
+                "targetIndex = " + String(targetIndex)
             )
         }
 
         return {
             ...question,
-            answerArr: question.answerArr.map((answer) => {
-                if (answer.id === sourceId) return targetItem
-                if (answer.id === targetId) return sourceItem
+            answerArr: question.answerArr.map((answer, index) => {
+                if (index === sourceIndex) return targetItem
+                if (index === targetIndex) return sourceItem
                 return answer
             }),
         }

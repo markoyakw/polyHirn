@@ -1,4 +1,4 @@
-import type { FC } from "react"
+import { useEffect, type FC } from "react"
 import type { TMultipleChoiceAnswer, TMultipleChoiceQuestion } from "../../../model/types"
 import Input from "@/components/ui/Input/Input"
 import { useStore } from "@/store"
@@ -13,7 +13,9 @@ import {
   updateMultipleChoiceAnswer,
 } from "@/features/TestConstructor/model/utils/update"
 import classes from "@/features/TestConstructor/ui/Question/QuestionShared.module.css"
-import { DragDropProvider, type DragEndEvent } from "@dnd-kit/react"
+import { DragDropProvider, DragOverlay, type DragEndEvent } from "@dnd-kit/react"
+import { isSortable } from "@dnd-kit/react/sortable"
+import Portal from "@/components/ui/Portal/Portal"
 
 type TMultipleChoiceQuestionProps = {
   question: TMultipleChoiceQuestion,
@@ -38,34 +40,23 @@ const MultipleChoiceQuestion: FC<TMultipleChoiceQuestionProps> = ({ question }) 
   }
 
   const onDragEnd = (e: DragEndEvent) => {
-
-    const sourceId = e.operation.source?.id?.toString()
-    const targetId = e.operation.target?.id?.toString()
-
-    if (sourceId == null || targetId == null) {
-      throw new Error(
-        "No draggable/droppable id was provided, sourceId = " +
-        sourceId +
-        " targetId = " +
-        targetId
-      )
+    const { source } = e.operation;
+    if (isSortable(source)) {
+      const { initialIndex, index } = source
+      updateQuestionFn(question.id, reorderMultipleChoiceAnswers(index, initialIndex))
     }
-
-    updateQuestionFn(question.id, reorderMultipleChoiceAnswers(targetId, sourceId))
   }
-  
-  return (
-    <Stack gap={"m"} secondaryAxisAlignment="stretch" className={classes["type-question"]}>
-      <Input
-        value={questionText}
-        tone={2}
-        onChange={(e) => onQuestionUpdate(id, { questionText: e.target.value })}
-        placeholder="Question text"
-      />
 
-      <DragDropProvider
-        onDragEnd={onDragEnd}
-      >
+  return (
+    <DragDropProvider onDragEnd={onDragEnd}>
+
+      <Stack gap={"m"} secondaryAxisAlignment="stretch" className={classes["type-question"]}>
+        <Input
+          value={questionText}
+          tone={2}
+          onChange={(e) => onQuestionUpdate(id, { questionText: e.target.value })}
+          placeholder="Question text"
+        />
         <Stack gap="s">
           {answerArr.map((answer, index) =>
             <MultipleChoiceAnswer
@@ -77,11 +68,32 @@ const MultipleChoiceQuestion: FC<TMultipleChoiceQuestionProps> = ({ question }) 
               answer={answer} />
           )}
         </Stack>
-      </DragDropProvider>
-      <Button onClick={handleNewAnswerAdd} fullWidth>
-        add answer option +
-      </Button>
-    </Stack>
+        <Button onClick={handleNewAnswerAdd} fullWidth>
+          add answer option +
+        </Button>
+      </Stack>
+
+      <Portal>
+        <DragOverlay dropAnimation={null}>
+          {
+            (operation) => {
+              if (isSortable(operation)) {
+                const initialIndex = operation.initialIndex
+                return <MultipleChoiceAnswer
+                  index={initialIndex}
+                  updateAnswer={() => { }}
+                  onDelete={() => { }}
+                  isDeleteDisabled={true}
+                  answer={answerArr[initialIndex]}
+                  isDragOverlay={true}
+                />
+              }
+            }
+          }
+        </DragOverlay>
+      </Portal>
+
+    </DragDropProvider>
   )
 }
 

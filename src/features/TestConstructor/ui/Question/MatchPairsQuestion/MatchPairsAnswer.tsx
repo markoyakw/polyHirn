@@ -1,5 +1,5 @@
-import Card from "@/components/ui/Card/Card"
 import DragableIcon from "@/components/ui/DragableIcon/DragableIcon"
+import Card from "@/components/ui/Card/Card"
 import Input from "@/components/ui/Input/Input"
 import Label from "@/components/ui/Label/Label"
 import { Stack } from "@/components/ui/Stack/Stack"
@@ -7,9 +7,9 @@ import type {
     TMatchPairsAnswer,
     TMatchPairsAnswerPosition,
 } from "@/features/TestConstructor/model/types"
-import { useDraggable, useDroppable } from "@dnd-kit/react"
 import type { FC } from "react"
 import classes from "./MatchPairsQuestion.module.css"
+import { useDraggable, useDroppable } from "@dnd-kit/react"
 
 type TMatchPairsAnswerProps = {
     answer: TMatchPairsAnswer
