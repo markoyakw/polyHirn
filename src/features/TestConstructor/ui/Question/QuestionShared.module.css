@@ -1,0 +1,16 @@
+.card-layout {
+    max-width: var(--max-question-width);
+}
+
+.card-layout--is-dragging {
+    border: var(--border-is-dragging);
+    opacity: 50%;
+}
+
+.card-layout--is-drag-overlay {
+    opacity: 50%;
+}
+
+.delete-button {
+    margin-left: auto;
+}

@@ -199,7 +199,8 @@ bad Dropdown.module.css
   background: red;
 }
 ```
-
+---
+Always use clsx when you need to do any complex react classNames manipulations or when an element has 2 or more classes combined. 
 ---
 
 RULES — CSS Modules + BEM style in React:

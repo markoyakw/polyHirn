@@ -7,11 +7,9 @@ import {
     type ComponentPropsWithoutRef,
     type ElementType,
     type ReactNode,
-    useEffect,
-    useRef,
-    useState,
 } from "react"
 import classes from "./Sticky.module.css"
+import { useSticky } from "./useSticky"
 
 type StickyOwnProps<T extends ElementType> = {
     as?: T
@@ -20,6 +18,7 @@ type StickyOwnProps<T extends ElementType> = {
     style?: CSSProperties
     top?: number | string
     showOnScrollUp?: boolean
+    onStuckChange?: (isStuck: boolean) => any
 }
 
 type StickyProps<T extends ElementType> = StickyOwnProps<T> &
@@ -34,50 +33,16 @@ const Sticky = <T extends ElementType = "div">({
     style,
     top = 0,
     showOnScrollUp = false,
+    onStuckChange,
     ...props
 }: StickyProps<T>) => {
+    
     const Component = as ?? "div"
-    const elementRef = useRef<Element | null>(null)
-    const lastScrollYRef = useRef(0)
-    const [isSticky, setIsSticky] = useState(false)
-    const [isVisible, setIsVisible] = useState(true)
-
-    useEffect(() => {
-        lastScrollYRef.current = window.scrollY
-
-        const topOffset = typeof top === "number" ? top : Number.parseFloat(top) || 0
-
-        const updateStickyState = () => {
-            const element = elementRef.current
-
-            if (!element) {
-                return
-            }
-
-            const currentScrollY = window.scrollY
-            const isScrollingUp = currentScrollY < lastScrollYRef.current
-            const nextIsSticky = element.getBoundingClientRect().top <= topOffset
-
-            setIsSticky(nextIsSticky)
-
-            if (!showOnScrollUp || !nextIsSticky) {
-                setIsVisible(true)
-            } else {
-                setIsVisible(isScrollingUp || currentScrollY <= topOffset)
-            }
-
-            lastScrollYRef.current = currentScrollY
-        }
-
-        updateStickyState()
-        window.addEventListener("scroll", updateStickyState, { passive: true })
-        window.addEventListener("resize", updateStickyState)
-
-        return () => {
-            window.removeEventListener("scroll", updateStickyState)
-            window.removeEventListener("resize", updateStickyState)
-        }
-    }, [showOnScrollUp, top])
+    const { elementRef, isSticky, isVisible } = useSticky({
+        onStuckChange,
+        showOnScrollUp,
+        top,
+    })
 
     return (
         <Component

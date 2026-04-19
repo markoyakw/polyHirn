@@ -1,68 +1,82 @@
 type TQuestionType =
   | "multipleChoice"
   | "trueFalse"
-  | "connectPairs"
-  | "shortAnswer";
+  | "matchPairs"
+  | "shortAnswer"
 
 type TBaseQuestion = {
-  id: string;
-  type: TQuestionType;
-  questionText: string;
-};
+  id: string
+  type: TQuestionType
+  questionText: string
+}
 
 type TMultipleChoiceAnswer = {
-  id: string;
-  answerText: string;
-  isRight: boolean;
-};
+  id: string
+  answerText: string
+  isRight: boolean
+}
 
 type TMultipleChoiceQuestion = TBaseQuestion & {
-  type: "multipleChoice";
-  answerArr: TMultipleChoiceAnswer[];
-};
+  type: "multipleChoice"
+  answerArr: TMultipleChoiceAnswer[]
+}
 
 type TTrueFalseQuestion = TBaseQuestion & {
-  type: "trueFalse";
-  correctAnswer: boolean | null;
-};
+  type: "trueFalse"
+  correctAnswer: boolean | null
+}
 
-type TConnectPairsQuestionItem = {
-  id: string;
-  leftText: string;
-  rightText: string;
-};
+type TMatchPairsAnswer = {
+  answerText: string
+}
 
-type TConnectPairsQuestion = TBaseQuestion & {
-  type: "connectPairs";
-  pairArr: TConnectPairsQuestionItem[];
-};
+type TMatchPairsAnswerPosition = "leftPair" | "rightPair"
+
+type TMatchPairsAnswerPair = {
+  id: string
+} & {
+  [K in TMatchPairsAnswerPosition]: TMatchPairsAnswer
+}
+
+type TMatchPairsQuestion = TBaseQuestion & {
+  type: "matchPairs"
+  pairArr: TMatchPairsAnswerPair[]
+}
+
+type TShortAnswerAcceptedAnswer = {
+  id: string,
+  answerText: string
+}
 
 type TShortAnswerQuestion = TBaseQuestion & {
-  type: "shortAnswer";
-  correctAnswerArr: string[];
-};
+  type: "shortAnswer"
+  correctAnswerArr: TShortAnswerAcceptedAnswer[]
+}
 
 type TQuestion =
-    | TMultipleChoiceQuestion
-    | TTrueFalseQuestion
-    | TConnectPairsQuestion
-    | TShortAnswerQuestion
+  | TMultipleChoiceQuestion
+  | TTrueFalseQuestion
+  | TMatchPairsQuestion
+  | TShortAnswerQuestion
 
 type TTest = {
-    timeLimit?: number
-    passMark: number
-    name: string
-    questionArr: TQuestion[]
+  timeLimit?: number
+  passMark: number
+  name: string
+  questionArr: TQuestion[]
 }
 
 export type {
-    TConnectPairsQuestion,
-    TConnectPairsQuestionItem,
-    TMultipleChoiceAnswer,
-    TMultipleChoiceQuestion,
-    TQuestion,
-    TQuestionType,
-    TShortAnswerQuestion,
-    TTest,
-    TTrueFalseQuestion,
+  TMatchPairsQuestion,
+  TMatchPairsAnswerPair,
+  TMatchPairsAnswerPosition,
+  TMultipleChoiceAnswer,
+  TMultipleChoiceQuestion,
+  TQuestion,
+  TQuestionType,
+  TShortAnswerQuestion,
+  TTest,
+  TTrueFalseQuestion,
+  TMatchPairsAnswer,
+  TShortAnswerAcceptedAnswer
 }

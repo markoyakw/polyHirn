@@ -1,24 +1,22 @@
 import { TQuestion } from "../types"
 
-const reorderQuestionArr = (questionArr: TQuestion[], from: number, to: number) => {
-    if (
-        from < 0 ||
-        to < 0 ||
-        from >= questionArr.length ||
-        to >= questionArr.length ||
-        from === to
-    ) {
+const reorderQuestionArr = (
+    questionArr: TQuestion[],
+    sourceIndex: number,
+    targetIndex: number
+) => {
+    if (sourceIndex === targetIndex) {
         return questionArr
     }
 
     const nextQuestionArr = [...questionArr]
-    const [movedQuestion] = nextQuestionArr.splice(from, 1)
+    const [movedQuestion] = nextQuestionArr.splice(sourceIndex, 1)
 
     if (movedQuestion === undefined) {
         return questionArr
     }
 
-    nextQuestionArr.splice(to, 0, movedQuestion)
+    nextQuestionArr.splice(targetIndex, 0, movedQuestion)
     return nextQuestionArr
 }
 

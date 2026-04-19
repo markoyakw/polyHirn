@@ -6,6 +6,11 @@
 .button {
     z-index: calc(var(--z-dropdown) + 1);
     position: relative;
+    height: 100%;
+}
+
+.button__content {
+    flex-shrink: 0;
 }
 
 .card {
@@ -44,6 +49,7 @@
 
 .dropdown-button__icon {
     transition: transform var(--duration-slow) var(--ease-spring);
+    flex-shrink: 0;
 }
 
 .dropdown-button__icon--open {

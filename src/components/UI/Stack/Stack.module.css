@@ -18,6 +18,22 @@
     flex-direction: column;
 }
 
+.alignmentStart {
+    justify-content: flex-start;
+}
+
+.alignmentCenter {
+    justify-content: center;
+}
+
+.alignmentEnd {
+    justify-content: flex-end;
+}
+
+.alignmentSpaceBetween {
+    justify-content: space-between;
+}
+
 .secondaryAxisAlignmentStart {
     align-items: flex-start;
 }

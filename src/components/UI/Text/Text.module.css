@@ -1,10 +1,18 @@
 .text {
     margin: 0;
-    font-family: var(--font-main), var(--font-sans), sans-serif;
+    font-family: var(--text-font-family);
     color: var(--text-color);
     font-size: var(--text-size);
     font-weight: var(--text-weight);
     line-height: var(--text-line-height);
+}
+
+.body {
+    --text-font-family: var(--font-main), var(--font-sans), sans-serif;
+}
+
+.heading {
+    --text-font-family: var(--font-headings), var(--font-sans), sans-serif;
 }
 
 .primary {

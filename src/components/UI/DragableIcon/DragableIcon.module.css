@@ -1,0 +1,10 @@
+.icon {
+    cursor: grab;
+    transition: all var(--duration-normal) var(--ease-spring);
+    scale: 1.2;
+}
+
+.icon:hover {
+    scale: 1.4;
+    color: var(--color-brand-accent);
+}

@@ -1,5 +1,13 @@
 import clsx from "clsx"
-import type { CSSProperties, ComponentPropsWithoutRef, ElementType, ReactNode } from "react"
+import {
+    forwardRef,
+    type CSSProperties,
+    type ComponentPropsWithRef,
+    type ComponentPropsWithoutRef,
+    type ElementType,
+    type ReactElement,
+    type ReactNode,
+} from "react"
 import classes from "./Card.module.css"
 
 type CardSpacing = "xxs" | "xs" | "s" | "m" | "l" | "xl" | "none"
@@ -23,6 +31,12 @@ type CardOwnProps<T extends ElementType> = {
 
 type CardProps<T extends ElementType> = CardOwnProps<T> &
     Omit<ComponentPropsWithoutRef<T>, keyof CardOwnProps<T>>
+
+type PolymorphicRef<T extends ElementType> = ComponentPropsWithRef<T>["ref"]
+
+type CardComponent = <T extends ElementType = "div">(
+    props: CardProps<T> & { ref?: PolymorphicRef<T> }
+) => ReactElement | null
 
 const toneClassNameMap: Record<CardTone, string> = {
     1: classes["tone1"],
@@ -59,7 +73,7 @@ const overflowClassNameMap: Record<CardOverflow, string> = {
     visible: classes["overflowVisible"],
 }
 
-const Card = <T extends ElementType = "div">({
+const CardInner = <T extends ElementType = "div">({
     as,
     children,
     className,
@@ -71,12 +85,12 @@ const Card = <T extends ElementType = "div">({
     overflow = "visible",
     withBorder = false,
     ...props
-}: CardProps<T>) => {
-
+}: CardProps<T>, ref: PolymorphicRef<T>) => {
     const Component = as ?? "div"
 
     return (
         <Component
+            ref={ref}
             className={clsx(
                 classes["card"],
                 toneClassNameMap[tone],
@@ -94,6 +108,8 @@ const Card = <T extends ElementType = "div">({
         </Component>
     )
 }
+
+const Card = forwardRef(CardInner as any) as unknown as CardComponent
 
 export default Card
 export type { CardOverflow, CardProps, CardRadius, CardSpacing, CardTone, CardWidth }

@@ -1,10 +1,10 @@
 import type { TQuestionType } from "@/features/TestConstructor/model/types"
 import {
-    getBlankQuestion
-} from "@/features/TestConstructor/model/utils/blankQuestion"
+    getBlankQuestion,
+    getDefaultDraft
+} from "@/features/TestConstructor/model/utils/blankTestFactories"
 import type { StateCreator } from "zustand"
 import type { RootStore, TestTestConstructorSlice } from "../types"
-import { DEFAULT_DRAFT } from "@/features/TestConstructor/model/constants"
 import { reorderQuestionArr } from "@/features/TestConstructor/model/utils/updateTest"
 
 export const createTestBuilderSlice: StateCreator<
@@ -13,7 +13,7 @@ export const createTestBuilderSlice: StateCreator<
     [],
     TestTestConstructorSlice
 > = (set) => ({
-    draft: DEFAULT_DRAFT,
+    draft: getDefaultDraft(),
 
     updateQuestion: (id, update) => {
         set((state) => ({
@@ -59,16 +59,16 @@ export const createTestBuilderSlice: StateCreator<
             },
         })),
 
-    reorderQuestions: (from, to) =>
+    reorderQuestions: (sourceIndex, targetIndex) =>
         set((state) => ({
             draft: {
                 ...state.draft,
-                questionArr: reorderQuestionArr(state.draft.questionArr, from, to),
+                questionArr: reorderQuestionArr(state.draft.questionArr, sourceIndex, targetIndex),
             },
         })),
 
     resetDraft: () =>
         set({
-            draft: DEFAULT_DRAFT,
+            draft: getDefaultDraft(),
         }),
 })

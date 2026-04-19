@@ -5,10 +5,18 @@ import { useStore } from "@/store"
 import MultipleChoiceAnswer from "./MultipleChoiceAnswer"
 import { Stack } from "@/components/ui/Stack/Stack"
 import Button from "@/components/ui/Button/Button"
-import { addMultipleChoiceAnswer, updateMultipleChoiceAnswer } from "@/features/TestConstructor/model/utils/updateQuestion"
+import {
+  MINIMUM_MULTIPLE_CHOICE_ANSWER_COUNT,
+  addMultipleChoiceAnswer,
+  deleteMultipleChoiceAnswer,
+  reorderMultipleChoiceAnswers,
+  updateMultipleChoiceAnswer,
+} from "@/features/TestConstructor/model/utils/update"
+import classes from "@/features/TestConstructor/ui/Question/QuestionShared.module.css"
+import { DragDropProvider, type DragEndEvent } from "@dnd-kit/react"
 
 type TMultipleChoiceQuestionProps = {
-  question: TMultipleChoiceQuestion
+  question: TMultipleChoiceQuestion,
 }
 
 const MultipleChoiceQuestion: FC<TMultipleChoiceQuestionProps> = ({ question }) => {
@@ -25,24 +33,52 @@ const MultipleChoiceQuestion: FC<TMultipleChoiceQuestionProps> = ({ question }) 
     updateQuestionFn(question.id, () => addMultipleChoiceAnswer(question))
   }
 
-  return (
-    <Stack gap={"m"} secondaryAxisAlignment="start">
+  const handleAnswerDelete = (answerId: TMultipleChoiceAnswer["id"]) => {
+    updateQuestionFn(question.id, deleteMultipleChoiceAnswer(answerId))
+  }
 
-      <Input value={questionText}
+  const onDragEnd = (e: DragEndEvent) => {
+
+    const sourceId = e.operation.source?.id?.toString()
+    const targetId = e.operation.target?.id?.toString()
+
+    if (sourceId == null || targetId == null) {
+      throw new Error(
+        "No draggable/droppable id was provided, sourceId = " +
+        sourceId +
+        " targetId = " +
+        targetId
+      )
+    }
+
+    updateQuestionFn(question.id, reorderMultipleChoiceAnswers(targetId, sourceId))
+  }
+  
+  return (
+    <Stack gap={"m"} secondaryAxisAlignment="stretch" className={classes["type-question"]}>
+      <Input
+        value={questionText}
         tone={2}
         onChange={(e) => onQuestionUpdate(id, { questionText: e.target.value })}
-        label="Question" />
+        placeholder="Question text"
+      />
 
-      <Stack gap="s">
-        {answerArr.map((answer, index) =>
-          <MultipleChoiceAnswer
-            index={index}
-            updateAnswer={applyUpdateAnswer}
-            key={answer.id}
-            answer={answer} />
-        )}
-      </Stack>
-      <Button onClick={handleNewAnswerAdd} fullWidth tone={"secondary"}>
+      <DragDropProvider
+        onDragEnd={onDragEnd}
+      >
+        <Stack gap="s">
+          {answerArr.map((answer, index) =>
+            <MultipleChoiceAnswer
+              index={index}
+              updateAnswer={applyUpdateAnswer}
+              onDelete={handleAnswerDelete}
+              isDeleteDisabled={answerArr.length <= MINIMUM_MULTIPLE_CHOICE_ANSWER_COUNT}
+              key={answer.id}
+              answer={answer} />
+          )}
+        </Stack>
+      </DragDropProvider>
+      <Button onClick={handleNewAnswerAdd} fullWidth>
         add answer option +
       </Button>
     </Stack>

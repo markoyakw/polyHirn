@@ -1,6 +1,7 @@
 .layout {
-    display: flex;
     background-color: var(--color-bg-page);
-    padding: var(--padding-layout-desktop);
-    gap: var(--spacing-s);
+}
+
+.layout main {
+    flex-grow: 1;
 }

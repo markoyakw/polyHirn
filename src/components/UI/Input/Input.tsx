@@ -1,6 +1,8 @@
 import clsx from "clsx"
-import type { InputHTMLAttributes } from "react"
+import { useId, type InputHTMLAttributes, type ReactNode } from "react"
 import classes from "./Input.module.css"
+import Label from "../Label/Label"
+import InputContainer from "./InputContainer"
 
 type InputTone = 1 | 2 | 3 | 4
 type InputSize = "s" | "m" | "l"
@@ -8,10 +10,11 @@ type InputRadius = "s" | "m" | "l" | "xl"
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
     className?: string
-    label?: string
     tone?: InputTone
     inputSize?: InputSize
     radius?: InputRadius
+    label?: ReactNode
+    fullWidth?:boolean
 }
 
 const toneClassNameMap: Record<InputTone, string> = {
@@ -36,43 +39,37 @@ const radiusClassNameMap: Record<InputRadius, string> = {
 
 const Input = ({
     className,
-    label,
     tone = 1,
     inputSize = "m",
     radius = "m",
     type = "text",
+    label,
     id,
+    fullWidth = false,
     ...props
 }: InputProps) => {
+    const generatedId = useId()
+    const inputId = id ?? generatedId
+
     const inputClassName = clsx(
         classes["input"],
         toneClassNameMap[tone],
         sizeClassNameMap[inputSize],
         radiusClassNameMap[radius],
+        fullWidth && classes["fullWidth"],
         className
     )
 
-    if (label) {
-        return (
-            <label className={classes["field"]} htmlFor={id}>
-                <span className={classes["label"]}>{label}</span>
-                <input
-                    id={id}
-                    type={type}
-                    className={inputClassName}
-                    {...props}
-                />
-            </label>
-        )
-    }
-
     return (
-        <input
-            id={id}
-            type={type}
-            className={inputClassName}
-            {...props}
-        />
+        <InputContainer hasLabel={!!label}>
+            {label ? <Label htmlFor={inputId}>{label}</Label> : null}
+            <input
+                id={inputId}
+                type={type}
+                className={inputClassName}
+                {...props}
+            />
+        </InputContainer>
     )
 }
 

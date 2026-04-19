@@ -5,15 +5,7 @@
     width: 100%;
 }
 
-.label {
-    color: var(--color-text-secondary);
-    font-family: var(--font-main), var(--font-sans), sans-serif;
-    font-size: var(--font-size-s);
-    line-height: var(--line-height-normal);
-}
-
 .input {
-    width: 100%;
     border: none;
     border-radius: var(--input-radius);
     background-color: var(--input-background);
@@ -73,7 +65,7 @@
 }
 
 .l {
-    --input-font-size: var(--font-size-l);
+    --input-font-size: var(--font-size-xl);
     --input-padding-x: var(--spacing-m);
     --input-padding-y: var(--spacing-s);
 }
@@ -96,4 +88,8 @@
 
 .withShadow {
     box-shadow: var(--box-shadow);
+}
+
+.fullWidth {
+    width: 100%;
 }

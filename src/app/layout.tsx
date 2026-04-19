@@ -7,6 +7,7 @@ import NavBar from "@/components/layout/nav/NavBar/NavBar";
 import classes from "./layout.module.css"
 import clsx from "clsx";
 import Card from "@/components/ui/Card/Card";
+import { Stack } from "@/components/ui/Stack/Stack";
 
 const manrope = Manrope({
   variable: "--font-main",
@@ -30,10 +31,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={clsx(manrope.variable, inter.variable)}>
-      <body className={classes["layout"]}>
+      <Stack as="body" padding="m" gap="m" direction="row" className={classes["layout"]}>
         <NavBar />
-        {children}
-      </body>
+        <main>
+          {children}
+        </main>
+      </Stack>
     </html>
   );
 }

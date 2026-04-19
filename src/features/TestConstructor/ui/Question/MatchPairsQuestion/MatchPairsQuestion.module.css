@@ -1,0 +1,9 @@
+.label {
+    width: 15px;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.pair-stack {
+    flex-grow: 1;
+}

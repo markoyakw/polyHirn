@@ -9,7 +9,13 @@ const isNavGroup = (item: TNavBarItem) => item.type === "group"
 
 const NavBar = () => {
     return (
-        <Card as="nav" aria-label="primary-navigation" spacing="none" withBorder>
+        <Card
+            as="nav"
+            aria-label="primary-navigation"
+            spacing="none"
+            withBorder
+            className={classes["card"]}
+        >
             <Stack as={"ul"} border={"wholeSize"} gap="s" paddingBlock="m">
                 {NAV_LINKS.map((item, itemId) =>
                     isNavGroup(item) ? (

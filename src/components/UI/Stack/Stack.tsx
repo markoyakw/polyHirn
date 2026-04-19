@@ -5,6 +5,7 @@ import classes from "./Stack.module.css"
 type TStackDirection = "row" | "column"
 type TStackSize = "xxs" | "xs" | "s" | "m" | "l" | "xl" | "none"
 type TStackBorder = "wholeSize" | "considerPadding"
+type TStackAlignment = "start" | "center" | "end" | "spaceBetween"
 type TStackSecondaryAxisAlignment = "start" | "center" | "end" | "stretch"
 
 type TStackOwnProps<T extends ElementType> = {
@@ -18,6 +19,7 @@ type TStackOwnProps<T extends ElementType> = {
     paddingInline?: TStackSize
     gap?: TStackSize
     border?: TStackBorder
+    alignment?: TStackAlignment
     secondaryAxisAlignment?: TStackSecondaryAxisAlignment
 }
 
@@ -74,6 +76,13 @@ const borderClassNameMap: Record<TStackBorder, string> = {
     considerPadding: classes["borderConsiderPadding"],
 }
 
+const alignmentClassNameMap: Record<TStackAlignment, string> = {
+    start: classes["alignmentStart"],
+    center: classes["alignmentCenter"],
+    end: classes["alignmentEnd"],
+    spaceBetween: classes["alignmentSpaceBetween"],
+}
+
 const secondaryAxisAlignmentClassNameMap: Record<TStackSecondaryAxisAlignment, string> = {
     start: classes["secondaryAxisAlignmentStart"],
     center: classes["secondaryAxisAlignmentCenter"],
@@ -92,6 +101,7 @@ const Stack = <T extends ElementType = "div">({
     paddingInline,
     gap = "none",
     border,
+    alignment,
     secondaryAxisAlignment,
     ...props
 }: TStackProps<T>) => {
@@ -108,6 +118,7 @@ const Stack = <T extends ElementType = "div">({
                 gapClassNameMap[gap],
                 border && classes["withBorder"],
                 border && borderClassNameMap[border],
+                alignment && alignmentClassNameMap[alignment],
                 secondaryAxisAlignment &&
                     secondaryAxisAlignmentClassNameMap[secondaryAxisAlignment],
                 className
@@ -121,4 +132,11 @@ const Stack = <T extends ElementType = "div">({
 }
 
 export { Stack }
-export type { TStackBorder, TStackDirection, TStackProps, TStackSecondaryAxisAlignment, TStackSize }
+export type {
+    TStackAlignment,
+    TStackBorder,
+    TStackDirection,
+    TStackProps,
+    TStackSecondaryAxisAlignment,
+    TStackSize,
+}
