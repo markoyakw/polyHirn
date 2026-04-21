@@ -13,6 +13,7 @@ import clsx from "clsx"
 import QuestionRenderer from "./QuestionRenderer"
 import { closestCenter } from '@dnd-kit/collision'
 import dragClasses from "@/globalStyles/drag.module.css"
+import AnimatedBlock from "@/components/ui/AnimatedBlock/AnimatedBlock"
 
 type TQuestionProps = {
     question: TQuestion,
@@ -34,34 +35,36 @@ const QuestionLayout: FC<TQuestionProps> = ({ question, index, isDragOverlay }) 
     )
 
     return (
-        <Card
-            withBorder
-            spacing="m"
-            className={layoutClassName}
-            ref={sortableRef}
-        >
-            <Stack gap="s">
-                <Stack
-                    direction="row"
-                    alignment="start"
-                    secondaryAxisAlignment="center"
-                    gap="s"
-                >
-                    <DragableIcon />
-                    <Heading as={"h4"}>
-                        {QuestionHeading}
-                    </Heading>
-                    <IconButton
-                        icon={ICON_BUTTON_ICON_MAP.delete}
-                        aria-label={`Delete question ${index + 1}`}
-                        onClick={() => removeQuestion(question.id)}
-                        disabled={questionCount <= 1}
-                        className={classes["delete-button"]}
-                    />
+        <AnimatedBlock key={question.id} width="var(--max-question-width)">
+            <Card
+                withBorder
+                spacing="m"
+                className={layoutClassName}
+                ref={sortableRef}
+            >
+                <Stack gap="s">
+                    <Stack
+                        direction="row"
+                        alignment="start"
+                        secondaryAxisAlignment="center"
+                        gap="s"
+                    >
+                        <DragableIcon />
+                        <Heading as={"h4"}>
+                            {QuestionHeading}
+                        </Heading>
+                        <IconButton
+                            icon={ICON_BUTTON_ICON_MAP.delete}
+                            aria-label={`Delete question ${index + 1}`}
+                            onClick={() => removeQuestion(question.id)}
+                            disabled={questionCount <= 1}
+                            className={classes["delete-button"]}
+                        />
+                    </Stack>
+                    <QuestionRenderer question={question} />
                 </Stack>
-                <QuestionRenderer question={question} />
-            </Stack>
-        </Card>
+            </Card>
+        </AnimatedBlock >
     )
 }
 

@@ -1,4 +1,4 @@
-import { useEffect, type FC } from "react"
+import { type FC } from "react"
 import type { TMultipleChoiceAnswer, TMultipleChoiceQuestion } from "../../../model/types"
 import Input from "@/components/ui/Input/Input"
 import { useStore } from "@/store"
@@ -16,6 +16,7 @@ import classes from "@/features/TestConstructor/ui/Question/QuestionShared.modul
 import { DragDropProvider, DragOverlay, type DragEndEvent } from "@dnd-kit/react"
 import { isSortable } from "@dnd-kit/react/sortable"
 import Portal from "@/components/ui/Portal/Portal"
+import { AnimatePresence } from "motion/react"
 
 type TMultipleChoiceQuestionProps = {
   question: TMultipleChoiceQuestion,
@@ -49,50 +50,52 @@ const MultipleChoiceQuestion: FC<TMultipleChoiceQuestionProps> = ({ question }) 
 
   return (
     <DragDropProvider onDragEnd={onDragEnd}>
+      <AnimatePresence>
 
-      <Stack gap={"m"} secondaryAxisAlignment="stretch" className={classes["type-question"]}>
-        <Input
-          value={questionText}
-          tone={2}
-          onChange={(e) => onQuestionUpdate(id, { questionText: e.target.value })}
-          placeholder="Question text"
-        />
-        <Stack gap="s">
-          {answerArr.map((answer, index) =>
-            <MultipleChoiceAnswer
-              index={index}
-              updateAnswer={applyUpdateAnswer}
-              onDelete={handleAnswerDelete}
-              isDeleteDisabled={answerArr.length <= MINIMUM_MULTIPLE_CHOICE_ANSWER_COUNT}
-              key={answer.id}
-              answer={answer} />
-          )}
+        <Stack gap={"m"} secondaryAxisAlignment="stretch" className={classes["type-question"]}>
+          <Input
+            value={questionText}
+            tone={2}
+            onChange={(e) => onQuestionUpdate(id, { questionText: e.target.value })}
+            placeholder="Question text"
+          />
+          <Stack gap="s">
+            {answerArr.map((answer, index) =>
+              <MultipleChoiceAnswer
+                index={index}
+                updateAnswer={applyUpdateAnswer}
+                onDelete={handleAnswerDelete}
+                isDeleteDisabled={answerArr.length <= MINIMUM_MULTIPLE_CHOICE_ANSWER_COUNT}
+                key={answer.id}
+                answer={answer} />
+            )}
+          </Stack>
+          <Button onClick={handleNewAnswerAdd} fullWidth>
+            add answer option +
+          </Button>
         </Stack>
-        <Button onClick={handleNewAnswerAdd} fullWidth>
-          add answer option +
-        </Button>
-      </Stack>
 
-      <Portal>
-        <DragOverlay dropAnimation={null}>
-          {
-            (operation) => {
-              if (isSortable(operation)) {
-                const initialIndex = operation.initialIndex
-                return <MultipleChoiceAnswer
-                  index={initialIndex}
-                  updateAnswer={() => { }}
-                  onDelete={() => { }}
-                  isDeleteDisabled={true}
-                  answer={answerArr[initialIndex]}
-                  isDragOverlay={true}
-                />
+        <Portal>
+          <DragOverlay dropAnimation={null}>
+            {
+              (operation) => {
+                if (isSortable(operation)) {
+                  const initialIndex = operation.initialIndex
+                  return <MultipleChoiceAnswer
+                    index={initialIndex}
+                    updateAnswer={() => { }}
+                    onDelete={() => { }}
+                    isDeleteDisabled={true}
+                    answer={answerArr[initialIndex]}
+                    isDragOverlay={true}
+                  />
+                }
               }
             }
-          }
-        </DragOverlay>
-      </Portal>
+          </DragOverlay>
+        </Portal>
 
+      </AnimatePresence>
     </DragDropProvider>
   )
 }

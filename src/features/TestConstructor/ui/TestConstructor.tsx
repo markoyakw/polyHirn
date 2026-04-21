@@ -7,6 +7,7 @@ import { isSortable } from "@dnd-kit/react/sortable"
 import { Fragment } from "react/jsx-runtime"
 import QuestionLayout from "./Question/QuestionLayout"
 import Portal from "@/components/ui/Portal/Portal"
+import { AnimatePresence } from "motion/react"
 
 const TestConstructor = () => {
     const questionArr = useStore(state => state.draft.questionArr)
@@ -25,16 +26,18 @@ const TestConstructor = () => {
             <Stack gap="m">
                 <Header />
                 <Stack gap="m">
-                    {
-                        questionArr.map((question, index) =>
-                            <Fragment key={question.id}>
-                                <QuestionLayout
-                                    question={question}
-                                    index={index}
-                                />
-                            </Fragment>
-                        )
-                    }
+                    <AnimatePresence>
+                        {
+                            questionArr.map((question, index) =>
+                                <Fragment key={question.id}>
+                                    <QuestionLayout
+                                        question={question}
+                                        index={index}
+                                    />
+                                </Fragment>
+                            )
+                        }
+                    </AnimatePresence>
                 </Stack>
             </Stack >
 
@@ -57,7 +60,7 @@ const TestConstructor = () => {
                 </DragOverlay>
             </Portal>
 
-        </DragDropProvider>
+        </DragDropProvider >
     )
 }
 

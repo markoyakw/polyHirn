@@ -44,6 +44,7 @@ const MultipleChoiceAnswer: FC<TMultipleChoiceAnswerProps> = ({
 
     return (
         <Card tone={2} spacing="s" withBorder ref={sortableRef} className={cardClassName}>
+
             <Stack gap="s">
                 <Stack direction="row" secondaryAxisAlignment="center" alignment="spaceBetween">
                     <Label htmlFor={inputId}>
@@ -74,7 +75,7 @@ const MultipleChoiceAnswer: FC<TMultipleChoiceAnswerProps> = ({
                     />
                 </Stack>
             </Stack>
-        </Card>
+        </Card >
     );
 };
 

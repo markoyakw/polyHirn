@@ -1,5 +1,5 @@
 .card-layout {
-    max-width: var(--max-question-width);
+    width: var(--max-question-width);
 }
 
 .delete-button {
