@@ -1,5 +1,6 @@
 import clsx from "clsx"
-import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react"
+import type { ComponentPropsWithoutRef, ReactNode } from "react"
+import { createElement } from "react"
 import classes from "./Text.module.css"
 
 type TextTag = "p" | "span" | "label" | "strong" | "em"
@@ -9,8 +10,7 @@ type TextWeight = "regular" | "medium" | "bold"
 type TextLineHeight = "tight" | "normal" | "loose"
 type TextFont = "body" | "heading"
 
-type TextOwnProps<T extends ElementType> = {
-    as?: T
+type TextOwnProps = {
     children: ReactNode
     className?: string
     size?: TextSize
@@ -21,8 +21,9 @@ type TextOwnProps<T extends ElementType> = {
     font?: TextFont
 }
 
-type TextProps<T extends ElementType> = TextOwnProps<T> &
-    Omit<ComponentPropsWithoutRef<T>, keyof TextOwnProps<T>>
+type TextProps<T extends TextTag> = TextOwnProps & {
+    as?: T
+} & Omit<ComponentPropsWithoutRef<T>, keyof TextOwnProps | "as">
 
 const Text = <T extends TextTag = "p">({
     as,
@@ -36,24 +37,29 @@ const Text = <T extends TextTag = "p">({
     font = "body",
     ...props
 }: TextProps<T>) => {
-    const Component = as ?? "p"
+    const Component = (as ?? "p") as T
     const resolvedColor = tone ?? color
 
-    return (
-        <Component
-            className={clsx(
-                classes["text"],
+    const componentProps = props as Omit<
+        ComponentPropsWithoutRef<T>,
+        keyof TextOwnProps | "as"
+    >
+
+    return createElement(
+        Component,
+        {
+            className: clsx(
+                classes.text,
                 classes[font],
                 classes[size],
                 classes[resolvedColor],
                 classes[weight],
                 classes[lineHeight],
                 className
-            )}
-            {...props}
-        >
-            {children}
-        </Component>
+            ),
+            ...componentProps,
+        },
+        children
     )
 }
 
