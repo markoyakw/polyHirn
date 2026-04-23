@@ -11,16 +11,15 @@ type TNavLinkProps = {
 const NavLink: FC<TNavLinkProps> = ({
     children,
     icon: Icon,
-    type,
     badge,
     className,
+    disabled = false,
     ...props
 }) => {
+    const navLinkClassName = clsx(classes["link"], className, disabled && classes["link--disabled"])
 
-    const navLinkClassName = clsx(classes["link"], className)
-
-    return (
-        <Link {...props} className={navLinkClassName}>
+    const linkContent = (
+        <>
             {Icon && <Icon />}
             {children}
             {badge &&
@@ -32,6 +31,23 @@ const NavLink: FC<TNavLinkProps> = ({
                     {badge.text}
                 </span>
             }
+        </>
+    )
+
+    if (disabled) {
+        return (
+            <span
+                aria-disabled="true"
+                className={navLinkClassName}
+            >
+                {linkContent}
+            </span>
+        )
+    }
+
+    return (
+        <Link {...props} className={navLinkClassName}>
+            {linkContent}
         </Link>
     )
 }

@@ -35,12 +35,15 @@ const QuestionLayout: FC<TQuestionProps> = ({ question, index, isDragOverlay }) 
     )
 
     return (
-        <AnimatedBlock key={question.id} width="var(--max-question-width)">
+        <AnimatedBlock
+            key={question.id}
+            width="var(--max-question-width)"
+            ref={sortableRef}
+        >
             <Card
                 withBorder
                 spacing="m"
                 className={layoutClassName}
-                ref={sortableRef}
             >
                 <Stack gap="s">
                     <Stack

@@ -6,7 +6,7 @@ import MatchPairsQuestion from "./MatchPairsQuestion/MatchPairsQuestion";
 import ShortAnswerQuestion from "./ShortAnswerQuestion/ShortAnswerQuestion";
 
 type TQuestionRendererProps = {
-    question: TQuestion,
+    question: TQuestion
 }
 
 const QuestionRenderer: FC<TQuestionRendererProps> = ({ question }) => {

@@ -64,8 +64,8 @@ const reorderMultipleChoiceAnswers = (targetIndex: number, sourceIndex: number) 
         return {
             ...question,
             answerArr: question.answerArr.map((answer, index) => {
-                if (index === sourceIndex) return targetItem
-                if (index === targetIndex) return sourceItem
+                const answerArr = question.answerArr
+                if (index < targetIndex && index > sourceIndex) answerArr[index - 1]
                 return answer
             }),
         }

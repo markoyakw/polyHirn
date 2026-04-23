@@ -11,6 +11,7 @@ import IconButton, { ICON_BUTTON_ICON_MAP } from "@/components/ui/IconButton/Ico
 import { useSortable } from "@dnd-kit/react/sortable";
 import clsx from "clsx";
 import dragClasses from "@/globalStyles/drag.module.css"
+import AnimatedBlock from "@/components/ui/AnimatedBlock/AnimatedBlock";
 
 type TMultipleChoiceAnswerProps = {
     answer: TMultipleChoiceAnswer,
@@ -43,39 +44,41 @@ const MultipleChoiceAnswer: FC<TMultipleChoiceAnswerProps> = ({
     )
 
     return (
-        <Card tone={2} spacing="s" withBorder ref={sortableRef} className={cardClassName}>
+        <AnimatedBlock ref={sortableRef} >
+            <Card tone={2} spacing="s" withBorder className={cardClassName}>
 
-            <Stack gap="s">
-                <Stack direction="row" secondaryAxisAlignment="center" alignment="spaceBetween">
-                    <Label htmlFor={inputId}>
-                        {getLetterByIndex(index, true) + ") answer option "}
-                    </Label>
-                    <DragableIcon />
-                </Stack>
+                <Stack gap="s">
+                    <Stack direction="row" secondaryAxisAlignment="center" alignment="spaceBetween">
+                        <Label htmlFor={inputId}>
+                            {getLetterByIndex(index, true) + ") answer option "}
+                        </Label>
+                        <DragableIcon />
+                    </Stack>
 
-                <Stack gap="s" direction="row" secondaryAxisAlignment="center">
-                    <Checkbox
-                        id={checkboxId}
-                        checked={answer.isRight}
-                        onChange={(e) => onIsRightChange(e.target.checked)}
-                    />
-                    <Input
-                        id={inputId}
-                        fullWidth
-                        tone={3}
-                        value={answer.answerText}
-                        onChange={(e) => onAnswerTextChange(e.target.value)}
-                        placeholder="Answer text"
-                    />
-                    <IconButton
-                        icon={ICON_BUTTON_ICON_MAP.delete}
-                        aria-label={`Delete answer option ${index + 1}`}
-                        onClick={() => onDelete(answer.id)}
-                        disabled={isDeleteDisabled}
-                    />
+                    <Stack gap="s" direction="row" secondaryAxisAlignment="center">
+                        <Checkbox
+                            id={checkboxId}
+                            checked={answer.isRight}
+                            onChange={(e) => onIsRightChange(e.target.checked)}
+                        />
+                        <Input
+                            id={inputId}
+                            fullWidth
+                            tone={3}
+                            value={answer.answerText}
+                            onChange={(e) => onAnswerTextChange(e.target.value)}
+                            placeholder="Answer text"
+                        />
+                        <IconButton
+                            icon={ICON_BUTTON_ICON_MAP.delete}
+                            aria-label={`Delete answer option ${index + 1}`}
+                            onClick={() => onDelete(answer.id)}
+                            disabled={isDeleteDisabled}
+                        />
+                    </Stack>
                 </Stack>
-            </Stack>
-        </Card >
+            </Card >
+        </AnimatedBlock>
     );
 };
 

@@ -50,16 +50,15 @@ const MultipleChoiceQuestion: FC<TMultipleChoiceQuestionProps> = ({ question }) 
 
   return (
     <DragDropProvider onDragEnd={onDragEnd}>
-      <AnimatePresence>
-
-        <Stack gap={"m"} secondaryAxisAlignment="stretch" className={classes["type-question"]}>
-          <Input
-            value={questionText}
-            tone={2}
-            onChange={(e) => onQuestionUpdate(id, { questionText: e.target.value })}
-            placeholder="Question text"
-          />
-          <Stack gap="s">
+      <Stack gap={"m"} secondaryAxisAlignment="stretch" className={classes["type-question"]}>
+        <Input
+          value={questionText}
+          tone={2}
+          onChange={(e) => onQuestionUpdate(id, { questionText: e.target.value })}
+          placeholder="Question text"
+        />
+        <Stack gap="s">
+          <AnimatePresence>
             {answerArr.map((answer, index) =>
               <MultipleChoiceAnswer
                 index={index}
@@ -69,34 +68,33 @@ const MultipleChoiceQuestion: FC<TMultipleChoiceQuestionProps> = ({ question }) 
                 key={answer.id}
                 answer={answer} />
             )}
-          </Stack>
-          <Button onClick={handleNewAnswerAdd} fullWidth>
-            add answer option +
-          </Button>
+          </AnimatePresence>
         </Stack>
+        <Button onClick={handleNewAnswerAdd} fullWidth>
+          add answer option +
+        </Button>
+      </Stack>
 
-        <Portal>
-          <DragOverlay dropAnimation={null}>
-            {
-              (operation) => {
-                if (isSortable(operation)) {
-                  const initialIndex = operation.initialIndex
-                  return <MultipleChoiceAnswer
-                    index={initialIndex}
-                    updateAnswer={() => { }}
-                    onDelete={() => { }}
-                    isDeleteDisabled={true}
-                    answer={answerArr[initialIndex]}
-                    isDragOverlay={true}
-                  />
-                }
+      <Portal>
+        <DragOverlay>
+          {
+            (operation) => {
+              if (isSortable(operation)) {
+                const id = operation.id
+                return <MultipleChoiceAnswer
+                  index={operation.initialIndex}
+                  updateAnswer={() => { }}
+                  onDelete={() => { }}
+                  isDeleteDisabled={true}
+                  answer={answerArr.find(answer => answer.id === id) || answerArr[0]}
+                  isDragOverlay={true}
+                />
               }
             }
-          </DragOverlay>
-        </Portal>
-
-      </AnimatePresence>
-    </DragDropProvider>
+          }
+        </DragOverlay>
+      </Portal>
+    </DragDropProvider >
   )
 }
 

@@ -19,7 +19,8 @@ export type TNavLink = {
     text: string,
     icon: IconType | null,
     badge: TBadge | null,
-    href: string
+    href: string,
+    disabled?: boolean
 }
 
 export type TNavLinkGroup = {
@@ -43,6 +44,7 @@ export const NAV_LINKS: TNavBarItem[] = [
                 icon: CgNotes,
                 badge: null,
                 href: "/tests",
+                disabled: true,
             },
             {
                 type: "link",
@@ -50,6 +52,7 @@ export const NAV_LINKS: TNavBarItem[] = [
                 icon: CgMediaLive,
                 badge: null,
                 href: "/tests/live",
+                disabled: true,
             },
             {
                 type: "link",
@@ -57,6 +60,7 @@ export const NAV_LINKS: TNavBarItem[] = [
                 icon: CgAlarm,
                 badge: null,
                 href: "/tests/upcoming",
+                disabled: true,
             },
             {
                 type: "link",
@@ -64,6 +68,7 @@ export const NAV_LINKS: TNavBarItem[] = [
                 icon: IoMdCheckmark,
                 badge: null,
                 href: "/tests/past",
+                disabled: true,
             }
         ],
     },
@@ -84,6 +89,7 @@ export const NAV_LINKS: TNavBarItem[] = [
                 icon: FaRegCalendarDays,
                 badge: null,
                 href: "/activity",
+                disabled: true,
             },
             {
                 type: "link",
@@ -91,6 +97,7 @@ export const NAV_LINKS: TNavBarItem[] = [
                 icon: BiSolidBank,
                 badge: { text: "AI", color: BADGE_COLOR_SUCCESS },
                 href: "/questions",
+                disabled: true,
             },
         ],
     },
@@ -104,6 +111,7 @@ export const NAV_LINKS: TNavBarItem[] = [
                 icon: IoSettingsSharp,
                 badge: null,
                 href: "/settings/general",
+                disabled: true,
             },
             {
                 type: "link",
@@ -111,6 +119,7 @@ export const NAV_LINKS: TNavBarItem[] = [
                 icon: GoProjectTemplate,
                 badge: null,
                 href: "/settings/defaults",
+                disabled: true,
             },
             {
                 type: "link",
@@ -118,6 +127,7 @@ export const NAV_LINKS: TNavBarItem[] = [
                 icon: RiGeminiLine,
                 badge: { text: "AI", color: BADGE_COLOR_SUCCESS },
                 href: "/settings/api",
+                disabled: true,
             },
             {
                 type: "link",
@@ -125,6 +135,7 @@ export const NAV_LINKS: TNavBarItem[] = [
                 icon: PiExportBold,
                 badge: null,
                 href: "/settings/backup",
+                disabled: true,
             },
         ],
     },
@@ -138,6 +149,7 @@ export const NAV_LINKS: TNavBarItem[] = [
                 icon: null,
                 badge: null,
                 href: "/help",
+                disabled: true,
             },
             {
                 type: "link",
@@ -145,6 +157,7 @@ export const NAV_LINKS: TNavBarItem[] = [
                 icon: null,
                 badge: null,
                 href: "https://github.com",
+                disabled: true,
             },
             {
                 type: "link",
@@ -152,6 +165,7 @@ export const NAV_LINKS: TNavBarItem[] = [
                 icon: null,
                 badge: null,
                 href: "/contribute",
+                disabled: true,
             },
             {
                 type: "link",
@@ -159,6 +173,7 @@ export const NAV_LINKS: TNavBarItem[] = [
                 icon: null,
                 badge: null,
                 href: "/feedback",
+                disabled: true,
             },
         ],
     },

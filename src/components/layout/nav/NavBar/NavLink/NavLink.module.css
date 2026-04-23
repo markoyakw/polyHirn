@@ -8,8 +8,18 @@
     font-size: var(--font-size-m);
 }
 
+.link--disabled {
+    color: var(--color-text-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 .link:hover .badge {
     animation: shake 0.4s ease-out;
+}
+
+.link--disabled:hover .badge {
+    animation: none;
 }
 
 @keyframes shake {
