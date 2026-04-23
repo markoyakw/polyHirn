@@ -4,6 +4,8 @@
 
 The goal of the project is to make test creation faster, test evaluation smarter, and learning insights more useful for teachers, students, and educational platforms.
 
+🔗 **Live demo:** [poly-hirn.vercel.app](https://poly-hirn.vercel.app/tests/new)
+
 ---
 
 ## About the Project
