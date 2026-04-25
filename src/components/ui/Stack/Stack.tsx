@@ -1,5 +1,12 @@
 import clsx from "clsx"
-import type { CSSProperties, ComponentPropsWithoutRef, ElementType, ReactNode } from "react"
+import {
+    forwardRef,
+    type CSSProperties,
+    type ComponentPropsWithRef,
+    type ElementType,
+    type ReactElement,
+    type ReactNode,
+} from "react"
 import classes from "./Stack.module.css"
 
 type TStackDirection = "row" | "column"
@@ -23,8 +30,13 @@ type TStackOwnProps<T extends ElementType> = {
     secondaryAxisAlignment?: TStackSecondaryAxisAlignment
 }
 
-type TStackProps<T extends ElementType> = TStackOwnProps<T> &
-    Omit<ComponentPropsWithoutRef<T>, keyof TStackOwnProps<T>>
+type TStackProps<T extends ElementType> = TStackOwnProps<T>
+
+type PolymorphicRef<T extends ElementType> = ComponentPropsWithRef<T>["ref"]
+
+type TStackComponent = <T extends ElementType = "div">(
+    props: TStackProps<T> & { ref?: PolymorphicRef<T> }
+) => ReactElement
 
 const directionClassNameMap: Record<TStackDirection, string> = {
     row: classes["directionRow"],
@@ -90,7 +102,7 @@ const secondaryAxisAlignmentClassNameMap: Record<TStackSecondaryAxisAlignment, s
     stretch: classes["secondaryAxisAlignmentStretch"],
 }
 
-const Stack = <T extends ElementType = "div">({
+const StackInner = <T extends ElementType = "div">({
     as,
     children,
     className,
@@ -104,11 +116,12 @@ const Stack = <T extends ElementType = "div">({
     alignment,
     secondaryAxisAlignment,
     ...props
-}: TStackProps<T>) => {
+}: TStackProps<T>, ref: PolymorphicRef<T>) => {
     const Component = as ?? "div"
 
   return (
         <Component
+            ref={ref}
             className={clsx(
                 classes["stack"],
                 directionClassNameMap[direction],
@@ -130,6 +143,8 @@ const Stack = <T extends ElementType = "div">({
         </Component>
     )
 }
+
+const Stack = forwardRef(StackInner) as TStackComponent
 
 export { Stack }
 export type {

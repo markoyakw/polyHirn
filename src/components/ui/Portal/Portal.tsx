@@ -1,6 +1,6 @@
 import { FC, ReactNode, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import {FocusTrap} from 'focus-trap-react';
+import { FocusTrap } from 'focus-trap-react';
 
 type TPortalProps = {
     children: ReactNode,
