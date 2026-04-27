@@ -16,8 +16,8 @@ const AnimatedBlock = forwardRef<HTMLDivElement, AnimatedBlockProps>(
                 exit={{ scale: 0.9, opacity: 0 }}
                 transition={{
                     type: "spring",
-                    stiffness: 700,
-                    damping: 40,
+                    stiffness: 2000,
+                    damping: 80,
                 }}
                 layout="position"
                 style={{

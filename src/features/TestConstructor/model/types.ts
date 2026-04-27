@@ -27,21 +27,21 @@ type TTrueFalseQuestion = TBaseQuestion & {
 }
 
 type TMatchPairsAnswer = {
+  id: string
   answerText: string
 }
 
-type TMatchPairsAnswerPosition = "leftPair" | "rightPair"
-
 type TMatchPairsAnswerPair = {
   id: string
-} & {
-  [K in TMatchPairsAnswerPosition]: TMatchPairsAnswer
+  items: [TMatchPairsAnswer, TMatchPairsAnswer]
 }
 
 type TMatchPairsQuestion = TBaseQuestion & {
   type: "matchPairs"
   pairArr: TMatchPairsAnswerPair[]
 }
+
+type TMatchPairsAnswerPosition = 0 | 1
 
 type TShortAnswerAcceptedAnswer = {
   id: string,
@@ -69,7 +69,6 @@ type TTest = {
 export type {
   TMatchPairsQuestion,
   TMatchPairsAnswerPair,
-  TMatchPairsAnswerPosition,
   TMultipleChoiceAnswer,
   TMultipleChoiceQuestion,
   TQuestion,
@@ -78,5 +77,6 @@ export type {
   TTest,
   TTrueFalseQuestion,
   TMatchPairsAnswer,
-  TShortAnswerAcceptedAnswer
+  TShortAnswerAcceptedAnswer,
+  TMatchPairsAnswerPosition
 }

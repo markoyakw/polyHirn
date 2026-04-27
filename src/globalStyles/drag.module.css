@@ -2,7 +2,16 @@
     opacity: 50%;
 }
 
-.drag-item--dragging {
-    border: var(--border-is-dragging);
-    opacity: 50%;
+.drag-item--is-dragging {
+    box-shadow: var(--box-shadow-is-dragging);
+    opacity: var(--opacity-is-dragging);
+}
+
+.drag-overlay {
+    position: absolute;
+}
+
+.drag-target {
+    transform: scale(1.02);
+    box-shadow: var(--box-shadow-is-dragging);
 }

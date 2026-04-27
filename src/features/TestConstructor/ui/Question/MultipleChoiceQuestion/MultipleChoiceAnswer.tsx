@@ -39,7 +39,7 @@ const MultipleChoiceAnswer: FC<TMultipleChoiceAnswerProps> = ({
     const { ref: sortableRef, isDragging } = useSortable({ index, id: answer.id })
 
     const cardClassName = clsx(
-        isDragging && !isDragOverlay && dragClasses["drag-item--dragging"],
+        isDragging && !isDragOverlay && dragClasses["drag-item--is-dragging"],
         isDragOverlay && dragClasses["drag-item--overlay"]
     )
 

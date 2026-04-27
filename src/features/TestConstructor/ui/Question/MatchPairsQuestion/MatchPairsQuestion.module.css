@@ -1,9 +1,55 @@
+.question {
+    width: 100%;
+}
+
+.pair-list {
+    width: 100%;
+}
+
+.pair-card {
+    width: 100%;
+}
+
 .label {
-    width: 15px;
+    width: 22px;
     flex-grow: 0;
     flex-shrink: 0;
+    color: var(--color-text-secondary);
 }
 
 .pair-stack {
     flex-grow: 1;
+}
+
+.pair-actions {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.answer-target {
+    width: 100%;
+}
+
+.answer-card {
+    width: 100%;
+    transition:
+        box-shadow var(--duration-normal) var(--ease-default),
+        transform var(--duration-normal) var(--ease-default);
+}
+
+.drag-handle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    flex-shrink: 0;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
+
+.overlay {
+    width: min(100%, var(--max-question-width));
 }

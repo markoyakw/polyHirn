@@ -9,6 +9,8 @@ import type {
     TTest,
     TTrueFalseQuestion,
     TShortAnswerAcceptedAnswer,
+    TMatchPairsAnswer,
+    TMatchPairsAnswerPosition,
 } from "../types"
 
 const DEFAULT_DRAFT_QUESTION_ID = "default-question-1"
@@ -65,15 +67,25 @@ const getBlankTrueFalseQuestion = (
     }
 }
 
-export const getBlankMatchPairsPair = (passedId?: TMatchPairsAnswerPair["id"]): TMatchPairsAnswerPair => {
+
+const getBlankMatchPairsAnswer = (
+    passedId?: string
+): TMatchPairsAnswer => {
+    const id = passedId || crypto.randomUUID()
     return {
-        id: passedId || crypto.randomUUID(),
-        leftPair: {
-            answerText: ""
-        },
-        rightPair: {
-            answerText: ""
-        }
+        id,
+        answerText: ""
+    }
+}
+
+const getBlankMatchPairsPair = (passedId?: TMatchPairsAnswerPair["id"]): TMatchPairsAnswerPair => {
+    const id = passedId || crypto.randomUUID()
+    return {
+        id,
+        items: [
+            getBlankMatchPairsAnswer(),
+            getBlankMatchPairsAnswer()
+        ]
     }
 }
 
@@ -131,5 +143,7 @@ export {
     getBlankShortAnswerQuestion,
     getBlankTrueFalseQuestion,
     getBlankMultipleChoiceAnswer,
-    getDefaultDraft
+    getDefaultDraft,
+    getBlankMatchPairsPair,
+    getBlankMatchPairsAnswer,
 }

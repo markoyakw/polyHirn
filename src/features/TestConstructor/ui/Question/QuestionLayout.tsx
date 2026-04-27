@@ -30,13 +30,12 @@ const QuestionLayout: FC<TQuestionProps> = ({ question, index, isDragOverlay }) 
 
     const layoutClassName = clsx(
         classes["card-layout"],
-        isDragging && !isDragOverlay && dragClasses["drag-item--dragging"],
+        isDragging && !isDragOverlay && dragClasses["drag-item--is-dragging"],
         isDragOverlay && dragClasses["drag-item--overlay"]
     )
 
     return (
         <AnimatedBlock
-            key={question.id}
             width="var(--max-question-width)"
             ref={sortableRef}
         >

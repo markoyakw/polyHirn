@@ -9,32 +9,68 @@ import type {
 } from "@/features/TestConstructor/model/types"
 import type { FC } from "react"
 import classes from "./MatchPairsQuestion.module.css"
-import { useDraggable, useDroppable } from "@dnd-kit/react"
+import { useSortable } from "@dnd-kit/react/sortable"
+import clsx from "clsx"
+import dragClasses from "@/globalStyles/drag.module.css"
+import { motion } from "motion/react"
 
 type TMatchPairsAnswerProps = {
     answer: TMatchPairsAnswer
     answerPosition: TMatchPairsAnswerPosition
+    pairId: string
     inputId: string
     label: string
-    pairId: string
-    onAnswerChange: (newValue: string, answerPosition: TMatchPairsAnswerPosition) => void
+    onAnswerChange: (
+        pairId: string,
+        answerPosition: TMatchPairsAnswerPosition,
+        newValue: string
+    ) => void,
+    index: number
+    isDragOverlay?: boolean
 }
 
 const MatchPairsAnswer: FC<TMatchPairsAnswerProps> = ({
     answer,
     answerPosition,
+    pairId,
     inputId,
     label,
-    pairId,
     onAnswerChange,
+    index,
+    isDragOverlay
 }) => {
-    const sortableId = `${pairId}-${answerPosition === "leftPair" ? "left" : "right"}`
-    const { ref: draggableRef } = useDraggable({ id: sortableId })
-    const { ref: droppableRef } = useDroppable({ id: sortableId })
+    const { sourceRef, targetRef, handleRef, isDragging, isDropTarget } = useSortable({
+        id: answer.id,
+        index,
+        type: "match-pair-answer",
+        accept: "match-pair-answer",
+        data: {
+            answerId: answer.id,
+            pairId,
+            answerPosition,
+        },
+    })
+
+    const cardClassName = clsx(
+        classes["answer-card"],
+        isDropTarget && dragClasses["drag-target"],
+        isDragging && !isDragOverlay && dragClasses["drag-item--is-dragging"],
+        isDragOverlay && dragClasses["drag-item--overlay"]
+    )
 
     return (
-        <div ref={droppableRef}>
-            <Card tone={2} spacing="s" ref={draggableRef}>
+        <motion.div
+            ref={targetRef}
+            layout="position"
+            layoutId={isDragOverlay ? undefined : answer.id}
+            transition={{
+                type: "spring",
+                stiffness: 700,
+                damping: 38,
+            }}
+            className={classes["answer-target"]}
+        >
+            <Card tone={2} spacing="s" ref={sourceRef} className={cardClassName}>
                 <Stack direction="row" secondaryAxisAlignment="center" gap="s">
                     <Label htmlFor={inputId} className={classes["label"]}>
                         {label}
@@ -43,14 +79,16 @@ const MatchPairsAnswer: FC<TMatchPairsAnswerProps> = ({
                         id={inputId}
                         tone={3}
                         value={answer.answerText}
-                        onChange={(event) => onAnswerChange(event.target.value, answerPosition)}
+                        onChange={(event) => onAnswerChange(pairId, answerPosition, event.target.value)}
                         placeholder="Answer text"
                         fullWidth
                     />
-                    <DragableIcon />
+                    <span ref={handleRef} className={classes["drag-handle"]}>
+                        <DragableIcon />
+                    </span>
                 </Stack>
             </Card>
-        </div>
+        </motion.div>
     )
 }
 

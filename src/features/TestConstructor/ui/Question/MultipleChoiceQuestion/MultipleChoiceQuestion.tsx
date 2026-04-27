@@ -13,6 +13,7 @@ import {
   updateMultipleChoiceAnswer,
 } from "@/features/TestConstructor/model/utils/update"
 import classes from "@/features/TestConstructor/ui/Question/QuestionShared.module.css"
+import dragClasses from "@/globalStyles/drag.module.css"
 import { DragDropProvider, DragOverlay, type DragEndEvent } from "@dnd-kit/react"
 import { isSortable } from "@dnd-kit/react/sortable"
 import Portal from "@/components/ui/Portal/Portal"
@@ -76,7 +77,7 @@ const MultipleChoiceQuestion: FC<TMultipleChoiceQuestionProps> = ({ question }) 
       </Stack>
 
       <Portal>
-        <DragOverlay>
+        <DragOverlay className={dragClasses["drag-overlay"]}>
           {
             (operation) => {
               if (isSortable(operation)) {

@@ -47,8 +47,6 @@
         0 1px 0 0 var(--box-shadow-border-color),
         0px 1px 0px rgba(0, 0, 0, 0.9);
 
-    --border-is-dragging: 2px solid var(--color-brand-accent);
-
     --font-sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
 
     --font-size-xs: 0.75rem;
@@ -92,7 +90,10 @@
     --z-modal: 400;
     --z-toast: 500;
 
-    --opacity-drag: 50%;
+    /* drag and drop */
+
+    --opacity-is-dragging: 50%;
+    --box-shadow-is-dragging: 0 0 0 2px var(--color-brand-accent);
 
     /* Test/Quizz values */
 

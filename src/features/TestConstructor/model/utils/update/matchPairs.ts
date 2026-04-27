@@ -1,6 +1,5 @@
 import getWrongQuestionTypeError from "@/utils/getWrongQuestionTypeError"
 import type {
-    TMatchPairsAnswerPair,
     TMatchPairsAnswerPosition,
     TMatchPairsQuestion,
     TQuestion,
@@ -8,6 +7,20 @@ import type {
 import { getBlankMatchPairsPair } from "../blankTestFactories"
 
 const MINIMUM_MATCH_PAIRS_PAIR_COUNT = 2
+
+const getPairIndexById = (question: TMatchPairsQuestion, pairId: string) => {
+    return question.pairArr.findIndex((pair) => pair.id === pairId)
+}
+
+const updatePairByIndex = (
+    question: TMatchPairsQuestion,
+    pairIndex: number,
+    update: (pair: TMatchPairsQuestion["pairArr"][number]) => TMatchPairsQuestion["pairArr"][number]
+): TMatchPairsQuestion["pairArr"] => {
+    return question.pairArr.map((pair, index) => {
+        return index === pairIndex ? update(pair) : pair
+    })
+}
 
 const updateMatchPairsAnswer = (
     pairId: string,
@@ -19,20 +32,25 @@ const updateMatchPairsAnswer = (
             throw new Error(getWrongQuestionTypeError(question.type, "matchPairs"))
         }
 
+        const pairIndex = getPairIndexById(question, pairId)
+
+        if (pairIndex === -1) {
+            throw new Error("Pair was not found")
+        }
+
         return {
             ...question,
-            pairArr: question.pairArr.map((pair) => {
-                if (pair.id === pairId) {
-                    return {
-                        ...pair,
-                        [answerPosition]: {
-                            ...pair[answerPosition],
-                            answerText: newValue,
-                        },
-                    }
+            pairArr: updatePairByIndex(question, pairIndex, (pair) => {
+                const newItems = [...pair.items] as typeof pair.items
+                newItems[answerPosition] = {
+                    ...newItems[answerPosition],
+                    answerText: newValue,
                 }
 
-                return pair
+                return {
+                    ...pair,
+                    items: newItems,
+                }
             }),
         }
     }
@@ -61,91 +79,72 @@ const deleteMatchPairsAnswerPair = (pairId: string) =>
         }
     }
 
-const reorderMatchPairsAnswers = (
-    sourceId: string,
-    targetId: string,
-) =>
-    (question: TQuestion): TMatchPairsQuestion => {
-        if (question.type !== "matchPairs") {
-            throw new Error(getWrongQuestionTypeError(question.type, "matchPairs"))
-        }
-
-        const getPairPositionFromId = (id: string): TMatchPairsAnswerPosition | null => {
-            if (id.endsWith("-left")) return "leftPair"
-            if (id.endsWith("-right")) return "rightPair"
-            return null
-        }
-
-        const sourcePosition = getPairPositionFromId(sourceId)
-        const targetPosition = getPairPositionFromId(targetId)
-
-        const sourcePair = question.pairArr.find(
-            (pair) => sourceId === pair.id + "-right" || sourceId === pair.id + "-left"
-        )
-        const targetPair = question.pairArr.find(
-            (pair) => targetId === pair.id + "-right" || targetId === pair.id + "-left"
-        )
-
-        if (
-            sourcePair == null ||
-            targetPair == null ||
-            sourcePosition == null ||
-            targetPosition == null
-        ) {
-            throw new Error(
-                "Could not reorder match pairs answers: " +
-                "sourcePair = " + String(sourcePair) + ", " +
-                "targetPair = " + String(targetPair) + ", " +
-                "sourcePosition = " + String(sourcePosition) + ", " +
-                "targetPosition = " + String(targetPosition) + ", " +
-                "sourceId = " + String(sourceId) + ", " +
-                "targetId = " + String(targetId)
-            )
-        }
-
-        if (sourcePair.id === targetPair.id) {
-            const sourceValue = sourcePosition === "leftPair" ? sourcePair.leftPair : sourcePair.rightPair
-            const targetValue = targetPosition === "leftPair" ? targetPair.leftPair : targetPair.rightPair
-
-            return {
-                ...question,
-                pairArr: question.pairArr.map((pair) => {
-                    if (pair.id !== sourcePair.id) {
-                        return pair
-                    }
-
-                    return {
-                        ...pair,
-                        [sourcePosition]: targetValue,
-                        [targetPosition]: sourceValue,
-                    }
-                }),
+const reorderMatchPairsAnswers =
+    (
+        sourcePairId: string,
+        sourceAnswerPosition: TMatchPairsAnswerPosition,
+        targetPairId: string,
+        targetAnswerPosition: TMatchPairsAnswerPosition,
+    ) =>
+        (question: TQuestion): TMatchPairsQuestion => {
+            if (question.type !== "matchPairs") {
+                throw new Error(getWrongQuestionTypeError(question.type, "matchPairs"))
             }
-        }
 
-        return {
-            ...question,
-            pairArr: question.pairArr.map((pair) => {
-                if (pair.id === sourcePair.id) {
+            if (
+                sourcePairId === targetPairId &&
+                sourceAnswerPosition === targetAnswerPosition
+            ) {
+                return question
+            }
+
+            const sourcePairIndex = getPairIndexById(question, sourcePairId)
+            const targetPairIndex = getPairIndexById(question, targetPairId)
+
+            if (sourcePairIndex === -1 || targetPairIndex === -1) {
+                throw new Error("Source or target pair was not found")
+            }
+
+            const sourceItem = question.pairArr[sourcePairIndex].items[sourceAnswerPosition]
+            const targetItem = question.pairArr[targetPairIndex].items[targetAnswerPosition]
+
+            const newPairArr = question.pairArr.map((pair, pairIndex) => {
+                if (pairIndex === sourcePairIndex && pairIndex === targetPairIndex) {
+                    const newItems = [...pair.items] as typeof pair.items
+                    newItems[sourceAnswerPosition] = targetItem
+                    newItems[targetAnswerPosition] = sourceItem
+
                     return {
                         ...pair,
-                        [sourcePosition === "leftPair" ? "leftPair" : "rightPair"]:
-                            targetPosition === "leftPair" ? targetPair.leftPair : targetPair.rightPair,
+                        items: newItems,
                     }
                 }
 
-                if (pair.id === targetPair.id) {
+                if (pairIndex === sourcePairIndex) {
+                    const newItems = [...pair.items] as typeof pair.items
+                    newItems[sourceAnswerPosition] = targetItem
+
                     return {
                         ...pair,
-                        [targetPosition === "leftPair" ? "leftPair" : "rightPair"]:
-                            sourcePosition === "leftPair" ? sourcePair.leftPair : sourcePair.rightPair,
+                        items: newItems,
+                    }
+                }
+
+                if (pairIndex === targetPairIndex) {
+                    const newItems = [...pair.items] as typeof pair.items
+                    newItems[targetAnswerPosition] = sourceItem
+
+                    return {
+                        ...pair,
+                        items: newItems,
                     }
                 }
 
                 return pair
-            }),
+            })
+
+            return { ...question, pairArr: newPairArr }
         }
-    }
 
 export {
     MINIMUM_MATCH_PAIRS_PAIR_COUNT,
