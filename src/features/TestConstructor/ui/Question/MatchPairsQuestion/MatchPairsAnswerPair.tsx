@@ -14,7 +14,6 @@ import {
 type TMatchPairsAnswerPairProps = {
     answerPair: TMatchPairsAnswerPair,
     index: number,
-    isDragging?: boolean
     onAnswerChange: (
         pairId: string,
         answerPosition: TMatchPairsAnswerPosition,
@@ -27,7 +26,6 @@ type TMatchPairsAnswerPairProps = {
 const MatchPairsAnswerPair: FC<TMatchPairsAnswerPairProps> = ({
     answerPair,
     index,
-    isDragging = false,
     onAnswerChange,
     onDelete,
     isDeleteDisabled,
@@ -62,7 +60,6 @@ const MatchPairsAnswerPair: FC<TMatchPairsAnswerPairProps> = ({
                                 pairId={answerPair.id}
                                 inputId={inputId}
                                 label={getMatchPairsAnswerLabel(index, answerPosition)}
-                                isDragging={isDragging}
                                 onAnswerChange={onAnswerChange}
                                 index={getMatchPairsAnswerFlatIndex(index, answerPosition)}
                             />

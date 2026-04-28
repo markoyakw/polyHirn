@@ -8,6 +8,7 @@ type AnimatedStackItemProps = {
 
 const AnimatedStackItem = forwardRef<HTMLDivElement, AnimatedStackItemProps>(
     ({ children, width, style, ...props }, ref) => {
+
         return (
             <motion.div
                 ref={ref}
@@ -17,9 +18,9 @@ const AnimatedStackItem = forwardRef<HTMLDivElement, AnimatedStackItemProps>(
                 transition={{
                     type: "spring",
                     stiffness: 2000,
-                    damping: 80,
+                    damping: 80
                 }}
-                layout="position"
+                layout="y"
                 style={{
                     transformOrigin: "center center",
                     width,

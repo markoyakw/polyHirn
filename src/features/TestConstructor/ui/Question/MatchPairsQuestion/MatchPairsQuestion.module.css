@@ -38,14 +38,6 @@
         transform var(--duration-normal) var(--ease-default);
 }
 
-.drag-handle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: grab;
-    flex-shrink: 0;
-}
-
 .drag-handle:active {
     cursor: grabbing;
 }

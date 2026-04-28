@@ -1,3 +1,7 @@
+.drag-item {
+    transition: transform var(--duration-fast);
+}
+
 .drag-item--overlay {
     opacity: 50%;
 }

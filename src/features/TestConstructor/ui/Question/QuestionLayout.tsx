@@ -14,24 +14,34 @@ import QuestionRenderer from "./QuestionRenderer"
 import { closestCenter } from '@dnd-kit/collision'
 import dragClasses from "@/globalStyles/drag.module.css"
 import AnimatedStackItem from "@/components/ui/Stack/AnimatedStackItem"
+import { ParentDragDropProvider } from "@/hooks/useParentDragDrop"
 
 type TQuestionProps = {
     question: TQuestion,
     index: number,
     isDragOverlay?: boolean,
     isDragging?: boolean,
+    isDropping?: boolean,
 }
 
-const QuestionLayout: FC<TQuestionProps> = ({ question, index, isDragOverlay, isDragging: passedIsDragging }) => {
+const QuestionLayout: FC<TQuestionProps> = ({
+    question,
+    index,
+    isDragOverlay,
+    isDragging: passedIsDragging,
+    isDropping: passedIsDropping,
+}) => {
     const questionCount = useStore((state) => state.draft.questionArr.length)
     const removeQuestion = useStore((state) => state.removeQuestion)
 
     const QuestionHeading = `QUESTION ${index + 1} – ${QUESTION_TYPE_LABELS[question.type].toLocaleUpperCase()}`
-    const { ref: sortableRef, isDragging } = useSortable({ id: question.id, index, collisionDetector: closestCenter })
+    const { ref: sortableRef, isDragging, isDropping } = useSortable({ id: question.id, index, collisionDetector: closestCenter })
     const effectiveIsDragging = passedIsDragging ?? isDragging
+    const effectiveIsDropping = passedIsDropping ?? isDropping
 
     const layoutClassName = clsx(
         classes["card-layout"],
+        dragClasses["drag-item"],
         effectiveIsDragging && !isDragOverlay && dragClasses["drag-item--is-dragging"],
         isDragOverlay && dragClasses["drag-item--overlay"]
     )
@@ -46,27 +56,33 @@ const QuestionLayout: FC<TQuestionProps> = ({ question, index, isDragOverlay, is
                 spacing="m"
                 className={layoutClassName}
             >
-                <Stack gap="s">
-                    <Stack
-                        direction="row"
-                        alignment="start"
-                        secondaryAxisAlignment="center"
-                        gap="s"
-                    >
-                        <DragableIcon />
-                        <Heading as={"h4"}>
-                            {QuestionHeading}
-                        </Heading>
-                        <IconButton
-                            icon={ICON_BUTTON_ICON_MAP.delete}
-                            aria-label={`Delete question ${index + 1}`}
-                            onClick={() => removeQuestion(question.id)}
-                            disabled={questionCount <= 1}
-                            className={classes["delete-button"]}
-                        />
+                <ParentDragDropProvider
+                    isDragging={effectiveIsDragging}
+                    isDropping={effectiveIsDropping}
+                >
+                    <Stack gap="s">
+                        <Stack
+                            className={classes["question__header"]}
+                            direction="row"
+                            alignment="start"
+                            secondaryAxisAlignment="center"
+                            gap="s"
+                        >
+                            <DragableIcon />
+                            <Heading as={"h4"}>
+                                {QuestionHeading}
+                            </Heading>
+                            <IconButton
+                                icon={ICON_BUTTON_ICON_MAP.delete}
+                                aria-label={`Delete question ${index + 1}`}
+                                onClick={() => removeQuestion(question.id)}
+                                disabled={questionCount <= 1}
+                                className={classes["delete-button"]}
+                            />
+                        </Stack>
+                        <QuestionRenderer question={question} />
                     </Stack>
-                    <QuestionRenderer question={question} isDragging={effectiveIsDragging} />
-                </Stack>
+                </ParentDragDropProvider>
             </Card>
         </AnimatedStackItem >
     )

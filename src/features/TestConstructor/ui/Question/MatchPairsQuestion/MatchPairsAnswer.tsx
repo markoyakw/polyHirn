@@ -13,6 +13,7 @@ import { useSortable } from "@dnd-kit/react/sortable"
 import clsx from "clsx"
 import dragClasses from "@/globalStyles/drag.module.css"
 import { motion } from "motion/react"
+import { useParentDragDrop } from "@/hooks/useParentDragDrop"
 
 type TMatchPairsAnswerProps = {
     answer: TMatchPairsAnswer
@@ -20,7 +21,6 @@ type TMatchPairsAnswerProps = {
     pairId: string
     inputId: string
     label: string
-    isDragging?: boolean
     onAnswerChange: (
         pairId: string,
         answerPosition: TMatchPairsAnswerPosition,
@@ -36,13 +36,14 @@ const MatchPairsAnswer: FC<TMatchPairsAnswerProps> = ({
     pairId,
     inputId,
     label,
-    isDragging = false,
     onAnswerChange,
     index,
     isDragOverlay
 }) => {
+    const { isDragging: isParentDragging, isDropping: isParentDropping } = useParentDragDrop()
+    const isParentDragDrop = isParentDragging || isParentDropping
 
-    const { sourceRef, targetRef, handleRef, isDragging: isAnswerDragging, isDropTarget } = useSortable({
+    const { sourceRef, targetRef, isDragging: isAnswerDragging, isDropTarget } = useSortable({
         id: answer.id,
         index,
         type: "match-pair-answer",
@@ -65,11 +66,11 @@ const MatchPairsAnswer: FC<TMatchPairsAnswerProps> = ({
         <motion.div
             ref={targetRef}
             layout="y"
-            layoutId={isDragOverlay ? undefined : answer.id}
-            transition={isDragging ? { duration: 0 } : {
+            layoutId={isDragOverlay || isParentDragDrop ? undefined : answer.id}
+            transition={isDragOverlay || isParentDragDrop ? { duration: 0 } : {
                 type: "spring",
                 stiffness: 700,
-                damping: 38,
+                damping: 38
             }}
             className={classes["answer-target"]}
         >
@@ -86,9 +87,7 @@ const MatchPairsAnswer: FC<TMatchPairsAnswerProps> = ({
                         placeholder="Answer text"
                         fullWidth
                     />
-                    <span ref={handleRef} className={classes["drag-handle"]}>
-                        <DragableIcon />
-                    </span>
+                    <DragableIcon />
                 </Stack>
             </Card>
         </motion.div>
