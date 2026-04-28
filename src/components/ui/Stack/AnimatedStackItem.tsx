@@ -1,19 +1,19 @@
 import { forwardRef, ReactNode } from "react"
 import { motion, type HTMLMotionProps } from "motion/react"
 
-type AnimatedBlockProps = {
+type AnimatedStackItemProps = {
     children: ReactNode
     width?: string
 } & HTMLMotionProps<"div">
 
-const AnimatedBlock = forwardRef<HTMLDivElement, AnimatedBlockProps>(
+const AnimatedStackItem = forwardRef<HTMLDivElement, AnimatedStackItemProps>(
     ({ children, width, style, ...props }, ref) => {
         return (
             <motion.div
                 ref={ref}
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
+                exit={{ height: 0, opacity: 0, marginBottom: "calc(var(--stack-gap-size, 0px) * -1)" }}
                 transition={{
                     type: "spring",
                     stiffness: 2000,
@@ -33,4 +33,4 @@ const AnimatedBlock = forwardRef<HTMLDivElement, AnimatedBlockProps>(
     }
 )
 
-export default AnimatedBlock
+export default AnimatedStackItem

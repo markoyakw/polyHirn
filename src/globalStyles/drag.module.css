@@ -3,6 +3,7 @@
 }
 
 .drag-item--is-dragging {
+    transform: scale(1.02);
     box-shadow: var(--box-shadow-is-dragging);
     opacity: var(--opacity-is-dragging);
 }

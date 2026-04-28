@@ -9,9 +9,17 @@
     --stack-padding-inline: var(--stack-padding-size);
     --stack-half-gap: calc(var(--stack-gap-size) / 2);
 }
+/* 
+.directionColumn>*:not(:last-child) {
+    margin-bottom: var(--stack-gap-size);
+}
+
+.directionRow>*:not(:last-child) {
+    margin-bottom: var(--stack-gap-size);
+} */
 
 .directionRow {
-    flex-direction: row; 
+    flex-direction: row;
 }
 
 .directionColumn {

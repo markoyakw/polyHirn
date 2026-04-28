@@ -21,9 +21,10 @@ import MatchPairsDragOverlay from "./MatchPairsDragOverlay"
 
 type TMatchPairsQuestionProps = {
     question: TMatchPairsQuestion
+    isDragging?: boolean
 }
 
-const MatchPairsQuestion: FC<TMatchPairsQuestionProps> = ({ question }) => {
+const MatchPairsQuestion: FC<TMatchPairsQuestionProps> = ({ question, isDragging = false }) => {
     const updateQuestion = useStore(state => state.updateQuestion)
     const updateQuestionFn = useStore(state => state.updateQuestionFn)
 
@@ -64,6 +65,7 @@ const MatchPairsQuestion: FC<TMatchPairsQuestionProps> = ({ question }) => {
                             <MatchPairsAnswerPair
                                 answerPair={answerPair}
                                 index={index}
+                                isDragging={isDragging}
                                 onAnswerChange={handleMatchPairsAnswerChange}
                                 onDelete={handleMatchPairAnswerDelete}
                                 isDeleteDisabled={question.pairArr.length <= MINIMUM_MATCH_PAIRS_PAIR_COUNT}

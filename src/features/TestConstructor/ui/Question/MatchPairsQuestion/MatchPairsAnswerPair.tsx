@@ -5,7 +5,7 @@ import { FC } from "react";
 import classes from "./MatchPairsQuestion.module.css"
 import IconButton, { ICON_BUTTON_ICON_MAP } from "@/components/ui/IconButton/IconButton";
 import MatchPairsAnswer from "./MatchPairsAnswer";
-import AnimatedBlock from "@/components/ui/AnimatedBlock/AnimatedBlock";
+import AnimatedStackItem from "@/components/ui/Stack/AnimatedStackItem"
 import {
     getMatchPairsAnswerFlatIndex,
     getMatchPairsAnswerLabel,
@@ -14,6 +14,7 @@ import {
 type TMatchPairsAnswerPairProps = {
     answerPair: TMatchPairsAnswerPair,
     index: number,
+    isDragging?: boolean
     onAnswerChange: (
         pairId: string,
         answerPosition: TMatchPairsAnswerPosition,
@@ -26,6 +27,7 @@ type TMatchPairsAnswerPairProps = {
 const MatchPairsAnswerPair: FC<TMatchPairsAnswerPairProps> = ({
     answerPair,
     index,
+    isDragging = false,
     onAnswerChange,
     onDelete,
     isDeleteDisabled,
@@ -48,7 +50,7 @@ const MatchPairsAnswerPair: FC<TMatchPairsAnswerPairProps> = ({
     ]
 
     return (
-        <AnimatedBlock>
+        <AnimatedStackItem>
             <Card tone={1} withBorder spacing="s" className={classes["pair-card"]}>
                 <Stack direction="row" gap="s" secondaryAxisAlignment="stretch">
                     <Stack gap="s" className={classes["pair-stack"]}>
@@ -60,6 +62,7 @@ const MatchPairsAnswerPair: FC<TMatchPairsAnswerPairProps> = ({
                                 pairId={answerPair.id}
                                 inputId={inputId}
                                 label={getMatchPairsAnswerLabel(index, answerPosition)}
+                                isDragging={isDragging}
                                 onAnswerChange={onAnswerChange}
                                 index={getMatchPairsAnswerFlatIndex(index, answerPosition)}
                             />
@@ -75,7 +78,7 @@ const MatchPairsAnswerPair: FC<TMatchPairsAnswerPairProps> = ({
                     </div>
                 </Stack>
             </Card>
-        </AnimatedBlock>
+        </AnimatedStackItem>
     );
 };
 

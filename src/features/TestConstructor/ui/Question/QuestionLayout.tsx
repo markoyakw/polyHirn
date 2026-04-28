@@ -13,29 +13,31 @@ import clsx from "clsx"
 import QuestionRenderer from "./QuestionRenderer"
 import { closestCenter } from '@dnd-kit/collision'
 import dragClasses from "@/globalStyles/drag.module.css"
-import AnimatedBlock from "@/components/ui/AnimatedBlock/AnimatedBlock"
+import AnimatedStackItem from "@/components/ui/Stack/AnimatedStackItem"
 
 type TQuestionProps = {
     question: TQuestion,
     index: number,
     isDragOverlay?: boolean,
+    isDragging?: boolean,
 }
 
-const QuestionLayout: FC<TQuestionProps> = ({ question, index, isDragOverlay }) => {
+const QuestionLayout: FC<TQuestionProps> = ({ question, index, isDragOverlay, isDragging: passedIsDragging }) => {
     const questionCount = useStore((state) => state.draft.questionArr.length)
     const removeQuestion = useStore((state) => state.removeQuestion)
 
     const QuestionHeading = `QUESTION ${index + 1} – ${QUESTION_TYPE_LABELS[question.type].toLocaleUpperCase()}`
     const { ref: sortableRef, isDragging } = useSortable({ id: question.id, index, collisionDetector: closestCenter })
+    const effectiveIsDragging = passedIsDragging ?? isDragging
 
     const layoutClassName = clsx(
         classes["card-layout"],
-        isDragging && !isDragOverlay && dragClasses["drag-item--is-dragging"],
+        effectiveIsDragging && !isDragOverlay && dragClasses["drag-item--is-dragging"],
         isDragOverlay && dragClasses["drag-item--overlay"]
     )
 
     return (
-        <AnimatedBlock
+        <AnimatedStackItem
             width="var(--max-question-width)"
             ref={sortableRef}
         >
@@ -63,10 +65,10 @@ const QuestionLayout: FC<TQuestionProps> = ({ question, index, isDragOverlay }) 
                             className={classes["delete-button"]}
                         />
                     </Stack>
-                    <QuestionRenderer question={question} />
+                    <QuestionRenderer question={question} isDragging={effectiveIsDragging} />
                 </Stack>
             </Card>
-        </AnimatedBlock >
+        </AnimatedStackItem >
     )
 }
 

@@ -11,7 +11,7 @@ import IconButton, { ICON_BUTTON_ICON_MAP } from "@/components/ui/IconButton/Ico
 import { useSortable } from "@dnd-kit/react/sortable";
 import clsx from "clsx";
 import dragClasses from "@/globalStyles/drag.module.css"
-import AnimatedBlock from "@/components/ui/AnimatedBlock/AnimatedBlock";
+import AnimatedStackItem from "@/components/ui/Stack/AnimatedStackItem"
 
 type TMultipleChoiceAnswerProps = {
     answer: TMultipleChoiceAnswer,
@@ -44,7 +44,7 @@ const MultipleChoiceAnswer: FC<TMultipleChoiceAnswerProps> = ({
     )
 
     return (
-        <AnimatedBlock ref={sortableRef} >
+        <AnimatedStackItem ref={sortableRef} >
             <Card tone={2} spacing="s" withBorder className={cardClassName}>
 
                 <Stack gap="s">
@@ -78,7 +78,7 @@ const MultipleChoiceAnswer: FC<TMultipleChoiceAnswerProps> = ({
                     </Stack>
                 </Stack>
             </Card >
-        </AnimatedBlock>
+        </AnimatedStackItem>
     );
 };
 

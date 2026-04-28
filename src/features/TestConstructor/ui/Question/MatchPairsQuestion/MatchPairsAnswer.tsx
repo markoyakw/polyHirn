@@ -20,6 +20,7 @@ type TMatchPairsAnswerProps = {
     pairId: string
     inputId: string
     label: string
+    isDragging?: boolean
     onAnswerChange: (
         pairId: string,
         answerPosition: TMatchPairsAnswerPosition,
@@ -35,11 +36,13 @@ const MatchPairsAnswer: FC<TMatchPairsAnswerProps> = ({
     pairId,
     inputId,
     label,
+    isDragging = false,
     onAnswerChange,
     index,
     isDragOverlay
 }) => {
-    const { sourceRef, targetRef, handleRef, isDragging, isDropTarget } = useSortable({
+
+    const { sourceRef, targetRef, handleRef, isDragging: isAnswerDragging, isDropTarget } = useSortable({
         id: answer.id,
         index,
         type: "match-pair-answer",
@@ -54,16 +57,16 @@ const MatchPairsAnswer: FC<TMatchPairsAnswerProps> = ({
     const cardClassName = clsx(
         classes["answer-card"],
         isDropTarget && dragClasses["drag-target"],
-        isDragging && !isDragOverlay && dragClasses["drag-item--is-dragging"],
+        isAnswerDragging && !isDragOverlay && dragClasses["drag-item--is-dragging"],
         isDragOverlay && dragClasses["drag-item--overlay"]
     )
 
     return (
         <motion.div
             ref={targetRef}
-            layout="position"
+            layout="y"
             layoutId={isDragOverlay ? undefined : answer.id}
-            transition={{
+            transition={isDragging ? { duration: 0 } : {
                 type: "spring",
                 stiffness: 700,
                 damping: 38,

@@ -7,16 +7,17 @@ import ShortAnswerQuestion from "./ShortAnswerQuestion/ShortAnswerQuestion";
 
 type TQuestionRendererProps = {
     question: TQuestion
+    isDragging?: boolean
 }
 
-const QuestionRenderer: FC<TQuestionRendererProps> = ({ question }) => {
+const QuestionRenderer: FC<TQuestionRendererProps> = ({ question, isDragging }) => {
     switch (question.type) {
         case "multipleChoice":
             return <MultipleChoiceQuestion question={question} />;
         case "trueFalse":
             return <TrueFalseQuestion question={question} />;
         case "matchPairs":
-            return <MatchPairsQuestion question={question} />;
+            return <MatchPairsQuestion question={question} isDragging={isDragging} />;
         case "shortAnswer":
             return <ShortAnswerQuestion question={question} />;
         default:
