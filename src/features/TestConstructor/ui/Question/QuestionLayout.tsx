@@ -1,4 +1,4 @@
-import type { FC } from "react"
+import { type FC } from "react"
 import type { TQuestion } from "../../model/types"
 import Card from "@/components/ui/Card/Card"
 import Heading from "@/components/ui/Heading/Heading"

@@ -1,4 +1,4 @@
-import { forwardRef, ReactNode } from "react"
+import { forwardRef, ReactNode, useEffect } from "react"
 import { motion, type HTMLMotionProps } from "motion/react"
 
 type AnimatedStackItemProps = {

@@ -4,7 +4,6 @@ import { Stack } from "@/components/ui/Stack/Stack"
 import { Header } from "./Header/Header"
 import { DragDropProvider, DragEndEvent, DragOverlay } from "@dnd-kit/react"
 import { isSortable } from "@dnd-kit/react/sortable"
-import { Fragment } from "react/jsx-runtime"
 import QuestionLayout from "./Question/QuestionLayout"
 import Portal from "@/components/ui/Portal/Portal"
 import { AnimatePresence } from "motion/react"
@@ -29,12 +28,11 @@ const TestConstructor = () => {
                     <AnimatePresence>
                         {
                             questionArr.map((question, index) =>
-                                <Fragment key={question.id}>
-                                    <QuestionLayout
-                                        question={question}
-                                        index={index}
-                                    />
-                                </Fragment>
+                                <QuestionLayout
+                                    key={question.id}
+                                    question={question}
+                                    index={index}
+                                />
                             )
                         }
                     </AnimatePresence>

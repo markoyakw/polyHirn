@@ -2,7 +2,7 @@ import Card from "@/components/ui/Card/Card";
 import Input from "@/components/ui/Input/Input";
 import { Stack } from "@/components/ui/Stack/Stack";
 import { TMultipleChoiceAnswer } from "@/features/TestConstructor/model/types";
-import { FC } from "react"
+import { FC, useEffect } from "react"
 import getLetterByIndex from "@/utils/getLetterByIndex";
 import Checkbox from "@/components/ui/Checkbox/Checkbox";
 import Label from "@/components/ui/Label/Label";
