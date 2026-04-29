@@ -20,7 +20,7 @@ const AnimatedStackItem = forwardRef<HTMLDivElement, AnimatedStackItemProps>(
                     stiffness: 2000,
                     damping: 80
                 }}
-                layout="position"
+                layout="y"
                 style={{
                     transformOrigin: "center center",
                     width,

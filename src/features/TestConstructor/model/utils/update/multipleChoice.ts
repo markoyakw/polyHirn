@@ -48,10 +48,10 @@ const reorderMultipleChoiceAnswers = (targetIndex: number, sourceIndex: number) 
             throw new Error(getWrongQuestionTypeError(question.type, "multipleChoice"))
         }
 
-        const targetItem = question.answerArr[targetIndex]
         const sourceItem = question.answerArr[sourceIndex]
+        const targetItem = question.answerArr[targetIndex]
 
-        if (targetItem == null || sourceItem == null) {
+        if (sourceItem == null || targetItem == null) {
             throw new Error(
                 "Could not reorder multiple choice answers: " +
                 "sourceItem = " + String(sourceItem?.id) + ", " +
@@ -61,14 +61,16 @@ const reorderMultipleChoiceAnswers = (targetIndex: number, sourceIndex: number) 
             )
         }
 
-        return {
-            ...question,
-            answerArr: question.answerArr.map((answer, index) => {
-                const answerArr = question.answerArr
-                if (index < targetIndex && index > sourceIndex) answerArr[index - 1]
-                return answer
-            }),
+        const nextAnswersArr = [...question.answerArr]
+        const [removedItem] = nextAnswersArr.splice(sourceIndex, 1)
+
+        if (removedItem == null) {
+            return question
         }
+
+        nextAnswersArr.splice(targetIndex, 0, removedItem)
+
+        return { ...question, answerArr: nextAnswersArr }
     }
 
 export {

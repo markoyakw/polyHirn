@@ -35,7 +35,12 @@ const QuestionLayout: FC<TQuestionProps> = ({
     const removeQuestion = useStore((state) => state.removeQuestion)
 
     const QuestionHeading = `QUESTION ${index + 1} – ${QUESTION_TYPE_LABELS[question.type].toLocaleUpperCase()}`
-    const { ref: sortableRef, isDragging, isDropping } = useSortable({ id: question.id, index, collisionDetector: closestCenter })
+    const { ref: sortableRef, isDragging, isDropping } = useSortable({
+        id: question.id,
+        index,
+        collisionDetector: closestCenter,
+        data: question
+    })
     const effectiveIsDragging = passedIsDragging ?? isDragging
     const effectiveIsDropping = passedIsDropping ?? isDropping
 

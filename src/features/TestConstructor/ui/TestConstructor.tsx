@@ -7,6 +7,7 @@ import { isSortable } from "@dnd-kit/react/sortable"
 import QuestionLayout from "./Question/QuestionLayout"
 import Portal from "@/components/ui/Portal/Portal"
 import { AnimatePresence } from "motion/react"
+import dragClasses from "@/globalStyles/drag.module.css"
 
 const TestConstructor = () => {
     const questionArr = useStore(state => state.draft.questionArr)
@@ -40,11 +41,11 @@ const TestConstructor = () => {
             </Stack >
 
             <Portal>
-                <DragOverlay dropAnimation={null}>
+                <DragOverlay className={dragClasses["drag-overlay"]}>
                     {source => {
                         if (!isSortable(source)) return null
 
-                        const draggedQuestion = questionArr[source.initialIndex]
+                        const draggedQuestion = source.data
                         if (!draggedQuestion) return null
 
                         return (
