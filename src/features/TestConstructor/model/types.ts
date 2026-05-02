@@ -3,10 +3,11 @@ type TQuestionType =
   | "trueFalse"
   | "matchPairs"
   | "shortAnswer"
+  | "fillGaps"
 
-type TBaseQuestion = {
+type TBaseQuestion<TType extends TQuestionType> = {
   id: string
-  type: TQuestionType
+  type: TType
   questionText: string
 }
 
@@ -16,13 +17,11 @@ type TMultipleChoiceAnswer = {
   isRight: boolean
 }
 
-type TMultipleChoiceQuestion = TBaseQuestion & {
-  type: "multipleChoice"
+type TMultipleChoiceQuestion = TBaseQuestion<"multipleChoice"> & {
   answerArr: TMultipleChoiceAnswer[]
 }
 
-type TTrueFalseQuestion = TBaseQuestion & {
-  type: "trueFalse"
+type TTrueFalseQuestion = TBaseQuestion<"trueFalse"> & {
   correctAnswer: boolean | null
 }
 
@@ -36,8 +35,7 @@ type TMatchPairsAnswerPair = {
   items: [TMatchPairsAnswer, TMatchPairsAnswer]
 }
 
-type TMatchPairsQuestion = TBaseQuestion & {
-  type: "matchPairs"
+type TMatchPairsQuestion = TBaseQuestion<"matchPairs"> & {
   pairArr: TMatchPairsAnswerPair[]
 }
 
@@ -48,9 +46,29 @@ type TShortAnswerAcceptedAnswer = {
   answerText: string
 }
 
-type TShortAnswerQuestion = TBaseQuestion & {
-  type: "shortAnswer"
+type TShortAnswerQuestion = TBaseQuestion<"shortAnswer"> & {
   correctAnswerArr: TShortAnswerAcceptedAnswer[]
+}
+
+type TFillGapsFillItem = {
+  type: "fill"
+  id: string
+  correctAnswerArr: {
+    id: string
+    answer: string
+  }[]
+}
+
+type TFillGapsTextItem = {
+  type: "text"
+  id: string
+  text: string
+}
+
+type TFillGapsItem = TFillGapsFillItem | TFillGapsTextItem
+
+type TFillGapsQuestion = TBaseQuestion<"fillGaps"> & {
+  items: TFillGapsItem[]
 }
 
 type TQuestion =
