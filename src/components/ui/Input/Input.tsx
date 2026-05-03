@@ -61,7 +61,7 @@ const Input = ({
     )
 
     return (
-        <InputContainer hasLabel={!!label}>
+        <InputContainer hasLabel={!!label} fullWidth={fullWidth}>
             {label ? <Label htmlFor={inputId}>{label}</Label> : null}
             <input
                 id={inputId}
