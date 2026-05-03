@@ -47,8 +47,26 @@
     --button-shadow: var(--box-shadow);
 }
 
-.secondary {
+.tone1 {
+    --button-background: var(--color-bg-card-1);
+    --button-color: var(--color-text-primary);
+    --button-shadow: var(--box-shadow);
+}
+
+.tone2 {
     --button-background: var(--color-bg-card-2);
+    --button-color: var(--color-text-primary);
+    --button-shadow: var(--box-shadow);
+}
+
+.tone3 {
+    --button-background: var(--color-bg-card-3);
+    --button-color: var(--color-text-primary);
+    --button-shadow: var(--box-shadow);
+}
+
+.tone4 {
+    --button-background: var(--color-bg-card-4);
     --button-color: var(--color-text-primary);
     --button-shadow: var(--box-shadow);
 }
@@ -57,12 +75,6 @@
     --button-background: transparent;
     --button-color: var(--color-text-primary);
     --button-shadow: var(--box-shadow-border);
-}
-
-.danger {
-    --button-background: var(--color-error);
-    --button-color: var(--color-text-primary);
-    --button-shadow: var(--box-shadow);
 }
 
 .s {

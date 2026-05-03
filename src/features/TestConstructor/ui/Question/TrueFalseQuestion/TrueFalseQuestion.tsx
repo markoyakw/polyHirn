@@ -31,14 +31,14 @@ const TrueFalseQuestion: FC<TTrueFalseQuestionProps> = ({ question }) => {
 
             <Stack direction="row" gap="s">
                 <Button
-                    tone={question.correctAnswer === true ? "primary" : "secondary"}
+                    tone={question.correctAnswer === true ? "primary" : 2}
                     onClick={() => handleCorrectAnswerChange(true)}
                     fullWidth
                 >
                     true
                 </Button>
                 <Button
-                    tone={question.correctAnswer === false ? "primary" : "secondary"}
+                    tone={question.correctAnswer === false ? "primary" : 2}
                     onClick={() => handleCorrectAnswerChange(false)}
                     fullWidth
                 >

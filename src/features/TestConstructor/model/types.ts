@@ -76,6 +76,7 @@ type TQuestion =
   | TTrueFalseQuestion
   | TMatchPairsQuestion
   | TShortAnswerQuestion
+  | TFillGapsQuestion
 
 type TTest = {
   timeLimit?: number
@@ -96,5 +97,9 @@ export type {
   TTrueFalseQuestion,
   TMatchPairsAnswer,
   TShortAnswerAcceptedAnswer,
-  TMatchPairsAnswerPosition
+  TMatchPairsAnswerPosition,
+  TFillGapsFillItem,
+  TFillGapsItem,
+  TFillGapsQuestion,
+  TFillGapsTextItem
 }

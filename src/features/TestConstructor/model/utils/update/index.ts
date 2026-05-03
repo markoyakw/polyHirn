@@ -21,4 +21,17 @@ export {
     updateShortAnswer,
 } from "./shortAnswer"
 
+export {
+    MINIMUM_FILL_GAPS_ACCEPTED_ANSWER_COUNT,
+    MINIMUM_FILL_GAPS_FILL_ITEM_COUNT,
+    MINIMUM_FILL_GAPS_TEXT_ITEM_COUNT,
+    addFillGapsAcceptedAnswer,
+    addFillGapsItem,
+    deleteFillGapsAcceptedAnswer,
+    deleteFillGapsItem,
+    isFillGapsItemDeleteDisabled,
+    updateFillGapsAnswer,
+    updateFillGapsTextItem,
+} from "./fillGaps"
+
 export { updateTrueFalseAnswer } from "./trueFalse"

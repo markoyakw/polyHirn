@@ -4,6 +4,7 @@ import MultipleChoiceQuestion from "./MultipleChoiceQuestion/MultipleChoiceQuest
 import TrueFalseQuestion from "./TrueFalseQuestion/TrueFalseQuestion";
 import MatchPairsQuestion from "./MatchPairsQuestion/MatchPairsQuestion";
 import ShortAnswerQuestion from "./ShortAnswerQuestion/ShortAnswerQuestion";
+import FillGapsQuestion from "./FIllGapsQuestion/FillGapsQuestion";
 
 type TQuestionRendererProps = {
     question: TQuestion
@@ -19,6 +20,8 @@ const QuestionRenderer: FC<TQuestionRendererProps> = ({ question }) => {
             return <MatchPairsQuestion question={question} />;
         case "shortAnswer":
             return <ShortAnswerQuestion question={question} />;
+        case "fillGaps":
+            return <FillGapsQuestion question={question} />;
         default:
             throw new Error("Unknown question type");
     }

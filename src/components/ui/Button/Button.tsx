@@ -2,7 +2,7 @@ import clsx from "clsx"
 import type { ButtonHTMLAttributes } from "react"
 import classes from "./Button.module.css"
 
-type ButtonTone = "primary" | "secondary" | "ghost" | "danger"
+type ButtonTone = 1 | 2 | 3 | 4 | "primary" | "ghost"
 type ButtonSize = "s" | "m" | "l"
 type ButtonRadius = "s" | "m" | "l" | "xl" | "none"
 type ButtonHover = "brightness" | "brandColorBg" | "none"
@@ -18,10 +18,12 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 }
 
 const toneClassNameMap: Record<ButtonTone, string> = {
+    1: classes["tone1"],
+    2: classes["tone2"],
+    3: classes["tone3"],
+    4: classes["tone4"],
     primary: classes["primary"],
-    secondary: classes["secondary"],
     ghost: classes["ghost"],
-    danger: classes["danger"],
 }
 
 const hoverClassNameMap: Record<ButtonHover, string | undefined> = {

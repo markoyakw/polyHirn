@@ -1,6 +1,5 @@
 import type {
     TMatchPairsAnswerPair,
-    TMultipleChoiceAnswer,
     TMatchPairsQuestion,
     TMultipleChoiceQuestion,
     TQuestion,
@@ -10,7 +9,9 @@ import type {
     TTrueFalseQuestion,
     TShortAnswerAcceptedAnswer,
     TMatchPairsAnswer,
-    TMatchPairsAnswerPosition,
+    TFillGapsQuestion,
+    TFillGapsFillItem,
+    TFillGapsTextItem,
 } from "../types"
 
 const DEFAULT_DRAFT_QUESTION_ID = "default-question-1"
@@ -30,10 +31,12 @@ const getBlankQuestion = (type: TQuestionType, passedId?: string): TQuestion => 
             return getBlankMatchPairsQuestion(id)
         case "shortAnswer":
             return getBlankShortAnswerQuestion(id)
+        case "fillGaps":
+            return getBlankFillGapsQuestion(id)
     }
 }
 
-const getBlankMultipleChoiceAnswer = (passedId?: TMultipleChoiceAnswer["id"]) => {
+const getBlankMultipleChoiceAnswer = (passedId?: string) => {
     return {
         id: passedId || crypto.randomUUID(),
         answerText: "",
@@ -42,8 +45,8 @@ const getBlankMultipleChoiceAnswer = (passedId?: TMultipleChoiceAnswer["id"]) =>
 }
 
 const getBlankMultipleChoiceQuestion = (
-    id: TMultipleChoiceQuestion["id"],
-    answerIds?: readonly TMultipleChoiceAnswer["id"][]
+    id: string,
+    answerIds?: readonly string[]
 ): TMultipleChoiceQuestion => {
     return {
         id,
@@ -57,7 +60,7 @@ const getBlankMultipleChoiceQuestion = (
 }
 
 const getBlankTrueFalseQuestion = (
-    id: TTrueFalseQuestion["id"]
+    id: string
 ): TTrueFalseQuestion => {
     return {
         id,
@@ -78,7 +81,7 @@ const getBlankMatchPairsAnswer = (
     }
 }
 
-const getBlankMatchPairsPair = (passedId?: TMatchPairsAnswerPair["id"]): TMatchPairsAnswerPair => {
+const getBlankMatchPairsPair = (passedId?: string): TMatchPairsAnswerPair => {
     const id = passedId || crypto.randomUUID()
     return {
         id,
@@ -90,7 +93,7 @@ const getBlankMatchPairsPair = (passedId?: TMatchPairsAnswerPair["id"]): TMatchP
 }
 
 const getBlankMatchPairsQuestion = (
-    id: TMatchPairsQuestion["id"]
+    id: string
 ): TMatchPairsQuestion => {
     return {
         id,
@@ -111,7 +114,7 @@ const getBlankShortAnswer = (passedId?: string): TShortAnswerAcceptedAnswer => {
 }
 
 const getBlankShortAnswerQuestion = (
-    id: TShortAnswerQuestion["id"]
+    id: string
 ): TShortAnswerQuestion => {
     return {
         id,
@@ -120,6 +123,45 @@ const getBlankShortAnswerQuestion = (
         correctAnswerArr: [
             getBlankShortAnswer(),
         ],
+    }
+}
+
+const getBlankFillGapsQuestion = (
+    id: string
+): TFillGapsQuestion => {
+    return {
+        id,
+        type: "fillGaps",
+        questionText: "",
+        items: [
+            getBlankFillGapsTextItem(),
+            getBlankFillGapsFillItem(),
+        ]
+    }
+}
+
+const getBlankFillGapsTextItem = (passedId?: string): TFillGapsTextItem => {
+    return {
+        id: passedId || crypto.randomUUID(),
+        type: "text",
+        text: "",
+    }
+}
+
+const getBlankFillGapsFillItem = (passedId?: string): TFillGapsFillItem => {
+    return {
+        id: passedId || crypto.randomUUID(),
+        type: "fill",
+        correctAnswerArr: [
+            getBlankFillGapsAcceptedAnswer()
+        ],
+    }
+}
+
+const getBlankFillGapsAcceptedAnswer = (): TFillGapsFillItem["correctAnswerArr"][number] => {
+    return {
+        id: crypto.randomUUID(),
+        answer: "",
     }
 }
 
@@ -144,6 +186,10 @@ export {
     getBlankTrueFalseQuestion,
     getBlankMultipleChoiceAnswer,
     getDefaultDraft,
+    getBlankFillGapsAcceptedAnswer,
+    getBlankFillGapsFillItem,
+    getBlankFillGapsQuestion,
+    getBlankFillGapsTextItem,
     getBlankMatchPairsPair,
     getBlankMatchPairsAnswer,
 }
