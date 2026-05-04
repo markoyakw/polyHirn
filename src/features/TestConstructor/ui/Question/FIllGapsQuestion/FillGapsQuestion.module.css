@@ -1,0 +1,71 @@
+.container {
+    position: relative;
+}
+
+.mirror-div {
+    position: absolute;
+    pointer-events: none;
+    color: black
+}
+
+.textarea {
+    padding: 0px;
+    border: none;
+    width: 100%;
+    min-height: fit-content;
+    display: flex;
+    resize: none;
+    color: transparent;
+    caret-color: black;
+}
+
+.highlighted-text {
+    position: relative;
+    border-left: 3px solid var(--color-brand-accent);
+    border-right: 3px solid var(--color-brand-accent);
+    margin-left: -3px;
+    margin-right: -3px;
+    border-radius: 5px;
+    background-color: color-mix(in srgb, var(--color-brand-accent) 20%, rgba(255, 255, 255, 0) 80%);
+}
+
+.highlighted-text button {
+    pointer-events: all;
+    position: absolute;
+    text-wrap: nowrap;
+    background-color: var(--color-brand-accent);
+    left: calc(50% - var(--width) / 2);
+    font-size: var(--font-size-s);
+    padding: var(--spacing-s);
+    line-height: 1;
+    border-radius: var(--radius-m);
+    bottom: calc(100% + 0.5rem + var(--spacing-xs));
+    z-index: 2;
+    border: 1px solid var(--border-dark);
+}
+
+.highlighted-text button:hover {
+    filter: brightness(1.1);
+    cursor: pointer;
+}
+
+.highlighted-text button::before {
+    display: block;
+    content: "";
+    position: absolute;
+    width: 0.7rem;
+    height: 0.7rem;
+    bottom: -0.41rem;
+    left: calc(50% - 0.35rem);
+    rotate: 45deg;
+    background-color: var(--color-brand-accent);
+    z-index: -1;
+    border-right: 1px solid var(--border-dark);
+    border-bottom: 1px solid var(--border-dark)
+}
+
+.question__item {
+    border: 2px solid var(--color-brand-accent);
+    border-radius: 10px;
+    margin: 0px -2px;
+}

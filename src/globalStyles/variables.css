@@ -47,6 +47,8 @@
         0 1px 0 0 var(--box-shadow-border-color),
         0px 1px 0px rgba(0, 0, 0, 0.9);
 
+    --border-dark: rgb(58, 58, 58);
+
     --font-sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
 
     --font-size-xs: 0.75rem;

@@ -4,7 +4,7 @@ import MultipleChoiceQuestion from "./MultipleChoiceQuestion/MultipleChoiceQuest
 import TrueFalseQuestion from "./TrueFalseQuestion/TrueFalseQuestion";
 import MatchPairsQuestion from "./MatchPairsQuestion/MatchPairsQuestion";
 import ShortAnswerQuestion from "./ShortAnswerQuestion/ShortAnswerQuestion";
-import FillGapsQuestion from "./FIllGapsQuestion/FillGapsQuestion";
+import FillGapsQuestion from "./FillGapsQuestion/FillGapsQuestion";
 
 type TQuestionRendererProps = {
     question: TQuestion
