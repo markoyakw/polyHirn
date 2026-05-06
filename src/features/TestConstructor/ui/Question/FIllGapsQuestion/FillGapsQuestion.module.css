@@ -5,10 +5,19 @@
 .mirror-div {
     position: absolute;
     pointer-events: none;
-    color: black
+    color: var(--color-text-primary);
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    padding: var(--spacing-s) var(--spacing-m);
+}
+
+.mirror-div--gaps {
+    color: transparent
 }
 
 .textarea {
+    overflow: hidden;
     padding: 0px;
     border: none;
     width: 100%;
@@ -16,32 +25,37 @@
     display: flex;
     resize: none;
     color: transparent;
-    caret-color: black;
+    caret-color: var(--color-text-primary);
+    overflow-wrap: break-word;
+}
+
+textarea.textarea:focus {
+    filter: none;
+    /* background-color: color-mix(in srgb, var(--color-bg-card-2) 98%, white 2%); */
 }
 
 .highlighted-text {
+    gap: 0px;
     position: relative;
-    border-left: 3px solid var(--color-brand-accent);
-    border-right: 3px solid var(--color-brand-accent);
-    margin-left: -3px;
-    margin-right: -3px;
     border-radius: 5px;
-    background-color: color-mix(in srgb, var(--color-brand-accent) 20%, rgba(255, 255, 255, 0) 80%);
+    background-color: color-mix(in srgb, var(--color-brand-accent) 50%, rgba(255, 255, 255, 0) 50%);
+    padding: 0px;
+    margin: 0px;
 }
 
 .highlighted-text button {
     pointer-events: all;
     position: absolute;
     text-wrap: nowrap;
-    background-color: var(--color-brand-accent);
+    background-color: var(--color-info);
     left: calc(50% - var(--width) / 2);
     font-size: var(--font-size-s);
-    padding: var(--spacing-s);
+    padding: var(--spacing-xs);
     line-height: 1;
     border-radius: var(--radius-m);
     bottom: calc(100% + 0.5rem + var(--spacing-xs));
     z-index: 2;
-    border: 1px solid var(--border-dark);
+    border: 1px solid var(--color-info-dark);
 }
 
 .highlighted-text button:hover {
@@ -53,19 +67,80 @@
     display: block;
     content: "";
     position: absolute;
-    width: 0.7rem;
-    height: 0.7rem;
-    bottom: -0.41rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    bottom: -0.3rem;
     left: calc(50% - 0.35rem);
     rotate: 45deg;
-    background-color: var(--color-brand-accent);
+    background-color: var(--color-info);
     z-index: -1;
-    border-right: 1px solid var(--border-dark);
-    border-bottom: 1px solid var(--border-dark)
+    border-right: 1px solid var(--color-info-dark);
+    border-bottom: 1px solid var(--color-info-dark)
 }
 
-.question__item {
-    border: 2px solid var(--color-brand-accent);
-    border-radius: 10px;
-    margin: 0px -2px;
+.gap {
+    transition:
+        transform var(--duration-normal) var(--ease-spring),
+        background-color var(--duration-fast) linear;
+
+    --opaque-bg-color: color-mix(in srgb, var(--color-brand-accent) 60%, rgba(255, 255, 255, 0) 40%);
+    border-radius: 5px;
+    background-color: var(--opaque-bg-color);
+    border-top: 1px solid var(--color-brand-accent);
+    border-bottom: 2px solid var(--color-brand-accent);
+    z-index: 0;
+    color: var(--color-text-primary);
+    position: relative;
+    pointer-events: auto;
+}
+
+.gap__size-handle:nth-of-type(1) {
+    left: calc(-1 * var(--width) + 4px);
+    border-top-left-radius: var(--radius-s);
+    border-bottom-left-radius: var(--radius-s);
+    padding-right: 4px;
+    top: calc(1lh * 0.05);
+
+    transform-origin: right;
+}
+
+.gap__size-handle:nth-of-type(2) {
+    right: calc(-1 * var(--width) + 4px);
+    border-top-right-radius: var(--radius-s);
+    border-bottom-right-radius: var(--radius-s);
+    padding-left: 4px;
+    bottom: calc(1lh * 0.05);
+
+    transform-origin: left;
+}
+
+.gap__size-handle {
+    transition:
+        transform var(--duration-normal) var(--ease-spring),
+        background-color var(--duration-fast) linear;
+
+    --width: 16px;
+    width: var(--width);
+    position: absolute;
+    display: flex;
+    align-items: center;
+    height: calc(1lh * 0.8);
+    background-color: var(--opaque-bg-color);
+    z-index: -1;
+    cursor: ew-resize;
+
+    transform: scaleX(0);
+}
+
+.gap__size-handle:nth-of-type(2)>* {
+    rotate: 180deg;
+}
+
+.gap:hover,
+.gap:hover .gap__size-handle {
+    background-color: var(--color-brand-accent);
+}
+
+.gap:hover .gap__size-handle {
+    transform: scaleX(1);
 }

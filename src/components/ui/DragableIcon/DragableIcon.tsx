@@ -1,9 +1,14 @@
 import { MdDragIndicator } from "react-icons/md";
 import classes from "./DragableIcon.module.css"
+import { ComponentProps, FC } from "react";
 
-const DragableIcon = () => {
+type TDragableIconProps = ComponentProps<"div">
+
+const DragableIcon: FC<TDragableIconProps> = ({ ref }) => {
     return (
-        <MdDragIndicator className={classes["icon"]} />
+        <div ref={ref}>
+            <MdDragIndicator className={classes["icon"]} />
+        </div>
     );
 };
 

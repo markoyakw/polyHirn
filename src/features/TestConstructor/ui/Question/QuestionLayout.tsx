@@ -1,4 +1,4 @@
-import { type FC } from "react"
+import { useRef, type FC } from "react"
 import type { TQuestion } from "../../model/types"
 import Card from "@/components/ui/Card/Card"
 import Heading from "@/components/ui/Heading/Heading"
@@ -33,13 +33,15 @@ const QuestionLayout: FC<TQuestionProps> = ({
 }) => {
     const questionCount = useStore((state) => state.draft.questionArr.length)
     const removeQuestion = useStore((state) => state.removeQuestion)
+    const handleRef = useRef<HTMLDivElement>(null)
 
     const QuestionHeading = `QUESTION ${index + 1} – ${QUESTION_TYPE_LABELS[question.type].toLocaleUpperCase()}`
     const { ref: sortableRef, isDragging, isDropping } = useSortable({
         id: question.id,
         index,
         collisionDetector: closestCenter,
-        data: question
+        data: question,
+        handle: handleRef
     })
     const effectiveIsDragging = passedIsDragging ?? isDragging
     const effectiveIsDropping = passedIsDropping ?? isDropping
@@ -73,7 +75,7 @@ const QuestionLayout: FC<TQuestionProps> = ({
                             secondaryAxisAlignment="center"
                             gap="s"
                         >
-                            <DragableIcon />
+                            <DragableIcon ref={handleRef} />
                             <Heading as={"h4"}>
                                 {QuestionHeading}
                             </Heading>
