@@ -32,10 +32,10 @@ type TStackOwnProps<T extends ElementType> = {
 
 type TStackProps<T extends ElementType> = TStackOwnProps<T>
 
-type PolymorphicRef<T extends ElementType> = ComponentPropsWithRef<T>["ref"]
+type TPolymorphicRef<T extends ElementType> = ComponentPropsWithRef<T>["ref"]
 
 type TStackComponent = <T extends ElementType = "div">(
-    props: TStackProps<T> & { ref?: PolymorphicRef<T> }
+    props: TStackProps<T> & { ref?: TPolymorphicRef<T> }
 ) => ReactElement
 
 const directionClassNameMap: Record<TStackDirection, string> = {
@@ -116,7 +116,7 @@ const StackInner = <T extends ElementType = "div">({
     alignment,
     secondaryAxisAlignment,
     ...props
-}: TStackProps<T>, ref: PolymorphicRef<T>) => {
+}: TStackProps<T>, ref: TPolymorphicRef<T>) => {
     const Component = as ?? "div"
 
   return (

@@ -10,42 +10,42 @@ import {
 } from "react"
 import classes from "./Card.module.css"
 
-type CardSpacing = "xxs" | "xs" | "s" | "m" | "l" | "xl" | "none"
-type CardRadius = "s" | "m" | "l" | "xl"
-type CardTone = 1 | 2 | 3 | 4
-type CardWidth = "auto" | "full" | "fitContent"
-type CardOverflow = "hidden" | "visible"
+type TCardSpacing = "xxs" | "xs" | "s" | "m" | "l" | "xl" | "none"
+type TCardRadius = "s" | "m" | "l" | "xl"
+type TCardTone = 1 | 2 | 3 | 4
+type TCardWidth = "auto" | "full" | "fitContent"
+type TCardOverflow = "hidden" | "visible"
 
-type CardOwnProps<T extends ElementType> = {
+type TCardOwnProps<T extends ElementType> = {
     as?: T
     children: ReactNode
     className?: string
     style?: CSSProperties
-    tone?: CardTone
-    spacing?: CardSpacing
-    radius?: CardRadius
-    width?: CardWidth
-    overflow?: CardOverflow
+    tone?: TCardTone
+    spacing?: TCardSpacing
+    radius?: TCardRadius
+    width?: TCardWidth
+    overflow?: TCardOverflow
     withBorder?: boolean
 }
 
-type CardProps<T extends ElementType> = CardOwnProps<T> &
-    Omit<ComponentPropsWithoutRef<T>, keyof CardOwnProps<T>>
+type TCardProps<T extends ElementType> = TCardOwnProps<T> &
+    Omit<ComponentPropsWithoutRef<T>, keyof TCardOwnProps<T>>
 
-type PolymorphicRef<T extends ElementType> = ComponentPropsWithRef<T>["ref"]
+type TPolymorphicRef<T extends ElementType> = ComponentPropsWithRef<T>["ref"]
 
-type CardComponent = <T extends ElementType = "div">(
-    props: CardProps<T> & { ref?: PolymorphicRef<T> }
+type TCardComponent = <T extends ElementType = "div">(
+    props: TCardProps<T> & { ref?: TPolymorphicRef<T> }
 ) => ReactElement | null
 
-const toneClassNameMap: Record<CardTone, string> = {
+const toneClassNameMap: Record<TCardTone, string> = {
     1: classes["tone1"],
     2: classes["tone2"],
     3: classes["tone3"],
     4: classes["tone4"],
 }
 
-const spacingClassNameMap: Record<CardSpacing, string> = {
+const spacingClassNameMap: Record<TCardSpacing, string> = {
     xxs: classes["spacingXxs"],
     xs: classes["spacingXs"],
     s: classes["spacingS"],
@@ -55,20 +55,20 @@ const spacingClassNameMap: Record<CardSpacing, string> = {
     none: classes["spacingNone"]
 }
 
-const radiusClassNameMap: Record<CardRadius, string> = {
+const radiusClassNameMap: Record<TCardRadius, string> = {
     s: classes["radiusS"],
     m: classes["radiusM"],
     l: classes["radiusL"],
     xl: classes["radiusXl"],
 }
 
-const widthClassNameMap: Record<CardWidth, string | undefined> = {
+const widthClassNameMap: Record<TCardWidth, string | undefined> = {
     auto: undefined,
     full: classes["widthFull"],
     fitContent: classes["widthFitContent"],
 }
 
-const overflowClassNameMap: Record<CardOverflow, string> = {
+const overflowClassNameMap: Record<TCardOverflow, string> = {
     hidden: classes["overflowHidden"],
     visible: classes["overflowVisible"],
 }
@@ -85,7 +85,7 @@ const CardInner = <T extends ElementType = "div">({
     overflow = "visible",
     withBorder = false,
     ...props
-}: CardProps<T>, ref: PolymorphicRef<T>) => {
+}: TCardProps<T>, ref: TPolymorphicRef<T>) => {
     const Component = as ?? "div"
 
     return (
@@ -109,7 +109,7 @@ const CardInner = <T extends ElementType = "div">({
     )
 }
 
-const Card = forwardRef(CardInner as any) as unknown as CardComponent
+const Card = forwardRef(CardInner as any) as unknown as TCardComponent
 
 export default Card
-export type { CardOverflow, CardProps, CardRadius, CardSpacing, CardTone, CardWidth }
+export type { TCardOverflow, TCardProps, TCardRadius, TCardSpacing, TCardTone, TCardWidth }

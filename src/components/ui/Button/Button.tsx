@@ -2,22 +2,22 @@ import clsx from "clsx"
 import type { ButtonHTMLAttributes } from "react"
 import classes from "./Button.module.css"
 
-type ButtonTone = 1 | 2 | 3 | 4 | "primary" | "ghost"
-type ButtonSize = "s" | "m" | "l"
-type ButtonRadius = "s" | "m" | "l" | "xl" | "none"
-type ButtonHover = "brightness" | "brandColorBg" | "none"
+type TButtonTone = 1 | 2 | 3 | 4 | "primary" | "ghost"
+type TButtonSize = "s" | "m" | "l"
+type TButtonRadius = "s" | "m" | "l" | "xl" | "none"
+type TButtonHover = "brightness" | "brandColorBg" | "none"
 
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+type TButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
     className?: string
-    tone?: ButtonTone
-    buttonSize?: ButtonSize
-    radius?: ButtonRadius
-    hover?: ButtonHover
+    tone?: TButtonTone
+    buttonSize?: TButtonSize
+    radius?: TButtonRadius
+    hover?: TButtonHover
     fullWidth?: boolean
     withBorder?: boolean
 }
 
-const toneClassNameMap: Record<ButtonTone, string> = {
+const toneClassNameMap: Record<TButtonTone, string> = {
     1: classes["tone1"],
     2: classes["tone2"],
     3: classes["tone3"],
@@ -26,19 +26,19 @@ const toneClassNameMap: Record<ButtonTone, string> = {
     ghost: classes["ghost"],
 }
 
-const hoverClassNameMap: Record<ButtonHover, string | undefined> = {
+const hoverClassNameMap: Record<TButtonHover, string | undefined> = {
     brightness: classes["brightness"],
     brandColorBg: classes["brandColorBg"],
     none: undefined
 }
 
-const sizeClassNameMap: Record<ButtonSize, string> = {
+const sizeClassNameMap: Record<TButtonSize, string> = {
     s: classes["s"],
     m: classes["m"],
     l: classes["l"],
 }
 
-const radiusClassNameMap: Record<ButtonRadius, string | undefined> = {
+const radiusClassNameMap: Record<TButtonRadius, string | undefined> = {
     none: undefined,
     s: classes["radiusS"],
     m: classes["radiusM"],
@@ -56,7 +56,7 @@ const Button = ({
     withBorder,
     hover = "brightness",
     ...props
-}: ButtonProps) => {
+}: TButtonProps) => {
     return (
         <button
             type={type}
@@ -76,4 +76,4 @@ const Button = ({
 }
 
 export default Button
-export type { ButtonProps, ButtonRadius, ButtonSize, ButtonTone }
+export type { TButtonProps, TButtonRadius, TButtonSize, TButtonTone }

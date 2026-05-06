@@ -2,11 +2,11 @@ import clsx from "clsx"
 import type { ComponentPropsWithoutRef, FC, ReactNode } from "react"
 import classes from "./Label.module.css"
 
-type LabelProps = ComponentPropsWithoutRef<"label"> & {
+type TLabelProps = ComponentPropsWithoutRef<"label"> & {
     children: ReactNode
 }
 
-const Label: FC<LabelProps> = ({ children, className, ...props }) => {
+const Label: FC<TLabelProps> = ({ children, className, ...props }) => {
     return (
         <label className={clsx(classes["label"], className)} {...props}>
             {children}
@@ -15,4 +15,4 @@ const Label: FC<LabelProps> = ({ children, className, ...props }) => {
 }
 
 export default Label
-export type { LabelProps }
+export type { TLabelProps }

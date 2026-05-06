@@ -11,7 +11,7 @@ import {
 import classes from "./Sticky.module.css"
 import { useSticky } from "./useSticky"
 
-type StickyOwnProps<T extends ElementType> = {
+type TStickyOwnProps<T extends ElementType> = {
     as?: T
     children: ReactNode
     className?: string
@@ -21,10 +21,10 @@ type StickyOwnProps<T extends ElementType> = {
     onStuckChange?: (isStuck: boolean) => any
 }
 
-type StickyProps<T extends ElementType> = StickyOwnProps<T> &
-    Omit<ComponentPropsWithoutRef<T>, keyof StickyOwnProps<T>>
+type TStickyProps<T extends ElementType> = TStickyOwnProps<T> &
+    Omit<ComponentPropsWithoutRef<T>, keyof TStickyOwnProps<T>>
 
-type PolymorphicRef<T extends ElementType> = ComponentPropsWithRef<T>["ref"]
+type TPolymorphicRef<T extends ElementType> = ComponentPropsWithRef<T>["ref"]
 
 const Sticky = <T extends ElementType = "div">({
     as,
@@ -35,7 +35,7 @@ const Sticky = <T extends ElementType = "div">({
     showOnScrollUp = false,
     onStuckChange,
     ...props
-}: StickyProps<T>) => {
+}: TStickyProps<T>) => {
     
     const Component = as ?? "div"
     const { elementRef, isSticky, isVisible } = useSticky({
@@ -46,7 +46,7 @@ const Sticky = <T extends ElementType = "div">({
 
     return (
         <Component
-            ref={elementRef as PolymorphicRef<T>}
+            ref={elementRef as TPolymorphicRef<T>}
             className={clsx(
                 classes["sticky"],
                 (!showOnScrollUp || !isSticky || isVisible) && classes["sticky--visible"],
@@ -65,4 +65,4 @@ const Sticky = <T extends ElementType = "div">({
 }
 
 export default Sticky
-export type { StickyProps }
+export type { TStickyProps }

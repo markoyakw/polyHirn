@@ -3,29 +3,29 @@ import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { createElement } from "react"
 import classes from "./Text.module.css"
 
-type TextTag = "p" | "span" | "label" | "strong" | "em"
-type TextSize = "xs" | "s" | "m" | "l" | "xl"
-type TextColor = "primary" | "secondary" | "disabled" | "link"
-type TextWeight = "regular" | "medium" | "bold"
-type TextLineHeight = "tight" | "normal" | "loose"
-type TextFont = "body" | "heading"
+type TTextTag = "p" | "span" | "label" | "strong" | "em"
+type TTextSize = "xs" | "s" | "m" | "l" | "xl"
+type TTextColor = "primary" | "secondary" | "disabled" | "link"
+type TTextWeight = "regular" | "medium" | "bold"
+type TTextLineHeight = "tight" | "normal" | "loose"
+type TTextFont = "body" | "heading"
 
-type TextOwnProps = {
+type TTextOwnProps = {
     children: ReactNode
     className?: string
-    size?: TextSize
-    color?: TextColor
-    tone?: TextColor
-    weight?: TextWeight
-    lineHeight?: TextLineHeight
-    font?: TextFont
+    size?: TTextSize
+    color?: TTextColor
+    tone?: TTextColor
+    weight?: TTextWeight
+    lineHeight?: TTextLineHeight
+    font?: TTextFont
 }
 
-type TextProps<T extends TextTag> = TextOwnProps & {
+type TTextProps<T extends TTextTag> = TTextOwnProps & {
     as?: T
-} & Omit<ComponentPropsWithoutRef<T>, keyof TextOwnProps | "as">
+} & Omit<ComponentPropsWithoutRef<T>, keyof TTextOwnProps | "as">
 
-const Text = <T extends TextTag = "p">({
+const Text = <T extends TTextTag = "p">({
     as,
     children,
     className,
@@ -36,13 +36,13 @@ const Text = <T extends TextTag = "p">({
     lineHeight = "normal",
     font = "body",
     ...props
-}: TextProps<T>) => {
+}: TTextProps<T>) => {
     const Component = (as ?? "p") as T
     const resolvedColor = tone ?? color
 
     const componentProps = props as Omit<
         ComponentPropsWithoutRef<T>,
-        keyof TextOwnProps | "as"
+        keyof TTextOwnProps | "as"
     >
 
     return createElement(
@@ -64,4 +64,4 @@ const Text = <T extends TextTag = "p">({
 }
 
 export default Text
-export type { TextColor, TextFont, TextLineHeight, TextProps, TextSize, TextTag, TextWeight }
+export type { TTextColor, TTextFont, TTextLineHeight, TTextProps, TTextSize, TTextTag, TTextWeight }

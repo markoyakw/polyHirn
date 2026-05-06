@@ -4,33 +4,33 @@ import classes from "./Input.module.css"
 import Label from "../Label/Label"
 import InputContainer from "./InputContainer"
 
-type InputTone = 1 | 2 | 3 | 4
-type InputSize = "s" | "m" | "l"
-type InputRadius = "s" | "m" | "l" | "xl"
+type TInputTone = 1 | 2 | 3 | 4
+type TInputSize = "s" | "m" | "l"
+type TInputRadius = "s" | "m" | "l" | "xl"
 
-type InputProps = InputHTMLAttributes<HTMLInputElement> & {
+type TInputProps = InputHTMLAttributes<HTMLInputElement> & {
     className?: string
-    tone?: InputTone
-    inputSize?: InputSize
-    radius?: InputRadius
+    tone?: TInputTone
+    inputSize?: TInputSize
+    radius?: TInputRadius
     label?: ReactNode
     fullWidth?:boolean
 }
 
-const toneClassNameMap: Record<InputTone, string> = {
+const toneClassNameMap: Record<TInputTone, string> = {
     1: classes["tone1"],
     2: classes["tone2"],
     3: classes["tone3"],
     4: classes["tone4"],
 }
 
-const sizeClassNameMap: Record<InputSize, string> = {
+const sizeClassNameMap: Record<TInputSize, string> = {
     s: classes["s"],
     m: classes["m"],
     l: classes["l"],
 }
 
-const radiusClassNameMap: Record<InputRadius, string> = {
+const radiusClassNameMap: Record<TInputRadius, string> = {
     s: classes["radiusS"],
     m: classes["radiusM"],
     l: classes["radiusL"],
@@ -47,7 +47,7 @@ const Input = ({
     id,
     fullWidth = false,
     ...props
-}: InputProps) => {
+}: TInputProps) => {
     const generatedId = useId()
     const inputId = id ?? generatedId
 
@@ -74,4 +74,4 @@ const Input = ({
 }
 
 export default Input
-export type { InputProps, InputRadius, InputSize, InputTone }
+export type { TInputProps, TInputRadius, TInputSize, TInputTone }

@@ -1,12 +1,12 @@
 import { forwardRef, ReactNode, useEffect } from "react"
 import { motion, type HTMLMotionProps } from "motion/react"
 
-type AnimatedStackItemProps = {
+type TAnimatedStackItemProps = {
     children: ReactNode
     width?: string
 } & HTMLMotionProps<"div">
 
-const AnimatedStackItem = forwardRef<HTMLDivElement, AnimatedStackItemProps>(
+const AnimatedStackItem = forwardRef<HTMLDivElement, TAnimatedStackItemProps>(
     ({ children, width, style, ...props }, ref) => {
 
         return (

@@ -2,20 +2,20 @@ import clsx from "clsx"
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import classes from "./Heading.module.css"
 
-type HeadingTag = "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
+type THeadingTag = "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
 
-type HeadingProps<T extends HeadingTag = "h2"> = {
+type THeadingProps<T extends THeadingTag = "h2"> = {
     as?: T
     children: ReactNode
     className?: string
 } & Omit<ComponentPropsWithoutRef<T>, "as" | "children" | "className">
 
-const Heading = <T extends HeadingTag = "h2">({
+const Heading = <T extends THeadingTag = "h2">({
     as,
     children,
     className,
     ...props
-}: HeadingProps<T>) => {
+}: THeadingProps<T>) => {
     const Component = as ?? "h2"
 
     return (
@@ -26,4 +26,4 @@ const Heading = <T extends HeadingTag = "h2">({
 }
 
 export default Heading
-export type { HeadingProps, HeadingTag }
+export type { THeadingProps, THeadingTag }
