@@ -1,15 +1,15 @@
 import { FC, useEffect, useRef } from "react";
-import { TRange } from "./FillGapsQuestion";
+import type { TFillGapsGap } from "./utils";
 import classes from "./FillGapsQuestion.module.css"
 
 type TFillGapsHighlightedTextProps = {
-    onInsertGap: (range: TRange) => void,
+    onInsertGap: (gap: TFillGapsGap) => void,
     text: string,
-    range: TRange
+    gap: TFillGapsGap
 }
 
-const FillGapsHighlightedText: FC<TFillGapsHighlightedTextProps> = ({ text, range, onInsertGap }) => {
-    const consistsOfSpacing = !text.slice(...range).trim()
+const FillGapsHighlightedText: FC<TFillGapsHighlightedTextProps> = ({ text, gap, onInsertGap }) => {
+    const consistsOfSpacing = !gap.value.trim()
     const insertGapButtonRef = useRef<HTMLButtonElement>(null)
 
     const assignInsertButtonWidhVariable = () => {
@@ -22,21 +22,21 @@ const FillGapsHighlightedText: FC<TFillGapsHighlightedTextProps> = ({ text, rang
 
     useEffect(() => {
         assignInsertButtonWidhVariable()
-    }, [range])
+    }, [gap])
 
-    if (range[0] === range[1]) return text
+    if (gap.start === gap.end) return text
     return (
         <>
-            {text.slice(0, range[0])}
+            {text.slice(0, gap.start)}
             <span className={classes["highlighted-text"]}>
                 {!consistsOfSpacing &&
-                    <button ref={insertGapButtonRef} onClick={() => onInsertGap(range)}>
+                    <button ref={insertGapButtonRef} onClick={() => onInsertGap(gap)}>
                         insert a gap
                     </button>
                 }
-                {text.slice(...range)}
+                {gap.value}
             </span>
-            {text.slice(range[1], text.length)}
+            {text.slice(gap.end, text.length)}
         </>
     )
 };

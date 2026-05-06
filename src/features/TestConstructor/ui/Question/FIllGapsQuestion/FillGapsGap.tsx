@@ -1,30 +1,62 @@
-import { Dispatch, FC, SetStateAction, useState } from "react"
-import { TRange } from "./FillGapsQuestion"
+import { useEffect, useState, type FC, type PointerEvent } from "react"
+import type { TFillGapsGap, TFillGapsGapResizeSide } from "./utils"
 import { BiSolidLeftArrow } from "react-icons/bi"
 import classes from "./FillGapsQuestion.module.css"
 import clsx from "clsx"
 
 type TFillGapsGapProps = {
-    text: string,
-    range: TRange
-    setRange: Dispatch<SetStateAction<TRange[]>>
-    index: number
+    gap: TFillGapsGap
+    onResizeStart: (
+        gapId: TFillGapsGap["id"],
+        side: TFillGapsGapResizeSide,
+        event: PointerEvent
+    ) => void
 }
 
 const FillGapsGap: FC<TFillGapsGapProps> = ({
-    text,
-    range,
-    setRange,
-    index
+    gap,
+    onResizeStart,
 }) => {
 
+    const handleResizeStart = (
+        side: TFillGapsGapResizeSide,
+        event: PointerEvent
+    ) => {
+        setIsResizing(true)
+        onResizeStart(gap.id, side, event)
+    }
+
+    const [isResizing, setIsResizing] = useState(false)
+
+    useEffect(() => {
+        const handlePointerUp = () => {
+            setIsResizing(false)
+        }
+
+        window.addEventListener("pointerup", handlePointerUp)
+        return () => window.removeEventListener("pointerup", handlePointerUp)
+    }, [])
+
+    const gapClassName = clsx(classes["gap"], isResizing && classes["gap--resizing"])
+
     return (
-        <span className={classes["gap"]} data-range={range}>
-            <span className={classes["gap__size-handle"]} >
+        <span
+            className={gapClassName}
+            data-gap-id={gap.id}
+            data-gap-start={gap.start}
+            data-gap-end={gap.end}
+        >
+            <span
+                className={classes["gap__size-handle"]}
+                onPointerDown={(event) => handleResizeStart("start", event)}
+            >
                 <BiSolidLeftArrow />
             </span>
-            {text.slice(range[0], range[1])}
-            <span className={classes["gap__size-handle"]} >
+            {gap.value}
+            <span
+                className={classes["gap__size-handle"]}
+                onPointerDown={(event) => handleResizeStart("end", event)}
+            >
                 <BiSolidLeftArrow />
             </span>
         </span>
