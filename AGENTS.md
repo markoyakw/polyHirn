@@ -1,24 +1,18 @@
-<!-- BEGIN:nextjs-agent-rules -->
-# This is NOT the Next.js you know
-
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
-<!-- END:nextjs-agent-rules -->
-
 # AGENTS.md
 
 > README for AI coding agents working on **PolyHirn** — a Next.js knowledge testing app for creating, managing, and taking tests.
 
 ---
 
-## Project Overview 
+## Project Overview
 
-**PolyHirn** is a full-stack knowledge-testing platform. Users can create quizzes right away, or build test banks and organize quizzes from them, share quizzes with links and qr-codes, manage when quizz takes time and it's duration. And after it took place, review results with analytics. Built with NextJs 16, React and Typescript. Current versions and all the tools can be checked in ./package.json. 
+**PolyHirn** is a full-stack knowledge-testing platform. Users can create quizzes right away, or build test banks and organize quizzes from them, share quizzes with links and QR-codes, manage when a quiz takes place and its duration. After it concludes, review results with analytics. Built with Next.js 16.2.6, React and TypeScript.
 
 **Key capabilities:**
-- Quizz/questions creating with multiple question types (MCQ, true/false, short answer, connect pairs, essay)
+- Quiz/question creation with multiple question types (MCQ, true/false, short answer, connect pairs, essay)
 - Quiz sessions with timer, progress tracking, and auto-submit
 - Results dashboard with per-test/-question/-student analytics
-- Role-based access: Admin, Test creator, student
+- Role-based access: Admin, Test Creator, Student
 
 ---
 
@@ -26,10 +20,10 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 | Layer | Technology |
 |---|---|
-| Framework | Next.js 15 (App Router, RSC-first) |
+| Framework | Next.js 16.2.6 (App Router, RSC-first) |
 | Language | TypeScript (strict mode) |
-| Styling | React modules, standartised CSS variables in folder ./src/globalStyles/variables.css, always use BEM methodology |
-| Database | MongoDB with mongoose |
+| Styling | CSS Modules + BEM, standardised CSS variables in `./src/globalStyles/variables.css` |
+| Database | MongoDB with Mongoose |
 | Auth | NextAuth.js (Auth.js) |
 | State | TanStack Query (server state + cache) |
 | Forms | React Hook Form |
@@ -41,19 +35,19 @@ This version has breaking changes — APIs, conventions, and file structure may 
 ### Server vs Client Components
 Default to **React Server Components (RSC)**. Add `"use client"` only when you need:
 - `useState`, `useEffect`, or other React hooks
-- Browser APIs (window, document)
+- Browser APIs (`window`, `document`)
 - Event handlers directly on interactive elements
 
-if it's still needed, try to divide the client functional in separate components if it makes sense.
+When `"use client"` is needed, try to isolate it in a small child component rather than marking a large parent as client.
 
 ```tsx
-// Good - server component fetches data directly
+// Good — server component fetches data directly
 export default async function QuizPage({ params }: { params: { id: string } }) {
-  const quiz = await getQuiz(params.id); // direct DB/service call
+  const quiz = await getQuiz(params.id);
   return <QuizView quiz={quiz} />;
 }
 
-// Good - client component handles interactivity only
+// Good — client component handles interactivity only
 "use client";
 export function QuizTimer({ durationSeconds }: { durationSeconds: number }) {
   const [remaining, setRemaining] = useState(durationSeconds);
@@ -61,286 +55,264 @@ export function QuizTimer({ durationSeconds }: { durationSeconds: number }) {
 }
 ```
 
-### CSS and styling
-
-  - Always use BEM methodology if complex classes needed, if it improves readability or always when there is a modifier.
-  - Always use CSS modules for non-global css
-
-BEM (Block Element Modifier) is a naming convention:
-	- Block → standalone component (button)
-	- Element → part of component (__icon)
-	- Modifier → state/variant (--active)
-
-CSS Modules + BEM (React) — Good vs Bad Examples:
+**Never add `"use client"` to layout files.**
 
 ---
 
-GOOD — Clean CSS Modules + BEM-inspired naming
+### CSS and Styling
 
-<!-- good Dropdown.tsx -->
-```tsx
-import styles from "./Dropdown.module.css";
+Always use **CSS Modules** for component-scoped styles. Never write global CSS for component styles.
 
-export function Dropdown() {
-  return (
-    <div className={styles.dropdown}>
-      <button className={styles.button}>
-        Open
-      </button>
+**Always reference `./src/globalStyles/variables.css` before using any value for:**
+- Colors
+- Spacing / sizing
+- Border radius
+- Font sizes / weights
+- Animation durations / easing
+- Shadows or any other design token
 
-      <div className={styles.menu}>
-        <input
-          className={styles.search}
-          placeholder="Search..."
-        />
+If the value you need does not exist as a variable, **do not hardcode it**. Instead, create a new CSS variable in `variables.css` and use it. Notify the developer so they can review the addition.
 
-        <ul className={styles.list}>
-          <li className={styles.item}>Option 1</li>
-          <li className={`${styles.item} ${styles["item--active"]}`}>
-            Option 2
-          </li>
-        </ul>
-      </div>
-    </div>
-  );
-}
-```
-
-good Dropdown.module.css
 ```css
-.dropdown {
-  position: relative;
-}
-
+/* Good — uses existing variable */
 .button {
-  padding: 8px 12px;
-  cursor: pointer;
+  background: var(--color-primary);
+  padding: var(--spacing-md);
 }
 
-.menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: white;
-}
-
-.search {
-  width: 100%;
-  padding: 6px;
-}
-
-.list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.item {
-  padding: 6px 10px;
-}
-
-.item--active {
-  background: #e0e0e0;
+/* Bad — hardcoded values */
+.button {
+  background: #5c6ac4;
+  padding: 12px 16px;
 }
 ```
 
 ---
 
-BAD — Over-BEM + deep nesting inside CSS Modules
+#### BEM in CSS Modules
 
-bad Dropdown.tsx
+Use **BEM methodology** when any of the following is true:
+- A block has multiple distinct internal parts (elements: `__part`)
+- The same element can appear in different visual states or variants (modifiers: `--active`, `--disabled`, `--large`)
+- Multiple elements share a parent block in the same CSS file
+
+Keep class names **flat per component**. Never nest BEM to reflect DOM depth (`dropdown__menu__item__icon` is wrong). The CSS Module provides scoping — BEM only needs to encode *what the part is* and *what state it's in*.
+
 ```tsx
+// Good
 import styles from "./Dropdown.module.css";
 
-export function Dropdown() {
-  return (
-    <div className={styles["dropdown__container"]}>
-      <button className={styles["dropdown__button--primary"]}>
-        Open
-      </button>
-
-      <div className={styles["dropdown__menu__wrapper"]}>
-        <input className={styles["dropdown__menu__search"]} />
-
-        <ul className={styles["dropdown__menu__list"]}>
-          <li className={styles["dropdown__menu__item--active"]}>
-            Option 1
-          </li>
-        </ul>
-      </div>
-    </div>
-  );
-}
+<div className={styles.dropdown}>
+  <button className={styles.button}>Open</button>
+  <ul className={styles.list}>
+    <li className={styles.item}>Option 1</li>
+    <li className={clsx(styles.item, styles["item--active"])}>Option 2</li>
+  </ul>
+</div>
 ```
 
-bad Dropdown.module.css
 ```css
-.dropdown__container {
-  position: relative;
+/* Good — flat, BEM only where meaningful */
+.dropdown { position: relative; }
+.button { padding: var(--spacing-sm) var(--spacing-md); }
+.list { list-style: none; margin: 0; padding: 0; }
+.item { padding: var(--spacing-xs) var(--spacing-sm); }
+.item--active { background: var(--color-surface-hover); }
+```
+
+```tsx
+// Bad — over-BEM, reflects DOM hierarchy instead of state
+<div className={styles["dropdown__container"]}>
+  <ul className={styles["dropdown__menu__list"]}>
+    <li className={styles["dropdown__menu__item--active"]}>...</li>
+  </ul>
+</div>
+```
+
+---
+
+#### clsx
+
+Use `clsx` whenever an element has:
+- A **conditional** class (applied only when some state is true)
+- A **dynamic** class (the class name itself varies at runtime, e.g. `styles[`item--${variant}`]`)
+- **Two or more classes combined** on one element
+
+```tsx
+// Good
+import clsx from "clsx";
+
+<li className={clsx(styles.item, isActive && styles["item--active"])} />
+<div className={clsx(styles.card, styles[`card--${size}`])} />
+
+// Bad — ternary string concat instead of clsx
+<li className={`${styles.item} ${isActive ? styles["item--active"] : ""}`} />
+```
+
+---
+
+### Component Decomposition
+
+#### One responsibility per component
+Each component should do **one thing**: either render a piece of UI, manage a specific piece of state, or orchestrate children — not all at once. A good signal that a component needs splitting: you struggle to name it without using "and".
+
+**Do not over-decompose.** If a sub-piece has no reuse potential, no independent state, and is only a few elements, keeping it inline is fine. Decompose when it makes the parent *meaningfully* simpler or when the child has standalone value.
+
+#### Hook complexity threshold
+If a component uses **more than 3 React hooks** (excluding `useRef` and context reads), extract the stateful logic into a dedicated custom hook. The component should receive values and callbacks from the hook, not manage the logic itself.
+
+```tsx
+// Good — logic lives in a hook
+export function QuizTimer({ durationSeconds }: TQuizTimerProps) {
+  const { remaining, isExpired, pause } = useQuizTimer(durationSeconds);
+  return <TimerDisplay remaining={remaining} onPause={pause} />;
 }
 
-.dropdown__button--primary {
-  padding: 8px 12px;
-}
-
-.dropdown__menu__wrapper {
-  position: absolute;
-}
-
-.dropdown__menu__search {
-  width: 100%;
-}
-
-.dropdown__menu__list {
-  list-style: none;
-}
-
-.dropdown__menu__item--active {
-  background: red;
+// Bad — component owns too much logic
+export function QuizTimer({ durationSeconds }: TQuizTimerProps) {
+  const [remaining, setRemaining] = useState(durationSeconds);
+  const [isPaused, setIsPaused] = useState(false);
+  const intervalRef = useRef<NodeJS.Timeout>();
+  useEffect(() => { /* ... */ }, [remaining, isPaused]);
+  const handlePause = useCallback(() => { /* ... */ }, []);
+  const handleResume = useCallback(() => { /* ... */ }, []);
+  // ... rendering
 }
 ```
----
-Always use clsx when you need to do any complex react classNames manipulations or when an element has 2 or more classes combined. 
----
 
-RULES — CSS Modules + BEM style in React:
+#### Where code lives
 
-✔ Use CSS Modules for scoping (no global conflicts)
-✔ Keep class names flat per component
-✔ Use simple BEM-inspired modifiers (--active, --disabled)
-✔ Treat component = "Block"
-✔ Treat internal parts = "Elements"
-✔ Treat state = "Modifiers"
+| Type | Location |
+|---|---|
+| Reusable UI component (used in 2+ places) | `src/components/` |
+| Feature-specific component (used in 1 place) | `src/features/<feature>/components/` |
+| Reusable hook (`useIsMobile`, `useDebounce`) | `src/hooks/` |
+| Feature-specific hook | `src/features/<feature>/hooks/` |
+| UI logic / calculation used only by one component | File co-located next to that component |
+| Reusable utility / pure function | `src/lib/` or `src/utils/` |
+| Store setter helper / model util | `src/features/<feature>/models/utils/` |
 
-- Avoid deep nesting like: dropdown__menu__item__icon
-- Avoid turning BEM into hierarchy inside React
-
-Best Mental Model:
-
-- Component = Block
-- Internal UI parts = flat elements
-- State = modifiers (--active)
-- CSS Modules = automatic scoping layer (no need for strict BEM rules)
+**Before writing any new function, hook, or UI component — search the corresponding folder for an existing one.** Do not duplicate existing logic. If you find something close but not quite right, ask before modifying it.
 
 ---
 
-## Data Fetching
+### Data Fetching
 - **Server components**: call service functions directly (no fetch wrapper needed)
-- **Client components**: use TanStack Query and create custom reusable hooks when needed`
+- **Client components**: use TanStack Query; extract into a custom `use*` hook if the query is used in more than one place
+
+---
 
 ### Routing & Layouts
+
 Use route groups `(group)` to share layouts without affecting the URL:
 
 ```
 app/
-  (auth)/               # Auth layout (login, register)
-  (app)/                # Authenticated app layout
+  (auth)/
+  (app)/
     dashboard/
     quizzes/
       [quizId]/
-        page.tsx        # Quiz detail
+        page.tsx
         edit/
-          page.tsx      # Edit quiz
+          page.tsx
     tests/
       [testId]/
 ```
 
-But try to write as less code in page.tsx and layout.tsx as possible.
-Move most of the code in components or features folders.
+Keep `page.tsx` and `layout.tsx` files thin — they should import and compose components, not contain logic or JSX beyond a top-level wrapper. Every route segment that fetches data must have a `loading.tsx` and an `error.tsx` (both are client components).
 
 ---
 
 ### Error Handling
-- Route segments must have `error.tsx` (client component) and `loading.tsx`
+- `error.tsx` must be a client component; it receives the error and a reset function
+- `loading.tsx` wraps the segment in a Suspense boundary automatically
 - Throw typed errors from services; catch them at the route boundary
-- Use `notFound()` from `next/navigation` for missing resources and write your own not-found.tsx
-but only if unique one is needed.
+- Use `notFound()` from `next/navigation` for missing resources
+- Write a custom `not-found.tsx` only when the segment needs a unique 404 page
 
 ---
 
 ## Code Style
 
 ### Naming
-- Components: `PascalCase` — `QuizCard.tsx`
-- Hooks: `camelCase` prefixed with `use` — `useQuizSession.ts`
-- Types/interfaces: `PascalCase` prefixed with `T` at start, types preferred over interfaces. Use interfaces only when it's absolutely needed.
-- Constellations that are not supposed to be changed and used to avoid "magic numbers/strings": `SCREAMING_SNAKE_CASE`. Don't name every const like that. Only ones that i've described.
 
-// Good — good naming
-TQuizz, TTrueFalseQuestion
+| Thing | Convention | Example |
+|---|---|---|
+| Components | `PascalCase` | `QuizCard.tsx` |
+| Hooks | `camelCase` prefixed `use` | `useQuizSession.ts` |
+| **Types / type aliases** | **`PascalCase` prefixed `T`** | `TQuizz`, `TTrueFalseQuestion` |
+| Immutable app-level constants | `SCREAMING_SNAKE_CASE` | `MAX_QUIZ_DURATION` |
 
-// Bad - not my convention
-QuizzType, TrueOrFalseQuestion
+**The `T` prefix is required on every type alias and interface, with no exceptions.** This applies whether the type is local to a component, lives in a feature folder, or is a global shared type.
+
+```ts
+// Good
+type TQuizStatus = "draft" | "active" | "closed";
+type TQuizCardProps = { quiz: TQuizz; onSelect: (id: string) => void };
+
+// Bad — missing T prefix
+type QuizStatus = "draft" | "active" | "closed";
+interface QuizCardProps { ... }
+```
+
+`SCREAMING_SNAKE_CASE` is only for values that are immutable, app-level, and exist to avoid magic strings/numbers. Do not use it for every `const`.
 
 ---
 
-### Component structure (order within file)
+### Component Structure (order within file)
+
 1. Imports
 2. Types / interfaces
-3. Constants (if small)
+3. Small local constants (if any)
 4. Component function
 5. Helper functions used only by this component
-6. Named export at bottom (no default exports except page/layout files)
+6. Named export at the bottom (no default exports except `page.tsx` / `layout.tsx` files)
 
 ```tsx
-// ✅ Good component structure
 import { type FC } from "react";
-import { Badge } from "@/components/ui/badge";
-import { type Question } from "@/types";
+import { type TQuestion } from "@/types";
+import styles from "./QuestionCard.module.css";
 
-interface QuestionCardProps {
-  question: Question;
+type TQuestionCardProps = {
+  question: TQuestion;
   index: number;
   onSelect?: (id: string) => void;
-}
+};
 
-export const QuestionCard: FC<QuestionCardProps> = ({ question, index, onSelect }) => {
+export const QuestionCard: FC<TQuestionCardProps> = ({ question, index, onSelect }) => {
   return (
-    <div className="rounded-lg border p-4">
-      <span className="text-sm text-muted-foreground">Q{index + 1}</span>
-      <p className="mt-1 font-medium">{question.text}</p>
-      <Badge variant="secondary">{question.type}</Badge>
+    <div className={styles.card}>
+      <span className={styles.index}>Q{index + 1}</span>
+      <p className={styles.text}>{question.text}</p>
     </div>
   );
 };
 ```
 
-### TypeScript
-- Strict mode is enabled — no `any`, no type assertions without a comment explaining why
-- Prefer `type` imports: `import { type Foo } from "..."`
-- Co-locate feature-specific types with the feature; global shared types go in `src/types/`
-- Use discriminated unions for question types.
-
 ---
 
-## Do / Don't
-
-### Do
-- Default to RSC; add `"use client"` as late as possible
-- Keep page files thin — extract logic to services and components
-- Use `loading.tsx` and `error.tsx` for every route segment that fetches data
-- Use `notFound()` for 404 cases — never return `null` from a page silently
-
-### Don't
-- Don't add `"use client"` to layout files
-- Don't use `useEffect` for data fetching — use TanStack Query
-- Don't hard-code colours, borders, spacings etc. - first check ./src/globalStyles/variables.css
-- Don't install new heavy dependencies without asking first
-- Don't commit `.env` files or secrets
+### TypeScript
+- Strict mode is enabled — no `any`, no type assertions without an explanatory comment
+- Prefer `type` imports: `import { type TFoo } from "..."`
+- Co-locate feature-specific types with the feature; global shared types go in `src/types/`
+- Use discriminated unions for question types
 
 ---
 
 ## Safety & Permissions
 
-**Do without asking:**
+### Do without asking
 - Read files, list directories
 - Create new components, hooks, services, schemas
+- Add new CSS variables to `variables.css` (but notify the developer)
 - Update `AGENTS.md` with new learnings
 
-**Ask before:**
+### Ask before doing
 - Installing or removing packages (`npm add` / `npm remove`)
-- Modifying `next.config.ts`, or auth configuration
+- Modifying `next.config.ts` or auth configuration
+- Rewriting, deleting, or significantly restructuring a component or file that was not part of the current task
 - Running `git push` or creating pull requests
-- Making anything that can change the project drastically or can need human responsibility or desicions.
 
----
+### Unsolicited changes
+Do **not** rewrite components, rename files, delete code, or add features that were not asked for. If during your work you find a bug, a problematic pattern, or something that looks incorrect, **stop and report it** with a clear description and suggested fix, then wait for approval before touching it.
