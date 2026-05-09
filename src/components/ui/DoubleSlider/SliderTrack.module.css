@@ -1,0 +1,15 @@
+.track {
+  position: relative;
+  height: var(--slider-track-height);
+  background: var(--slider-track-color);
+  border-radius: calc(var(--slider-track-height) / 2);
+  margin: var(--slider-track-margin-y) 0 1.5rem;
+}
+
+.fill {
+  position: absolute;
+  height: 100%;
+  background: var(--slider-fill-color);
+  border-radius: calc(var(--slider-track-height) / 2);
+  pointer-events: none;
+}

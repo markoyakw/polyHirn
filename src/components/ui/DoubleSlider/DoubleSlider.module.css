@@ -1,0 +1,12 @@
+.root {
+  padding: var(--slider-padding-y) var(--slider-padding-x);
+}
+
+.header {
+  font-size: var(--slider-header-font-size);
+  color: var(--slider-header-color);
+  text-transform: uppercase;
+  letter-spacing: var(--slider-header-letter-spacing);
+  margin-bottom: 0.5rem;
+  user-select: none;
+}

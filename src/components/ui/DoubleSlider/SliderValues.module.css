@@ -1,0 +1,17 @@
+.values {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.edge {
+  font-size: var(--slider-label-font-size);
+  color: var(--slider-meta-color);
+}
+
+.range {
+  font-size: var(--slider-range-font-size);
+  font-weight: 500;
+  color: var(--slider-range-color);
+}
