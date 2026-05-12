@@ -1,6 +1,7 @@
 import { CSSProperties } from "react"
 import { IconType } from "react-icons"
 import { BiSolidBank } from "react-icons/bi"
+import { BsGraphUp } from "react-icons/bs"
 import { CgAlarm, CgMediaLive, CgNotes } from "react-icons/cg"
 import { FaCirclePlus, FaRegCalendarDays } from "react-icons/fa6"
 import { GoProjectTemplate } from "react-icons/go"
@@ -34,6 +35,18 @@ export type TNavBarItem = TNavLink | TNavLinkGroup
 const BADGE_COLOR_SUCCESS = "var(--color-success)"
 
 export const NAV_LINKS: TNavBarItem[] = [
+    {
+        type: "group",
+        groupName: "Global",
+        links: [
+            {
+                type: "link",
+                text: "Dashboard",
+                icon: BsGraphUp,
+                badge: null,
+                href: "/dashboard",
+            }]
+    },
     {
         type: "group",
         groupName: "Tests",

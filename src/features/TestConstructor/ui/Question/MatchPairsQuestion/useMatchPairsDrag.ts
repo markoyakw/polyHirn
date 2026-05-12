@@ -1,4 +1,4 @@
-import type { TMatchPairsQuestion } from "@/features/TestConstructor/model/types"
+import type { TMatchPairsQuestion } from "@/types/test"
 import { reorderMatchPairsAnswers } from "@/features/TestConstructor/model/utils/update"
 import { isSortable } from "@dnd-kit/react/sortable"
 import type { DragEndEvent, DragStartEvent } from "@dnd-kit/react"

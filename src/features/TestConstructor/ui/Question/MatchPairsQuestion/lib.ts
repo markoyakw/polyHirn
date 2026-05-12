@@ -2,7 +2,7 @@ import type {
     TMatchPairsAnswer,
     TMatchPairsAnswerPosition,
     TMatchPairsQuestion,
-} from "@/features/TestConstructor/model/types"
+} from "@/types/test"
 import getLetterByIndex from "@/utils/getLetterByIndex"
 
 type TDraggedMatchPairsAnswer = {

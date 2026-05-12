@@ -1,4 +1,4 @@
-import { TQuestion } from "../types"
+import type { TQuestion } from "@/types/test"
 
 const reorderQuestionArr = (
     questionArr: TQuestion[],

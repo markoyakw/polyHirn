@@ -1,7 +1,7 @@
-import type { TQuestion, TQuestionType, TTest } from "@/features/TestConstructor/model/types"
+import type { TQuestion, TQuestionType, TTestDraft } from "@/types/test"
 
 type TestTestConstructorSlice = {
-    draft: TTest
+    draft: TTestDraft
     setTitle: (title: string) => void
     addQuestion: (questionType: TQuestionType) => void
     removeQuestion: (id: string) => void

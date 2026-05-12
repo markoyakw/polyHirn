@@ -1,7 +1,7 @@
 import Card from "@/components/ui/Card/Card";
 import Input from "@/components/ui/Input/Input";
 import { Stack } from "@/components/ui/Stack/Stack";
-import { TMultipleChoiceAnswer } from "@/features/TestConstructor/model/types";
+import type { TMultipleChoiceAnswer } from "@/types/test";
 import { FC } from "react"
 import getLetterByIndex from "@/utils/getLetterByIndex";
 import Checkbox from "@/components/ui/Checkbox/Checkbox";

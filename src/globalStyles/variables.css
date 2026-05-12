@@ -3,7 +3,7 @@
     /* buttons, links, accents etc. */
     --color-brand-secondary: #D9D9D9;
     /* secondary brand color - gradients, hovers etcc. */
-    --color-brand-accent: #10B981;
+    --color-brand-accent: #694ea8;
     /* contrast - notifications etc. */
 
     --color-bg-page: #000000;
@@ -24,7 +24,7 @@
     --color-text-link: #4F46E5;
 
     --color-success: #10B981;
-    --color-success-bg: #ECFDF5;
+    --color-success-bg: rgba(10, 119, 83, 0.858);
     --color-warning: #F59E0B;
     --color-warning-bg: #FFFBEB;
     --color-error: #EF4444;

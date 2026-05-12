@@ -3,7 +3,7 @@ import type {
     TQuestion,
     TShortAnswerAcceptedAnswer,
     TShortAnswerQuestion,
-} from "../../types"
+} from "@/types/test"
 import { getBlankShortAnswer } from "../blankTestFactories"
 
 const MINIMUM_SHORT_ANSWER_COUNT = 1

@@ -1,6 +1,6 @@
 import Card from "@/components/ui/Card/Card";
 import { Stack } from "@/components/ui/Stack/Stack";
-import { TMatchPairsAnswerPair, TMatchPairsAnswerPosition } from "@/features/TestConstructor/model/types";
+import type { TMatchPairsAnswerPair, TMatchPairsAnswerPosition } from "@/types/test";
 import { FC } from "react";
 import classes from "./MatchPairsQuestion.module.css"
 import IconButton, { ICON_BUTTON_ICON_MAP } from "@/components/ui/IconButton/IconButton";

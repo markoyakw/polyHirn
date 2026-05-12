@@ -1,5 +1,5 @@
 import { useRef, type FC } from "react"
-import type { TQuestion } from "../../model/types"
+import type { TQuestion } from "@/types/test"
 import Card from "@/components/ui/Card/Card"
 import Heading from "@/components/ui/Heading/Heading"
 import { Stack } from "@/components/ui/Stack/Stack"

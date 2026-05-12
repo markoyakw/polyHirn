@@ -1,5 +1,5 @@
 import type { FC } from "react"
-import type { TShortAnswerQuestion } from "../../../model/types"
+import type { TShortAnswerQuestion } from "@/types/test"
 import Input from "@/components/ui/Input/Input"
 import { Stack } from "@/components/ui/Stack/Stack"
 import Button from "@/components/ui/Button/Button"

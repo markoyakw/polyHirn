@@ -1,4 +1,4 @@
-import type { TFillGapsQuestion } from "@/features/TestConstructor/model/types";
+import type { TFillGapsQuestion } from "@/types/test";
 import type { FC } from "react";
 import classes from "./FillGapsQuestion.module.css"
 import clsx from "clsx";

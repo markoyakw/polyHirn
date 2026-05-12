@@ -1,0 +1,12 @@
+.dashboard {
+    padding: var(--spacing-s);
+}
+
+.dashboard:focus {
+    outline: none;
+}
+
+.chart-card {
+    width: fit-content;
+    min-width: 0;
+}

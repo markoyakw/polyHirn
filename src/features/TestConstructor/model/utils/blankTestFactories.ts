@@ -5,20 +5,22 @@ import type {
     TQuestion,
     TQuestionType,
     TShortAnswerQuestion,
-    TTest,
+    TTestDraft,
     TTrueFalseQuestion,
     TShortAnswerAcceptedAnswer,
     TMatchPairsAnswer,
     TFillGapsQuestion,
     TFillGapsFillItem,
     TFillGapsTextItem,
-} from "../types"
+} from "@/types/test"
 
 const DEFAULT_DRAFT_QUESTION_ID = "default-question-1"
 const DEFAULT_DRAFT_ANSWER_IDS = [
     "default-answer-1",
     "default-answer-2",
 ] as const
+const DEFAULT_POINTS_PER_ANSWER = 1
+const DEFAULT_POINTS_PER_QUESTION = 1
 
 const getBlankQuestion = (type: TQuestionType, passedId?: string): TQuestion => {
     const id = passedId || crypto.randomUUID()
@@ -52,6 +54,7 @@ const getBlankMultipleChoiceQuestion = (
         id,
         type: "multipleChoice",
         questionText: "",
+        pointsPerAnswer: DEFAULT_POINTS_PER_ANSWER,
         answerArr: [
             getBlankMultipleChoiceAnswer(answerIds?.[0]),
             getBlankMultipleChoiceAnswer(answerIds?.[1]),
@@ -66,7 +69,8 @@ const getBlankTrueFalseQuestion = (
         id,
         type: "trueFalse",
         questionText: "",
-        correctAnswer: null,
+        pointsPerQuestion: DEFAULT_POINTS_PER_QUESTION,
+        answer: null,
     }
 }
 
@@ -99,6 +103,7 @@ const getBlankMatchPairsQuestion = (
         id,
         type: "matchPairs",
         questionText: "",
+        pointsPerAnswer: DEFAULT_POINTS_PER_ANSWER,
         pairArr: [
             getBlankMatchPairsPair(),
             getBlankMatchPairsPair()
@@ -120,6 +125,7 @@ const getBlankShortAnswerQuestion = (
         id,
         type: "shortAnswer",
         questionText: "",
+        pointsPerQuestion: DEFAULT_POINTS_PER_QUESTION,
         correctAnswerArr: [
             getBlankShortAnswer(),
         ],
@@ -133,6 +139,7 @@ const getBlankFillGapsQuestion = (
         id,
         type: "fillGaps",
         questionText: "",
+        pointsPerAnswer: DEFAULT_POINTS_PER_ANSWER,
         items: [
             getBlankFillGapsTextItem(),
             getBlankFillGapsFillItem(),
@@ -166,9 +173,9 @@ const getBlankFillGapsAcceptedAnswer = (): TFillGapsFillItem["correctAnswerArr"]
 }
 
 
-const getDefaultDraft: () => TTest = () => ({
+const getDefaultDraft: () => TTestDraft = () => ({
     name: "",
-    passMark: 50,
+    passPoints: 50,
     questionArr: [
         getBlankMultipleChoiceQuestion(
             DEFAULT_DRAFT_QUESTION_ID,

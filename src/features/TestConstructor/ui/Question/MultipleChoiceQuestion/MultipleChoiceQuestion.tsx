@@ -1,5 +1,5 @@
 import { type FC } from "react"
-import type { TMultipleChoiceAnswer, TMultipleChoiceQuestion } from "../../../model/types"
+import type { TMultipleChoiceAnswer, TMultipleChoiceQuestion } from "@/types/test"
 import Input from "@/components/ui/Input/Input"
 import { useStore } from "@/store"
 import MultipleChoiceAnswer from "./MultipleChoiceAnswer"

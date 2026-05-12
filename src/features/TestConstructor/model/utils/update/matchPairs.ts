@@ -3,7 +3,7 @@ import type {
     TMatchPairsAnswerPosition,
     TMatchPairsQuestion,
     TQuestion,
-} from "../../types"
+} from "@/types/test"
 import { getBlankMatchPairsPair } from "../blankTestFactories"
 
 const MINIMUM_MATCH_PAIRS_PAIR_COUNT = 2

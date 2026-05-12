@@ -1,4 +1,4 @@
-import type { TQuestionType } from "@/features/TestConstructor/model/types"
+import type { TQuestionType } from "@/types/test"
 import {
     getBlankQuestion,
     getDefaultDraft

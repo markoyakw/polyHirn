@@ -1,5 +1,5 @@
 import type { FC } from "react"
-import type { TTrueFalseQuestion } from "../../../model/types"
+import type { TTrueFalseQuestion } from "@/types/test"
 import Input from "@/components/ui/Input/Input"
 import { Stack } from "@/components/ui/Stack/Stack"
 import Button from "@/components/ui/Button/Button"
@@ -14,7 +14,7 @@ const TrueFalseQuestion: FC<TTrueFalseQuestionProps> = ({ question }) => {
     const updateQuestion = useStore((state) => state.updateQuestion)
     const updateQuestionFn = useStore((state) => state.updateQuestionFn)
 
-    const handleCorrectAnswerChange = (newValue: TTrueFalseQuestion["correctAnswer"]) => {
+    const handleCorrectAnswerChange = (newValue: TTrueFalseQuestion["answer"]) => {
         updateQuestionFn(question.id, updateTrueFalseAnswer(newValue))
     }
 
@@ -31,14 +31,14 @@ const TrueFalseQuestion: FC<TTrueFalseQuestionProps> = ({ question }) => {
 
             <Stack direction="row" gap="s">
                 <Button
-                    tone={question.correctAnswer === true ? "primary" : 2}
+                    tone={question.answer === true ? "primary" : 2}
                     onClick={() => handleCorrectAnswerChange(true)}
                     fullWidth
                 >
                     true
                 </Button>
                 <Button
-                    tone={question.correctAnswer === false ? "primary" : 2}
+                    tone={question.answer === false ? "primary" : 2}
                     onClick={() => handleCorrectAnswerChange(false)}
                     fullWidth
                 >

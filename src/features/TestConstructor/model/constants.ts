@@ -1,4 +1,4 @@
-import { TQuestionType } from "./types"
+import type { TQuestionType } from "@/types/test"
 
 const QUESTION_TYPE_LABELS: Record<TQuestionType, string> = {
     matchPairs: "Match pairs",

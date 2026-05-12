@@ -4,7 +4,7 @@ import type {
     TFillGapsItem,
     TFillGapsQuestion,
     TQuestion,
-} from "../../types"
+} from "@/types/test"
 import {
     getBlankFillGapsAcceptedAnswer,
     getBlankFillGapsFillItem,

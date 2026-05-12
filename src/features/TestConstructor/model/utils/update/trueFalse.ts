@@ -1,7 +1,7 @@
 import getWrongQuestionTypeError from "@/utils/getWrongQuestionTypeError"
-import type { TQuestion, TTrueFalseQuestion } from "../../types"
+import type { TQuestion, TTrueFalseQuestion } from "@/types/test"
 
-const updateTrueFalseAnswer = (newValue: TTrueFalseQuestion["correctAnswer"]) =>
+const updateTrueFalseAnswer = (newValue: TTrueFalseQuestion["answer"]) =>
     (question: TQuestion): TTrueFalseQuestion => {
         if (question.type !== "trueFalse") {
             throw new Error(getWrongQuestionTypeError(question.type, "trueFalse"))
@@ -9,7 +9,7 @@ const updateTrueFalseAnswer = (newValue: TTrueFalseQuestion["correctAnswer"]) =>
 
         return {
             ...question,
-            correctAnswer: newValue,
+            answer: newValue,
         }
     }
 

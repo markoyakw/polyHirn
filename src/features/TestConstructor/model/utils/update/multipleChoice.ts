@@ -3,7 +3,7 @@ import type {
     TMultipleChoiceAnswer,
     TMultipleChoiceQuestion,
     TQuestion,
-} from "../../types"
+} from "@/types/test"
 import { getBlankMultipleChoiceAnswer } from "../blankTestFactories"
 
 const MINIMUM_MULTIPLE_CHOICE_ANSWER_COUNT = 2

@@ -1,5 +1,5 @@
 import type { FC } from "react"
-import type { TMatchPairsAnswerPosition, TMatchPairsQuestion } from "../../../model/types"
+import type { TMatchPairsAnswerPosition, TMatchPairsQuestion } from "@/types/test"
 import Input from "@/components/ui/Input/Input"
 import { useStore } from "@/store"
 import MatchPairsAnswerPair from "./MatchPairsAnswerPair"

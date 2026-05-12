@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { TQuestion } from "../../model/types";
+import type { TQuestion } from "@/types/test";
 import MultipleChoiceQuestion from "./MultipleChoiceQuestion/MultipleChoiceQuestion";
 import TrueFalseQuestion from "./TrueFalseQuestion/TrueFalseQuestion";
 import MatchPairsQuestion from "./MatchPairsQuestion/MatchPairsQuestion";

@@ -6,7 +6,7 @@ import { Stack } from "@/components/ui/Stack/Stack"
 import type {
     TMatchPairsAnswer,
     TMatchPairsAnswerPosition,
-} from "@/features/TestConstructor/model/types"
+} from "@/types/test"
 import type { FC } from "react"
 import classes from "./MatchPairsQuestion.module.css"
 import { useSortable } from "@dnd-kit/react/sortable"
