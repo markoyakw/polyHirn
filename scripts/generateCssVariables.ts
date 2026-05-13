@@ -2,7 +2,7 @@
 // CSS generation helpers
 // Used by both layout.tsx (runtime) and there (build time)
 
-import { baseTokens, darkTokens, lightTokens, type TokenValue } from "./variableTokens";
+import { baseTokens, darkTokens, lightTokens, type TokenValue } from "../src/globalStyles/variableTokens";
 
 /** Converts a flat token map to CSS custom property declarations */
 function tokensToCssVars(tokens: Record<string, TokenValue>): string {
