@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Manrope, Inter } from "next/font/google";
 import "@/globalStyles/reset.css"
-import "@/globalStyles/variables.css"
-import "@/globalStyles/global.css"
 import NavBar from "@/components/layout/nav/NavBar/NavBar";
 import classes from "./layout.module.css"
 import clsx from "clsx";
 import { Stack } from "@/components/ui/Stack/Stack";
+import "@/globalStyles/global.css"
+import "@/globalStyles/variables.generated.css"
 
 const manrope = Manrope({
   variable: "--font-main",
@@ -28,8 +28,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
-    <html lang="en" className={clsx(manrope.variable, inter.variable)}>
+    <html lang="en" className={clsx(manrope.variable, inter.variable)} suppressHydrationWarning>
       <Stack as="body" padding="m" gap="m" direction="row" className={classes["layout"]}>
         <NavBar />
         <main>
