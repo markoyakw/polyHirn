@@ -1,0 +1,91 @@
+.theme-button {
+    position: relative;
+    margin: 0px;
+
+    --spacing: var(--spacing-xs);
+    --icon-size: calc(var(--container-size) - var(--spacing) * 2);
+    --container-size: 35px;
+
+    width: var(--container-size);
+    height: var(--container-size);
+    cursor: pointer;
+    overflow: hidden;
+
+}
+
+/* different hover speeds and filter values because of different color
+preception in dark and light 
+===================*/
+.theme-button--light {
+    transition: filter var(--duration-slow) var(--ease-default);
+}
+
+.theme-button--light:hover {
+    filter: brightness(1.1);
+}
+
+.theme-button--dark {
+    transition: filter var(--duration-normal) var(--ease-default);
+}
+/* ============== */
+
+.theme-button--dark:hover {
+    filter: brightness(2);
+}
+
+.theme-button--light .theme-icon--light {
+    animation: disappear var(--duration-normal) var(--ease-spring) forwards;
+}
+
+.theme-button--light .theme-icon--dark {
+    animation: appear var(--duration-normal) var(--ease-spring) forwards;
+}
+
+.theme-button--dark .theme-icon--dark {
+    animation: disappear var(--duration-normal) var(--ease-spring) forwards;
+}
+
+.theme-button--dark .theme-icon--light {
+    animation: appear var(--duration-normal) var(--ease-spring) forwards;
+}
+
+.theme-button:hover .theme-icon {
+    rotate: -15deg;
+    scale: 1.1;
+}
+
+.theme-icon {
+    position: absolute;
+    left: var(--spacing);
+    width: var(--icon-size);
+    height: var(--icon-size);
+
+    transition: top var(--duration-normal) var(--ease-default),
+        rotate var(--duration-normal) var(--ease-spring),
+        scale var(--duration-normal) var(--ease-spring);
+}
+
+@keyframes appear {
+    0% {
+        top: calc(-1 * (var(--spacing-s) + var(--container-size)))
+    }
+
+    100% {
+        top: var(--spacing);
+    }
+}
+
+@keyframes disappear {
+    0% {
+        top: var(--spacing);
+    }
+
+    99% {
+        top: calc(var(--spacing-s) + var(--container-size));
+        animation-timing-function: steps(1, end);
+    }
+
+    100% {
+        top: calc(-1 * var(--container-size))
+    }
+}

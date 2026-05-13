@@ -7,6 +7,9 @@ import clsx from "clsx";
 import { Stack } from "@/components/ui/Stack/Stack";
 import "@/globalStyles/global.css"
 import "@/globalStyles/variables.generated.css"
+import { ThemeProvider } from "next-themes";
+import Header from "@/components/layout/header/Header";
+import Card from "@/components/ui/Card/Card";
 
 const manrope = Manrope({
   variable: "--font-main",
@@ -31,13 +34,18 @@ export default function RootLayout({
 
   return (
     <html lang="en" className={clsx(manrope.variable, inter.variable)} suppressHydrationWarning>
-      <Stack as="body" padding="m" gap="m" direction="row" className={classes["layout"]}>
-        <NavBar />
-        <main>
-          {children}
-        </main>
-        <div id="portal-root" />
-      </Stack>
-    </html>
+      <Card as="body" spacing="s" className={classes["layout"]}>
+        <ThemeProvider>
+          <Header />
+          <Stack padding="m" gap="m" direction="row">
+            <NavBar />
+            <main>
+              {children}
+            </main>
+          </Stack>
+          <div id="portal-root" />
+        </ThemeProvider>
+      </Card>
+    </html >
   );
 }

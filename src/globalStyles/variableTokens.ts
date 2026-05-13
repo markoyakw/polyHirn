@@ -177,22 +177,30 @@ export const darkTokens: ThemeTokens = {
 export const lightTokens: ThemeTokens = {
   ...darkTokens,
 
-  'color-bg-page':    '#0F172A',  // was: #000000
-  'color-bg-card-1':  '#1E293B',  // was: #1C1B1B
-  'color-bg-subtle':  '#334155',  // was: #F3F4F6
+  'color-brand-primary':   '#1A1917',
+  'color-brand-secondary': '#3D3B34',
+  'color-brand-accent':    '#FEB95F',
 
-  'color-text-primary':   '#F1F5F9',  // was: #E7E5E5
-  'color-text-secondary': '#94A3B8',  // was: #ACABAB
-  'color-text-disabled':  '#475569',  // was: #9CA3AF
+  'color-bg-page':    '#F2EEF9',
+  'color-bg-card-1':  '#EAE4F4',
+  'color-bg-card-2':  '#E2DBEE',
+  'color-bg-card-3':  '#DAD2E8',
+  'color-bg-card-4':  '#D2C9E2',
+  'color-bg-subtle':  '#E5DFF1',
+  'color-bg-overlay': 'rgba(0, 0, 0, 0.45)',
 
-  'border-dark': '#334155',  // was: rgb(58, 58, 58)
+  'color-text-primary':   '#1A1917',
+  'color-text-secondary': '#4A4840',
+  'color-text-disabled':  '#8A8780',
+  'color-text-link':      '#4F46E5',
 
-  'box-shadow-border-color': 'rgba(229, 229, 229, 0.1)',
+  'border-dark':             '#C8C6B4',
+  'box-shadow-border-color': 'rgba(80, 74, 50, 0.146)',
   'box-shadow': [
     '0 0 0 1px var(--box-shadow-border-color)',
-    '0px 1px 3px rgba(0, 0, 0, 0.1)',
-    '0px 2px 4px rgba(0, 0, 0, 0.06)',
+    '0px 1px 3px rgba(80, 74, 50, 0.114)',
+    '0px 2px 7px rgba(80, 74, 50, 0.112)',
   ].join(', '),
   'box-shadow-border': '0 0 0 1px var(--box-shadow-border-color)',
-  'box-shadow-down': '0 1px 0 0 var(--box-shadow-border-color)',
+  'box-shadow-down':   '0 1px 0 0 var(--box-shadow-border-color)',
 };

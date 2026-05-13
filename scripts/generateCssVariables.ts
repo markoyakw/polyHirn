@@ -27,6 +27,6 @@ export default function generateCssVariables(): string {
 
     return [
         `:root {\n${root}\n}`,
-        `html.light {\n${light}\n}`,
+        `[data-theme="light"] {\n${light}\n}`,
     ].join('\n\n');
 }

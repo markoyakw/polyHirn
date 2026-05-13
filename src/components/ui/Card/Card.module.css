@@ -2,6 +2,7 @@
     background-color: var(--card-background);
     color: var(--color-text-primary);
     border-radius: var(--card-radius);
+    transition: background-color var(--duration-slow) var(--ease-default);
 }
 
 .overflowHidden {
@@ -24,7 +25,7 @@
     width: fit-content;
 }
 
-.spacingNone{
+.spacingNone {
     padding: 0px;
 }
 

@@ -28,7 +28,7 @@ writeTokens()
 const nextConfig: NextConfig = {
   turbopack: {},
   reactCompiler: true,
-  reactStrictMode: false,
+  reactStrictMode: true,
 }
 
 export default nextConfig
