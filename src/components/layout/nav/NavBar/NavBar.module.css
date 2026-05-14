@@ -25,7 +25,7 @@
 }
 
 .link {
-    transition: background-color var(--duration-normal) ease;
+    transition: background-color var(--duration-m) ease;
 }
 
 .link:hover {

@@ -20,9 +20,9 @@
     line-height: var(--line-height-normal);
     padding: var(--input-padding-y) var(--input-padding-x);
     transition:
-        border-color var(--duration-normal) var(--ease-default),
-        box-shadow var(--duration-normal) var(--ease-default),
-        background-color var(--duration-slow) var(--ease-default);
+        border-color var(--duration-m) var(--ease-default),
+        box-shadow var(--duration-m) var(--ease-default),
+        background-color var(--duration-l) var(--ease-default);
 }
 
 .input::placeholder {

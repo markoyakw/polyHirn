@@ -9,11 +9,11 @@
     padding: var(--button-padding-y) var(--button-padding-x);
     cursor: pointer;
     transition:
-        transform var(--duration-fast) var(--ease-default),
-        filter var(--duration-normal) var(--ease-default),
-        background-color var(--duration-normal) var(--ease-default),
-        color var(--duration-normal) var(--ease-default),
-        box-shadow var(--duration-normal) var(--ease-default);
+        transform var(--duration-s) var(--ease-default),
+        filter var(--duration-m) var(--ease-default),
+        background-color var(--duration-m) var(--ease-default),
+        color var(--duration-m) var(--ease-default),
+        box-shadow var(--duration-m) var(--ease-default);
 }
 
 .button.brightness:hover:not(:disabled) {

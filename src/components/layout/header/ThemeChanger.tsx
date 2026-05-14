@@ -9,7 +9,7 @@ import clsx from "clsx";
 const ThemeChanger = () => {
 
     const isClient = useIsClient()
-    const { theme, setTheme } = useTheme()
+    const { resolvedTheme, setTheme } = useTheme()
 
     if (!isClient) return null
 
@@ -30,8 +30,8 @@ const ThemeChanger = () => {
 
     const buttonClassName = clsx(
         classes["theme-button"],
-        theme === "light" && classes["theme-button--light"],
-        theme === "dark" && classes["theme-button--dark"]
+        resolvedTheme === "light" && classes["theme-button--light"],
+        resolvedTheme === "dark" && classes["theme-button--dark"]
     )
 
     const lightModeIconClassname = clsx(classes["theme-icon"], classes["theme-icon--light"])
@@ -40,8 +40,9 @@ const ThemeChanger = () => {
     return (
         <Card
             as="button"
-            onClick={() => toggleTheme(theme)}
+            onClick={() => toggleTheme(resolvedTheme)}
             spacing="none"
+            withBorder
             className={buttonClassName}
         >
             <MdDarkMode className={darkModeIconClassname} />

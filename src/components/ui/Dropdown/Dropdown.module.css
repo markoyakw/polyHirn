@@ -20,9 +20,9 @@
     top: calc(100% + var(--spacing-s));
     transform-origin: top left;
     transition:
-        opacity var(--duration-normal) var(--ease-default),
-        transform var(--duration-normal) var(--ease-spring),
-        visibility 0s linear var(--duration-normal);
+        opacity var(--duration-m) var(--ease-default),
+        transform var(--duration-m) var(--ease-spring),
+        visibility 0s linear var(--duration-m);
 }
 
 .card--open {
@@ -31,8 +31,8 @@
     pointer-events: auto;
     transform: translateY(0px) scale(1);
     transition:
-        opacity var(--duration-fast) var(--ease-default),
-        transform var(--duration-normal) var(--ease-default),
+        opacity var(--duration-s) var(--ease-default),
+        transform var(--duration-m) var(--ease-default),
         visibility 0s linear 0s;
 }
 
@@ -48,7 +48,7 @@
 }
 
 .dropdown-button__icon {
-    transition: transform var(--duration-slow) var(--ease-spring);
+    transition: transform var(--duration-l) var(--ease-spring);
     flex-shrink: 0;
 }
 

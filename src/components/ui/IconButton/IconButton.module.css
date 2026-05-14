@@ -7,8 +7,8 @@
     color: var(--color-text-secondary);
     cursor: pointer;
     transition:
-        color var(--duration-normal) var(--ease-default),
-        transform var(--duration-fast) var(--ease-default);
+        color var(--duration-m) var(--ease-default),
+        transform var(--duration-s) var(--ease-default);
 }
 
 .icon-button:hover:not(:disabled) {

@@ -1,7 +1,5 @@
 .drag-item {
-    transition:
-        transform var(--duration-fast),
-        background-color var(--duration-long) var(--ease-spring);
+    transition: background-color var(--duration-l) var(--ease-default);
 }
 
 .drag-item--overlay {

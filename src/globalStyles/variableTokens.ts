@@ -85,9 +85,10 @@ export const baseTokens = {
     'radius-xl': '16px',
 
     // Animation durations
-    'duration-fast': '100ms',
-    'duration-normal': '200ms',
-    'duration-slow': '400ms',
+    'duration-s': '100ms',
+    'duration-m': '200ms',
+    'duration-l': '400ms',
+    'duration-xl': '800ms',
 
     // Easing curves
     'ease-default': 'cubic-bezier(0.4, 0, 0.2, 1)',
@@ -175,32 +176,32 @@ export const darkTokens: ThemeTokens = {
 // Only override tokens that actually differ from dark theme.
 
 export const lightTokens: ThemeTokens = {
-  ...darkTokens,
+    ...darkTokens,
 
-  'color-brand-primary':   '#1A1917',
-  'color-brand-secondary': '#3D3B34',
-  'color-brand-accent':    '#FEB95F',
+    'color-brand-primary': '#1A1917',
+    'color-brand-secondary': '#3D3B34',
+    'color-brand-accent': '#FEB95F',
 
-  'color-bg-page':    '#F2EEF9',
-  'color-bg-card-1':  '#EAE4F4',
-  'color-bg-card-2':  '#E2DBEE',
-  'color-bg-card-3':  '#DAD2E8',
-  'color-bg-card-4':  '#D2C9E2',
-  'color-bg-subtle':  '#E5DFF1',
-  'color-bg-overlay': 'rgba(0, 0, 0, 0.45)',
+    'color-bg-page': '#F2EEF9',
+    'color-bg-card-1': '#EAE4F4',
+    'color-bg-card-2': '#E2DBEE',
+    'color-bg-card-3': '#DAD2E8',
+    'color-bg-card-4': '#D2C9E2',
+    'color-bg-subtle': '#E5DFF1',
+    'color-bg-overlay': 'rgba(0, 0, 0, 0.45)',
 
-  'color-text-primary':   '#1A1917',
-  'color-text-secondary': '#4A4840',
-  'color-text-disabled':  '#8A8780',
-  'color-text-link':      '#4F46E5',
+    'color-text-primary': '#1A1917',
+    'color-text-secondary': '#4A4840',
+    'color-text-disabled': '#8A8780',
+    'color-text-link': '#4F46E5',
 
-  'border-dark':             '#C8C6B4',
-  'box-shadow-border-color': 'rgba(80, 74, 50, 0.146)',
-  'box-shadow': [
-    '0 0 0 1px var(--box-shadow-border-color)',
-    '0px 1px 3px rgba(80, 74, 50, 0.114)',
-    '0px 2px 7px rgba(80, 74, 50, 0.112)',
-  ].join(', '),
-  'box-shadow-border': '0 0 0 1px var(--box-shadow-border-color)',
-  'box-shadow-down':   '0 1px 0 0 var(--box-shadow-border-color)',
+    'border-dark': '#C8C6B4',
+    'box-shadow-border-color': 'rgba(80, 74, 50, 0.146)',
+    'box-shadow': [
+        '0 0 0 1px var(--box-shadow-border-color)',
+        '0px 1px 3px rgba(80, 74, 50, 0.114)',
+        '0px 2px 7px rgba(80, 74, 50, 0.112)',
+    ].join(', '),
+    'box-shadow-border': '0 0 0 1px var(--box-shadow-border-color)',
+    'box-shadow-down': '0 1px 0 0 var(--box-shadow-border-color)',
 };

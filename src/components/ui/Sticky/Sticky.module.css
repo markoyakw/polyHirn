@@ -3,8 +3,8 @@
     top: var(--sticky-top);
     z-index: var(--z-sticky);
     transition:
-        transform var(--duration-normal) var(--ease-default),
-        opacity var(--duration-normal) var(--ease-default);
+        transform var(--duration-m) var(--ease-default),
+        opacity var(--duration-m) var(--ease-default);
     will-change: transform, opacity;
 }
 

@@ -80,9 +80,9 @@
     --radius-l: 12px;
     --radius-xl: 16px;
 
-    --duration-fast: 100ms;
-    --duration-normal: 200ms;
-    --duration-slow: 400ms;
+    --duration-s: 100ms;
+    --duration-m: 200ms;
+    --duration-l: 400ms;
     --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
     --ease-spring: cubic-bezier(0.34, 1.76, 0.74, 1);
 

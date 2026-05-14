@@ -1,6 +1,6 @@
 .icon {
     cursor: grab;
-    transition: all var(--duration-normal) var(--ease-spring);
+    transition: all var(--duration-m) var(--ease-spring);
     scale: 1.2;
 }
 
