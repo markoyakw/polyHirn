@@ -1,3 +1,8 @@
 body {
     font-family: var(--font-main), sans-serif;
 }
+
+/* to remove the flicker after dnd overlay coming back animation finished playing */
+[data-dnd-overlay]:not([style*='--dnd-translate']) {
+    display: none;
+}
