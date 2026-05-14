@@ -99,7 +99,8 @@ const useFillGapsQuestion = () => {
             if (resizeState.side === "end" && oldGap.end === newGap.end) return
             if (resizeState.side === "start" && oldGap.start === newGap.start) return
 
-            const overlappingExistingGap = getOverlappingExistingGap(newGap, gapArr)
+            const gapAndHighlightArr = [...gapArr, highlightedGap]
+            const overlappingExistingGap = getOverlappingExistingGap(newGap, gapAndHighlightArr)
             if (overlappingExistingGap) return
 
             setGapArr((oldGapArr) =>
@@ -125,7 +126,7 @@ const useFillGapsQuestion = () => {
             document.removeEventListener("pointerup", handlePointerUp)
         }
 
-    }, [textareaValue, gapArr, resizeState])
+    }, [textareaValue, gapArr, resizeState, highlightedGap])
 
     const handleGapResizeStart = (
         gapId: TFillGapsGap["id"],
