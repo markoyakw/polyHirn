@@ -3,8 +3,6 @@ import type { TShortAnswerQuestion } from "@/types/test"
 import Input from "@/components/ui/Input/Input"
 import { Stack } from "@/components/ui/Stack/Stack"
 import Button from "@/components/ui/Button/Button"
-import Card from "@/components/ui/Card/Card"
-import Label from "@/components/ui/Label/Label"
 import { useStore } from "@/store"
 import {
     MINIMUM_SHORT_ANSWER_COUNT,
@@ -12,7 +10,8 @@ import {
     removeShortAnswer,
     updateShortAnswer,
 } from "@/features/TestConstructor/model/utils/update"
-import IconButton, { ICON_BUTTON_ICON_MAP } from "@/components/ui/IconButton/IconButton"
+import { AnimatePresence } from "motion/react"
+import ShortAnswer from "./ShortAnswer"
 
 type TShortAnswerQuestionProps = {
     question: TShortAnswerQuestion
@@ -46,37 +45,25 @@ const ShortAnswerQuestion: FC<TShortAnswerQuestionProps> = ({ question }) => {
             />
 
             <Stack gap="s">
-                {question.correctAnswerArr.map((answer, index) => {
-                    const answerInputId = `short-answer-${question.id}-${index}`
+                <AnimatePresence>
+                    {question.correctAnswerArr.map((answer, index) => {
+                        const answerInputId = `short-answer-${question.id}-${index}`
 
-                    return (
-                        <Card key={answerInputId} tone={2} spacing="s" withBorder>
-                            <Stack gap="s">
-                                <Label htmlFor={answerInputId}>
-                                    Accepted answer {index + 1}
-                                </Label>
-                                <Stack direction="row" gap="s" secondaryAxisAlignment="center">
-                                    <Input
-                                        id={answerInputId}
-                                        value={answer.answerText}
-                                        tone={3}
-                                        fullWidth
-                                        placeholder="Accepted answer"
-                                        onChange={(event) =>
-                                            handleAnswerChange(answer.id, event.target.value)
-                                        }
-                                    />
-                                    <IconButton
-                                        icon={ICON_BUTTON_ICON_MAP.delete}
-                                        aria-label={`Delete accepted answer ${index + 1}`}
-                                        onClick={() => handleAnswerRemove(answer.id)}
-                                        disabled={question.correctAnswerArr.length <= MINIMUM_SHORT_ANSWER_COUNT}
-                                    />
-                                </Stack>
-                            </Stack>
-                        </Card>
-                    )
-                })}
+                        return (
+                            <ShortAnswer
+                                key={answerInputId}
+                                answer={answer}
+                                inputId={answerInputId}
+                                index={index}
+                                isDeleteDisabled={
+                                    question.correctAnswerArr.length <= MINIMUM_SHORT_ANSWER_COUNT
+                                }
+                                onAnswerChange={handleAnswerChange}
+                                onAnswerRemove={handleAnswerRemove}
+                            />
+                        )
+                    })}
+                </AnimatePresence>
             </Stack>
 
             <Button onClick={handleAnswerAdd} fullWidth>

@@ -1,4 +1,4 @@
-import { forwardRef, ReactNode, useEffect } from "react"
+import { forwardRef, ReactNode } from "react"
 import { motion, type HTMLMotionProps } from "motion/react"
 
 type TAnimatedStackItemProps = {
@@ -20,7 +20,6 @@ const AnimatedStackItem = forwardRef<HTMLDivElement, TAnimatedStackItemProps>(
                     stiffness: 2000,
                     damping: 80
                 }}
-                layout="y"
                 style={{
                     transformOrigin: "center center",
                     width,
