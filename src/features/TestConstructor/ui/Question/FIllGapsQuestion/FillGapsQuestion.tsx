@@ -6,6 +6,8 @@ import Textarea from "@/components/ui/Textarea/Textarea";
 import FillGapsHighlightedText from "./FillGapsHighlightedText";
 import FillGapsTextWithGaps from "./FillGapsTextWithGaps";
 import { useFillGapsQuestion } from "./useFillGapsQuestion";
+import { Stack } from "@/components/ui/Stack/Stack";
+import Text from "@/components/ui/Text/Text";
 
 type TFillGapsQuestionProps = {
     question: TFillGapsQuestion
@@ -30,28 +32,33 @@ const FillGapsQuestion: FC<TFillGapsQuestionProps> = () => {
     )
 
     return (
-        <div className={classes["container"]}>
-            <div className={classes["mirror-div"]}>
-                <FillGapsHighlightedText
-                    onInsertGap={handleInsertGap}
-                    text={textareaValue}
-                    gap={highlightedGap}
+        <Stack gap="m">
+            <Text size="l">
+                To add gaps, highlight the text.
+            </Text>
+            <div className={classes["container"]}>
+                <div className={classes["mirror-div"]}>
+                    <FillGapsHighlightedText
+                        onInsertGap={handleInsertGap}
+                        text={textareaValue}
+                        gap={highlightedGap}
+                    />
+                </div>
+                <div className={gapsMirrorDivClassName}>
+                    <FillGapsTextWithGaps
+                        text={textareaValue}
+                        gapArr={gapArr}
+                        onGapResizeStart={handleGapResizeStart}
+                    />
+                </div>
+                <Textarea
+                    onChange={handleTextareaChange}
+                    value={textareaValue}
+                    ref={textareaRef}
+                    className={classes["textarea"]}
                 />
             </div>
-            <div className={gapsMirrorDivClassName}>
-                <FillGapsTextWithGaps
-                    text={textareaValue}
-                    gapArr={gapArr}
-                    onGapResizeStart={handleGapResizeStart}
-                />
-            </div>
-            <Textarea
-                onChange={handleTextareaChange}
-                value={textareaValue}
-                ref={textareaRef}
-                className={classes["textarea"]}
-            />
-        </div>
+        </Stack>
     );
 };
 
