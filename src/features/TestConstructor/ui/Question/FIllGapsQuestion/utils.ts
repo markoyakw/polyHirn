@@ -67,6 +67,16 @@ const getResizedGap = (
     return getFillGapsGap(text, nextStart, nextEnd, gap.id)
 }
 
+const getOverlappingExistingGap = (
+    newGap: TFillGapsGap,
+    gapArr: TFillGapsGap[],
+) => {
+    return gapArr.find(existingGap => {
+        if (newGap.id === existingGap.id) return false
+        if (existingGap.end > newGap.start && existingGap.start < newGap.end) return true
+    })
+}
+
 const getGapWithTextChange = (
     gap: TFillGapsGap,
     change: TChangeData,
@@ -105,6 +115,7 @@ export {
     getGapWithTextChange,
     getGlobalOffsetFromPoint,
     getResizedGap,
+    getOverlappingExistingGap
 }
 export type {
     TFillGapsGap,

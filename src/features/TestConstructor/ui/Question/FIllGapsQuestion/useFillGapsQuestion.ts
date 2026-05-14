@@ -5,6 +5,7 @@ import {
     getFillGapsGap,
     getGapWithTextChange,
     getGlobalOffsetFromPoint,
+    getOverlappingExistingGap,
     getResizedGap,
     type TFillGapsGap,
     type TFillGapsGapResizeSide,
@@ -41,14 +42,27 @@ const useFillGapsQuestion = () => {
         const handleSelectionChange = () => {
             if (document.activeElement !== textarea) return
 
-            setHighlightedGap(
-                getFillGapsGap(
-                    textarea.value,
-                    textarea.selectionStart,
-                    textarea.selectionEnd,
-                    TEMP_HIGHLIGHTED_GAP_ID
-                )
+            let highlightGap = getFillGapsGap(
+                textarea.value,
+                textarea.selectionStart,
+                textarea.selectionEnd,
+                TEMP_HIGHLIGHTED_GAP_ID
             )
+
+            const overlappingGaps = gapArr.filter(existingGap =>
+                existingGap.end > highlightGap.start && existingGap.start < highlightGap.end
+            )
+
+            for (const overlappingGap of overlappingGaps) {
+                if (highlightGap.end > overlappingGap.start && highlightGap.start < overlappingGap.start) {
+                    highlightGap.end = overlappingGap.start
+                } else if (highlightGap.start < overlappingGap.end && highlightGap.end > overlappingGap.end) {
+                    highlightGap.start = overlappingGap.end
+                }
+            }
+
+            highlightGap.value = textareaValue.slice(highlightGap.start, highlightGap.end)
+            setHighlightedGap(highlightGap)
         }
 
         document.addEventListener("selectionchange", handleSelectionChange)
@@ -56,7 +70,7 @@ const useFillGapsQuestion = () => {
         return () => {
             document.removeEventListener("selectionchange", handleSelectionChange)
         }
-    }, [])
+    }, [gapArr, textareaValue])
 
     const handleTextareaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const nextValue = event.target.value
@@ -70,11 +84,10 @@ const useFillGapsQuestion = () => {
         setTextareaValue(nextValue)
     }
 
-    useEffect(function resizingHandler() {
+    useEffect(function gapResizingHandler() {
         if (!resizeState) return
 
         const handlePointerMove = (event: globalThis.PointerEvent) => {
-            console.log("bebra")
             const globalOffset = getGlobalOffsetFromPoint(event.clientX, event.clientY)
             if (globalOffset == null) return
 
@@ -83,17 +96,10 @@ const useFillGapsQuestion = () => {
 
             const newGap = getResizedGap(oldGap, resizeState.side, globalOffset, textareaValue)
 
-            const overlappingExistingGap = gapArr.find(existingGap => {
-                if (newGap.id === existingGap.id) return false
+            if (resizeState.side === "end" && oldGap.end === newGap.end) return
+            if (resizeState.side === "start" && oldGap.start === newGap.start) return
 
-                if (resizeState.side === "start") {
-                    if (existingGap.end > newGap.start && existingGap.start < newGap.end) return true
-                }
-                if (resizeState.side === "end") {
-                    if (newGap.end > existingGap.start && newGap.start < existingGap.end) return true
-                }
-            })
-
+            const overlappingExistingGap = getOverlappingExistingGap(newGap, gapArr)
             if (overlappingExistingGap) return
 
             setGapArr((oldGapArr) =>
