@@ -20,6 +20,7 @@ const useFillGapsQuestion = () => {
     const [highlightedGap, setHighlightedGap] = useState<TFillGapsGap>(
         getFillGapsGap(DUMMY_TEXT, 0, 0, TEMP_HIGHLIGHTED_GAP_ID)
     )
+
     const [gapArr, setGapArr] = useState<TFillGapsGap[]>([])
     const [resizeState, setResizeState] = useState<TFillGapsGapResizeState | null>(null)
 
@@ -33,7 +34,7 @@ const useFillGapsQuestion = () => {
         setHighlightedGap(getFillGapsGap(textareaValue, 0, 0, TEMP_HIGHLIGHTED_GAP_ID))
     }
 
-    useEffect(() => {
+    useEffect(function highlightHandler() {
         const textarea = textareaRef.current
         if (!textarea) return
 
@@ -69,22 +70,43 @@ const useFillGapsQuestion = () => {
         setTextareaValue(nextValue)
     }
 
-    useEffect(() => {
+    useEffect(function resizingHandler() {
         if (!resizeState) return
 
         const handlePointerMove = (event: globalThis.PointerEvent) => {
+            console.log("bebra")
             const globalOffset = getGlobalOffsetFromPoint(event.clientX, event.clientY)
             if (globalOffset == null) return
 
+            const oldGap = gapArr.find(gap => gap.id === resizeState.gapId)
+            if (!oldGap) return
+
+            const newGap = getResizedGap(oldGap, resizeState.side, globalOffset, textareaValue)
+
+            const overlappingExistingGap = gapArr.find(existingGap => {
+                if (newGap.id === existingGap.id) return false
+
+                if (resizeState.side === "start") {
+                    if (existingGap.end > newGap.start && existingGap.start < newGap.end) return true
+                }
+                if (resizeState.side === "end") {
+                    if (newGap.end > existingGap.start && newGap.start < existingGap.end) return true
+                }
+            })
+
+            if (overlappingExistingGap) return
+
             setGapArr((oldGapArr) =>
                 oldGapArr.map((gap) =>
-                    gap.id === resizeState.gapId
-                        ? getResizedGap(gap, resizeState.side, globalOffset, textareaValue)
+                    gap.id === newGap.id
+                        ? newGap
                         : gap
                 )
             )
         }
 
+        //be carefull not to create an infinite loop!!
+        //resizeState is in the dependency array!!!!!
         const handlePointerUp = () => {
             setResizeState(null)
         }
@@ -96,7 +118,8 @@ const useFillGapsQuestion = () => {
             document.removeEventListener("pointermove", handlePointerMove)
             document.removeEventListener("pointerup", handlePointerUp)
         }
-    }, [resizeState, textareaValue])
+
+    }, [textareaValue, gapArr, resizeState])
 
     const handleGapResizeStart = (
         gapId: TFillGapsGap["id"],
@@ -116,6 +139,7 @@ const useFillGapsQuestion = () => {
         highlightedGap,
         textareaRef,
         textareaValue,
+        resizeState
     }
 }
 

@@ -81,7 +81,7 @@ textarea.textarea:focus {
 .gap {
     transition:
         transform var(--duration-m) var(--ease-spring),
-        background-color var(--duration-s) linear;
+        background-color var(--duration-s) var(--ease-default);
 
     --opaque-bg-color: color-mix(in srgb, var(--color-brand-accent) 60%, rgba(255, 255, 255, 0) 40%);
     border-radius: 5px;
@@ -116,8 +116,8 @@ textarea.textarea:focus {
 
 .gap__size-handle {
     transition:
-        transform var(--duration-m) var(--ease-spring),
-        background-color var(--duration-s) linear;
+        transform var(--duration-l) var(--ease-spring),
+        opacity var(--duration-m) var(--ease-default);
 
     --width: 16px;
     width: var(--width);
@@ -125,7 +125,7 @@ textarea.textarea:focus {
     display: flex;
     align-items: center;
     height: calc(1lh * 0.8);
-    background-color: var(--opaque-bg-color);
+    opacity: 0;
     z-index: -1;
     cursor: ew-resize;
 
@@ -138,20 +138,29 @@ textarea.textarea:focus {
 
 .gap:hover,
 .gap:hover .gap__size-handle {
+    transition:
+        transform var(--duration-m) var(--ease-spring),
+        opacity var(--duration-s) var(--ease-default);
+    opacity: 1;
     background-color: var(--color-brand-accent);
 }
 
+.gap:hover {
+    z-index: 1;
+}
+
 .gap:hover .gap__size-handle {
+    z-index: -1;
     transform: scaleX(1);
 }
 
-.gap--resizing,
-.gap--resizing:hover {
+.mirror-div--resizing .gap,
+.mirror-div--resizing .gap:hover {
     background-color: var(--opaque-bg-color);
 }
 
-.gap--resizing .gap__size-handle,
-.gap--resizing:hover .gap__size-handle {
+.mirror-div--resizing .gap .gap__size-handle,
+.mirror-div--resizing .gap:hover .gap__size-handle {
     pointer-events: none;
     transform: scaleX(0);
 }

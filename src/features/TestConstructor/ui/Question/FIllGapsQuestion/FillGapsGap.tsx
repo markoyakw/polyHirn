@@ -1,13 +1,11 @@
-import { useEffect, useLayoutEffect, useRef, useState, type FC, type PointerEvent } from "react"
+import { useLayoutEffect, useRef, type FC, type PointerEvent } from "react"
 import type { TFillGapsGap, TFillGapsGapResizeSide } from "./utils"
 import { BiSolidLeftArrow } from "react-icons/bi"
 import classes from "./FillGapsQuestion.module.css"
-import clsx from "clsx"
-
 type TFillGapsGapProps = {
     gap: TFillGapsGap
     onResizeStart: (
-        gapId: TFillGapsGap["id"],
+        gapId: string,
         side: TFillGapsGapResizeSide,
         event: PointerEvent
     ) => void
@@ -15,28 +13,9 @@ type TFillGapsGapProps = {
 
 const FillGapsGap: FC<TFillGapsGapProps> = ({
     gap,
-    onResizeStart,
+    onResizeStart
 }) => {
-
-    const handleResizeStart = (
-        side: TFillGapsGapResizeSide,
-        event: PointerEvent
-    ) => {
-        setIsResizing(true)
-        onResizeStart(gap.id, side, event)
-    }
-
-    const [isResizing, setIsResizing] = useState(false)
     const gapRef = useRef<HTMLSpanElement | null>(null)
-
-    useEffect(() => {
-        //resizing state to hide resize handles on gap size change
-        const handlePointerUp = () => {
-            setIsResizing(false)
-        }
-        window.addEventListener("pointerup", handlePointerUp)
-        return () => window.removeEventListener("pointerup", handlePointerUp)
-    }, [])
 
     useLayoutEffect(() => {
         //calculating last row right for right resize handle positioning
@@ -50,26 +29,24 @@ const FillGapsGap: FC<TFillGapsGapProps> = ({
         gap.style.setProperty("--last-row-right", lastRowWidth - firstRowRelativeLeft + "px")
     }, [gap])
 
-    const gapClassName = clsx(classes["gap"], isResizing && classes["gap--resizing"])
-
     return (
         <span
             ref={gapRef}
-            className={gapClassName}
+            className={classes["gap"]}
             data-gap-id={gap.id}
             data-gap-start={gap.start}
             data-gap-end={gap.end}
         >
             <span
                 className={classes["gap__size-handle"]}
-                onPointerDown={(event) => handleResizeStart("start", event)}
+                onPointerDown={(event) => onResizeStart(gap.id, "start", event)}
             >
                 <BiSolidLeftArrow />
             </span>
             {gap.value}
             <span
                 className={classes["gap__size-handle"]}
-                onPointerDown={(event) => handleResizeStart("end", event)}
+                onPointerDown={(event) => onResizeStart(gap.id, "end", event)}
             >
                 <BiSolidLeftArrow />
             </span>

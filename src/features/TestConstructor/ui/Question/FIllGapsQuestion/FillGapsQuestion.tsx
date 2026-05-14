@@ -20,7 +20,14 @@ const FillGapsQuestion: FC<TFillGapsQuestionProps> = () => {
         highlightedGap,
         textareaRef,
         textareaValue,
+        resizeState
     } = useFillGapsQuestion()
+
+    const gapsMirrorDivClassName = clsx(
+        classes["mirror-div"],
+        classes["mirror-div--gaps"],
+        resizeState && classes["mirror-div--resizing"]
+    )
 
     return (
         <div className={classes["container"]}>
@@ -31,7 +38,7 @@ const FillGapsQuestion: FC<TFillGapsQuestionProps> = () => {
                     gap={highlightedGap}
                 />
             </div>
-            <div className={clsx(classes["mirror-div"], classes["mirror-div--gaps"])}>
+            <div className={gapsMirrorDivClassName}>
                 <FillGapsTextWithGaps
                     text={textareaValue}
                     gapArr={gapArr}
