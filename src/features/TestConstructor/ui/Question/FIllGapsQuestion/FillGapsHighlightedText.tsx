@@ -1,42 +1,58 @@
-import { FC, useEffect, useRef } from "react";
+import { FC, useRef } from "react";
 import type { TFillGapsGap } from "./utils";
 import classes from "./FillGapsQuestion.module.css"
+import Tooltip from "@/components/ui/Tooltip/Tooltip";
+import FillGapsTooltipContent from "./FillGapsTooltipContent";
+import clsx from "clsx";
 
 type TFillGapsHighlightedTextProps = {
     onInsertGap: (gap: TFillGapsGap) => void,
     text: string,
     gap: TFillGapsGap
+    isHighlighting: boolean
 }
 
-const FillGapsHighlightedText: FC<TFillGapsHighlightedTextProps> = ({ text, gap, onInsertGap }) => {
+const FillGapsHighlightedText: FC<TFillGapsHighlightedTextProps> = ({
+    text,
+    gap,
+    onInsertGap,
+    isHighlighting
+}) => {
     const consistsOfSpacing = !gap.value.trim()
-    const insertGapButtonRef = useRef<HTMLButtonElement>(null)
+    const onButtonClick = () => onInsertGap(gap)
 
-    const assignInsertButtonWidhVariable = () => {
-        const insertButton = insertGapButtonRef.current
-        if (!insertButton) return
-        const width = insertButton.getBoundingClientRect().width
-        const intWidth = Math.round(width)
-        insertButton.style.setProperty("--width", intWidth + "px")
-    }
+    const isZeroGap = gap.start === gap.end
+    // const prevNonZeroGapRef = useRef(gap)
 
-    useEffect(() => {
-        assignInsertButtonWidhVariable()
-    }, [gap])
+    //to play the tooltip disappear animation smoothly
+    //from the point of last highlighted text
+    // if (!isZeroGap) {
+    //     prevNonZeroGapRef.current = gap
+    // }
+    // const displayedGap = isZeroGap ? prevNonZeroGapRef.current : gap
+    const displayedGap = gap
+    const highlightedTextClassName = clsx(!isZeroGap && classes["highlighted-text"])
 
-    if (gap.start === gap.end) return text
+    if (isZeroGap) return null
     return (
         <>
-            {text.slice(0, gap.start)}
-            <span className={classes["highlighted-text"]}>
-                {!consistsOfSpacing &&
-                    <button ref={insertGapButtonRef} onClick={() => onInsertGap(gap)}>
-                        insert a gap
-                    </button>
+            {text.slice(0, displayedGap.start)}
+            <Tooltip
+                layoutDependency={isHighlighting}
+                isActive={!consistsOfSpacing && !isZeroGap}
+                activateOnHover
+                content={
+                    <FillGapsTooltipContent
+                        isHighlighting={isHighlighting}
+                        onInsertGap={onButtonClick}
+                    />
                 }
-                {gap.value}
-            </span>
-            {text.slice(gap.end, text.length)}
+            >
+                <span className={highlightedTextClassName}>
+                    {displayedGap.value}
+                </span >
+            </Tooltip >
+            {text.slice(displayedGap.end, text.length)}
         </>
     )
 };

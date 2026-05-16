@@ -101,6 +101,7 @@ export const baseTokens = {
     'z-overlay': '300',
     'z-modal': '400',
     'z-toast': '500',
+    'z-tooltip': '600',
 
     // Drag and drop
     'opacity-is-dragging': '50%',

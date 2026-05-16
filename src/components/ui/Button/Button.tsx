@@ -1,5 +1,5 @@
 import clsx from "clsx"
-import type { ButtonHTMLAttributes } from "react"
+import type { ComponentPropsWithRef } from "react"
 import classes from "./Button.module.css"
 
 type TButtonTone = 1 | 2 | 3 | 4 | "primary" | "ghost"
@@ -7,7 +7,7 @@ type TButtonSize = "s" | "m" | "l"
 type TButtonRadius = "s" | "m" | "l" | "xl" | "none"
 type TButtonHover = "brightness" | "brandColorBg" | "none"
 
-type TButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+type TButtonProps = ComponentPropsWithRef<"button"> & {
     className?: string
     tone?: TButtonTone
     buttonSize?: TButtonSize

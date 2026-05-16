@@ -1,5 +1,5 @@
 import type { TFillGapsQuestion } from "@/types/test";
-import type { FC } from "react";
+import { useState, type FC } from "react";
 import classes from "./FillGapsQuestion.module.css"
 import clsx from "clsx";
 import Textarea from "@/components/ui/Textarea/Textarea";
@@ -22,7 +22,10 @@ const FillGapsQuestion: FC<TFillGapsQuestionProps> = () => {
         highlightedGap,
         textareaRef,
         textareaValue,
-        resizeState
+        resizeState,
+        isHighlighting,
+        handleHighlightEnd,
+        handleHighlightStart
     } = useFillGapsQuestion()
 
     const gapsMirrorDivClassName = clsx(
@@ -36,12 +39,18 @@ const FillGapsQuestion: FC<TFillGapsQuestionProps> = () => {
             <Text size="l">
                 To add gaps, highlight the text.
             </Text>
-            <div className={classes["container"]}>
+            <div
+                className={classes["container"]}
+                onPointerUp={handleHighlightEnd}
+                // onPointerDown={handleHighlightStart}
+                // onDoubleClick={handleHighlightEnd}
+            >
                 <div className={classes["mirror-div"]}>
                     <FillGapsHighlightedText
                         onInsertGap={handleInsertGap}
                         text={textareaValue}
                         gap={highlightedGap}
+                        isHighlighting={isHighlighting}
                     />
                 </div>
                 <div className={gapsMirrorDivClassName}>

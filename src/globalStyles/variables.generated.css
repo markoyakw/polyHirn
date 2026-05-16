@@ -34,6 +34,7 @@
   --z-overlay: 300;
   --z-modal: 400;
   --z-toast: 500;
+  --z-tooltip: 600;
   --opacity-is-dragging: 50%;
   --box-shadow-is-dragging: 0 0 0 2px var(--color-brand-accent);
   --max-question-width: 500px;
