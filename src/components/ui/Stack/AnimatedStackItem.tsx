@@ -12,16 +12,22 @@ const AnimatedStackItem = forwardRef<HTMLDivElement, TAnimatedStackItemProps>(
         return (
             <motion.div
                 ref={ref}
-                initial={{ height: 0, opacity: 0, marginBottom: 0 }}
-                animate={{ height: 'auto', opacity: 1, marginBottom: 0 }}
-                exit={{ height: 0, opacity: 0, marginBottom: "calc(var(--stack-gap-size, 0px) * -1)" }}
+                initial={{ height: 0, opacity: 0, scale: 0.5, marginBottom: 0 }}
+                animate={{ height: 'auto', opacity: 1, scale: 1, marginBottom: 0 }}
+                exit={{
+                    height: 0, opacity: 0, scaleX: 0.3, scaleY: 0, marginBottom: "calc(var(--stack-gap-size, 0px) * -1)", transition: {
+                        type: "spring",
+                        stiffness: 1200,
+                        damping: 80
+                    }
+                }}
                 transition={{
                     type: "spring",
-                    stiffness: 2000,
+                    stiffness: 1600,
                     damping: 80
                 }}
                 style={{
-                    transformOrigin: "center center",
+                    transformOrigin: "top",
                     width,
                     ...style,
                 }}
