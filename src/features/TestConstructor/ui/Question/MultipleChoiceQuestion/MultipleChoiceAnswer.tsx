@@ -32,6 +32,7 @@ const MultipleChoiceAnswer: FC<TMultipleChoiceAnswerProps> = ({
 }) => {
     const checkboxId = `multiple-choice-answer-correct-${answer.id}`
     const inputId = `multiple-choice-answer-text-${answer.id}`
+    const answerId = `multiple-choice-answer-${answer.id}`
 
     const onIsRightChange = (isRight: boolean) => updateAnswer(answer.id, { ...answer, isRight: isRight })
     const onAnswerTextChange = (answerText: string) => updateAnswer(answer.id, { ...answer, answerText: answerText })
@@ -44,7 +45,7 @@ const MultipleChoiceAnswer: FC<TMultipleChoiceAnswerProps> = ({
     )
 
     return (
-        <AnimatedStackItem ref={sortableRef} >
+        <AnimatedStackItem ref={sortableRef} id={answerId} >
             <Card tone={2} spacing="s" withBorder className={cardClassName}>
 
                 <Stack gap="s">

@@ -7,7 +7,7 @@ import Label from "@/components/ui/Label/Label"
 import { Stack } from "@/components/ui/Stack/Stack"
 import AnimatedStackItem from "@/components/ui/Stack/AnimatedStackItem"
 
-type TShortAnswerProps = {
+type TShortAnswerQuestionAnswerProps = {
     answer: TShortAnswerAcceptedAnswer
     inputId: string
     index: number
@@ -16,7 +16,7 @@ type TShortAnswerProps = {
     onAnswerRemove: (answerId: TShortAnswerAcceptedAnswer["id"]) => void
 }
 
-const ShortAnswer: FC<TShortAnswerProps> = ({
+const ShortAnswerQuestionAnswer: FC<TShortAnswerQuestionAnswerProps> = ({
     answer,
     inputId,
     index,
@@ -24,8 +24,10 @@ const ShortAnswer: FC<TShortAnswerProps> = ({
     onAnswerChange,
     onAnswerRemove,
 }) => {
+    const answerId = `short-answer-answer-${answer.id}`
+
     return (
-        <AnimatedStackItem>
+        <AnimatedStackItem id={answerId}>
             <Card tone={2} spacing="s" withBorder>
                 <Stack gap="s">
                     <Label htmlFor={inputId}>
@@ -55,4 +57,4 @@ const ShortAnswer: FC<TShortAnswerProps> = ({
     )
 }
 
-export default ShortAnswer
+export default ShortAnswerQuestionAnswer

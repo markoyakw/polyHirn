@@ -1,4 +1,4 @@
-import { useRef, type FC } from "react"
+import { useEffect, useRef, type FC } from "react"
 import type { TQuestion } from "@/types/test"
 import Card from "@/components/ui/Card/Card"
 import Heading from "@/components/ui/Heading/Heading"
@@ -36,6 +36,7 @@ const QuestionLayout: FC<TQuestionProps> = ({
     const handleRef = useRef<HTMLDivElement>(null)
 
     const QuestionHeading = `QUESTION ${index + 1} – ${QUESTION_TYPE_LABELS[question.type].toLocaleUpperCase()}`
+    const questionId = "question-" + question.id
     const { ref: sortableRef, isDragging, isDropping } = useSortable({
         id: question.id,
         index,
@@ -55,6 +56,7 @@ const QuestionLayout: FC<TQuestionProps> = ({
 
     return (
         <AnimatedStackItem
+            id={questionId}
             width="var(--max-question-width)"
             ref={sortableRef}
         >

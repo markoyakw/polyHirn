@@ -12,8 +12,8 @@ import classes from "./MatchPairsQuestion.module.css"
 import { useSortable } from "@dnd-kit/react/sortable"
 import clsx from "clsx"
 import dragClasses from "@/globalStyles/drag.module.css"
-import { motion } from "motion/react"
 import { useParentDragDrop } from "@/hooks/useParentDragDrop"
+import AnimatedStackItem from "@/components/ui/Stack/AnimatedStackItem"
 
 type TMatchPairsAnswerProps = {
     answer: TMatchPairsAnswer
@@ -42,6 +42,7 @@ const MatchPairsAnswer: FC<TMatchPairsAnswerProps> = ({
 }) => {
     const { isDragging: isParentDragging, isDropping: isParentDropping } = useParentDragDrop()
     const isParentDragDrop = isParentDragging || isParentDropping
+    const answerId = `match-pairs-answer-${answer.id}`
 
     const { sourceRef, targetRef, isDragging: isAnswerDragging, isDropTarget } = useSortable({
         id: answer.id,
@@ -63,7 +64,8 @@ const MatchPairsAnswer: FC<TMatchPairsAnswerProps> = ({
     )
 
     return (
-        <motion.div
+        <AnimatedStackItem
+            id={answerId}
             ref={targetRef}
             layout="y"
             layoutId={isDragOverlay || isParentDragDrop ? undefined : answer.id}
@@ -72,6 +74,8 @@ const MatchPairsAnswer: FC<TMatchPairsAnswerProps> = ({
                 stiffness: 700,
                 damping: 38
             }}
+            initial={undefined}
+            animate={undefined}
             className={classes["answer-target"]}
         >
             <Card tone={2} spacing="s" ref={sourceRef} className={cardClassName}>
@@ -90,7 +94,7 @@ const MatchPairsAnswer: FC<TMatchPairsAnswerProps> = ({
                     <DragableIcon />
                 </Stack>
             </Card>
-        </motion.div>
+        </AnimatedStackItem>
     )
 }
 

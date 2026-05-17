@@ -32,23 +32,24 @@ const MatchPairsAnswerPair: FC<TMatchPairsAnswerPairProps> = ({
 }) => {
     const leftInputId = `match-pairs-left-${answerPair.id}`
     const rightInputId = `match-pairs-right-${answerPair.id}`
-    
+    const answerPairId = `match-pairs-answer-pair-${answerPair.id}`
+
     const answerSlots: Array<{
         answerPosition: TMatchPairsAnswerPosition
         inputId: string
     }> = [
-        {
-            answerPosition: 0,
-            inputId: leftInputId,
-        },
-        {
-            answerPosition: 1,
-            inputId: rightInputId,
-        },
-    ]
+            {
+                answerPosition: 0,
+                inputId: leftInputId,
+            },
+            {
+                answerPosition: 1,
+                inputId: rightInputId,
+            },
+        ]
 
     return (
-        <AnimatedStackItem>
+        <AnimatedStackItem id={answerPairId}>
             <Card tone={1} withBorder spacing="s" className={classes["pair-card"]}>
                 <Stack direction="row" gap="s" secondaryAxisAlignment="stretch">
                     <Stack gap="s" className={classes["pair-stack"]}>

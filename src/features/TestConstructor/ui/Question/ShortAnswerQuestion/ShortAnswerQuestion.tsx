@@ -11,7 +11,7 @@ import {
     updateShortAnswer,
 } from "@/features/TestConstructor/model/utils/update"
 import { AnimatePresence } from "motion/react"
-import ShortAnswer from "./ShortAnswer"
+import ShortAnswerQuestionAnswer from "./ShortAnswerQuestionAnswer"
 
 type TShortAnswerQuestionProps = {
     question: TShortAnswerQuestion
@@ -50,7 +50,7 @@ const ShortAnswerQuestion: FC<TShortAnswerQuestionProps> = ({ question }) => {
                         const answerInputId = `short-answer-${question.id}-${index}`
 
                         return (
-                            <ShortAnswer
+                            <ShortAnswerQuestionAnswer
                                 key={answerInputId}
                                 answer={answer}
                                 inputId={answerInputId}
