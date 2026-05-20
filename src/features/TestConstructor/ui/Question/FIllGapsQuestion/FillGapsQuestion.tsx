@@ -24,8 +24,7 @@ const FillGapsQuestion: FC<TFillGapsQuestionProps> = () => {
         textareaValue,
         resizeState,
         isHighlighting,
-        handleHighlightEnd,
-        handleHighlightStart
+        handleHighlightEnd
     } = useFillGapsQuestion()
 
     const gapsMirrorDivClassName = clsx(
@@ -42,8 +41,6 @@ const FillGapsQuestion: FC<TFillGapsQuestionProps> = () => {
             <div
                 className={classes["container"]}
                 onPointerUp={handleHighlightEnd}
-                // onPointerDown={handleHighlightStart}
-                // onDoubleClick={handleHighlightEnd}
             >
                 <div className={classes["mirror-div"]}>
                     <FillGapsHighlightedText

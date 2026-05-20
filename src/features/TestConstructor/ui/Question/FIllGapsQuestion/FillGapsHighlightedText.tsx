@@ -1,8 +1,8 @@
-import { FC, useRef } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import type { TFillGapsGap } from "./utils";
 import classes from "./FillGapsQuestion.module.css"
-import Tooltip from "@/components/ui/Tooltip/Tooltip";
 import FillGapsTooltipContent from "./FillGapsTooltipContent";
+import Tooltip from "@/components/ui/Tooltip/Tooltip";
 import clsx from "clsx";
 
 type TFillGapsHighlightedTextProps = {
@@ -18,32 +18,49 @@ const FillGapsHighlightedText: FC<TFillGapsHighlightedTextProps> = ({
     onInsertGap,
     isHighlighting
 }) => {
+
+    const [isClickedRecently, setIsClickedRecently] = useState(false)
     const consistsOfSpacing = !gap.value.trim()
     const onButtonClick = () => onInsertGap(gap)
 
     const isZeroGap = gap.start === gap.end
-    // const prevNonZeroGapRef = useRef(gap)
+    const isHighlightingNonZeroText = !isZeroGap && isHighlighting
+    const isHighlightingResolved = !isClickedRecently && isHighlightingNonZeroText
 
-    //to play the tooltip disappear animation smoothly
-    //from the point of last highlighted text
-    // if (!isZeroGap) {
-    //     prevNonZeroGapRef.current = gap
-    // }
-    // const displayedGap = isZeroGap ? prevNonZeroGapRef.current : gap
-    const displayedGap = gap
+    const lastNonZeroGapRef = useRef(gap)
+    if (!isZeroGap) {
+        lastNonZeroGapRef.current = gap
+    }
+    const displayedGap = lastNonZeroGapRef.current
     const highlightedTextClassName = clsx(!isZeroGap && classes["highlighted-text"])
 
-    if (isZeroGap) return null
+
+    //to show the right tooltip content immediately
+    useEffect(function doubleClickHandler() {
+        let betweenDoubleClickTimer: NodeJS.Timeout
+        const handleClick = () => {
+            setIsClickedRecently(true)
+            betweenDoubleClickTimer = setTimeout(() => {
+                setIsClickedRecently(false)
+            }, 200);
+        }
+
+        document.addEventListener("click", handleClick)
+        return () => {
+            clearTimeout(betweenDoubleClickTimer)
+            document.removeEventListener("click", handleClick)
+        }
+    }, [])
+
     return (
         <>
             {text.slice(0, displayedGap.start)}
             <Tooltip
-                layoutDependency={isHighlighting}
-                isActive={!consistsOfSpacing && !isZeroGap}
-                activateOnHover
+                isActive={!consistsOfSpacing}
+                contentClassName={classes["tooltip-content"]}
                 content={
                     <FillGapsTooltipContent
-                        isHighlighting={isHighlighting}
+                        isHighlighting={isHighlightingResolved}
                         onInsertGap={onButtonClick}
                     />
                 }

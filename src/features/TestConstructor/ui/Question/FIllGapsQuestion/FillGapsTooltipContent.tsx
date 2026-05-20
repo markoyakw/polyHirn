@@ -1,35 +1,36 @@
-import type { ComponentPropsWithRef } from "react"
+import { useEffect, type FC } from "react"
+import { AnimatePresence, motion } from "motion/react"
 import Button from "@/components/ui/Button/Button"
 import BouncingItem from "@/components/ui/BouncingItem/BouncingItem"
 import { IoMdAddCircleOutline } from "react-icons/io"
 import { TbArrowBigDownFilled } from "react-icons/tb"
 import classes from "./FillGapsQuestion.module.css"
-import { motion } from "motion/react"
 
 type TFillGapsTooltipContentProps = {
-    buttonProps?: ComponentPropsWithRef<"button">
-    onInsertGap: () => void
     isHighlighting: boolean
+    onInsertGap: () => void
 }
 
-const FillGapsTooltipContent = ({
-    buttonProps,
+const FillGapsTooltipContent: FC<TFillGapsTooltipContentProps> = ({
+    isHighlighting,
     onInsertGap,
-    isHighlighting
-}: TFillGapsTooltipContentProps) => {
+}) => {
+
     return (
-        <div
-            className={classes["insert-gap-container"]}
-        >
+        <div className={classes["insert-gap-container"]}>
             {
                 isHighlighting
-                    ?
-                    <motion.div initial={{ opacity: 0, translateY: "50%" }} animate={{ opacity: 1, translateY: 0 }}>
+                    ? <motion.div
+                        key="highlighting"
+                        initial={{ opacity: 0, translateY: "20%" }}
+                        animate={{ opacity: 1, translateY: 0 }}
+                    >
                         select the gap range
                     </motion.div >
-                    :
-                    <motion.div
-                        initial={{ opacity: 0, translateY: "50%" }} animate={{ opacity: 1, translateY: 0 }}
+                    : <motion.div
+                        key="insert-gap"
+                        initial={{ opacity: 0, translateY: "20%" }}
+                        animate={{ opacity: 1, translateY: 0 }}
                         className={classes["insert-gap__button-container"]}
                     >
                         <span>
@@ -41,7 +42,6 @@ const FillGapsTooltipContent = ({
                         <Button
                             buttonSize="s"
                             onClick={onInsertGap}
-                            {...buttonProps}
                         >
                             <IoMdAddCircleOutline />
                             insert

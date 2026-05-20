@@ -74,6 +74,10 @@ textarea.textarea:focus {
     gap: var(--spacing-xs);
 }
 
+.tooltip-content {
+    user-select: none;
+}
+
 .gap {
     transition:
         transform var(--duration-m) var(--ease-spring),

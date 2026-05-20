@@ -36,23 +36,10 @@ const useFillGapsQuestion = () => {
     }
 
     const [isHighlighting, setIsHighlighting] = useState(false)
-    const handleHighlightStart = (e: PointerEvent) => {
-        if (e.target) {
-            console.log(e.target)
-        }
-        setIsHighlighting(true)
-    }
+
     const handleHighlightEnd = () => {
         setIsHighlighting(false)
     }
-
-    useEffect(() => {
-        const onSelectionChange = () => {
-            setIsHighlighting(true)
-        }
-        textareaRef.current?.addEventListener("selectionchange", onSelectionChange)
-        return () => textareaRef.current?.removeEventListener("selectionchange", onSelectionChange)
-    }, [])
 
     useEffect(function highlightHandler() {
         const textarea = textareaRef.current
@@ -60,6 +47,8 @@ const useFillGapsQuestion = () => {
 
         const handleSelectionChange = () => {
             if (document.activeElement !== textarea) return
+
+            setIsHighlighting(true)
 
             let highlightGap = getFillGapsGap(
                 textarea.value,
@@ -85,7 +74,6 @@ const useFillGapsQuestion = () => {
         }
 
         document.addEventListener("selectionchange", handleSelectionChange)
-
         return () => {
             document.removeEventListener("selectionchange", handleSelectionChange)
         }
@@ -167,8 +155,7 @@ const useFillGapsQuestion = () => {
         textareaValue,
         resizeState,
         isHighlighting,
-        handleHighlightEnd,
-        handleHighlightStart
+        handleHighlightEnd
     }
 }
 

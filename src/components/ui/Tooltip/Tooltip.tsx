@@ -1,9 +1,13 @@
 "use client"
 
 import clsx from "clsx"
-import { useEffect, useId, useState, type ReactNode } from "react"
-import classes from "./Tooltip.module.css"
 import { AnimatePresence, motion } from "motion/react"
+import { Ref, useId, useImperativeHandle, useState, type CSSProperties, type ReactNode } from "react"
+import classes from "./Tooltip.module.css"
+
+type TExposedMethods = {
+    remount: () => void
+}
 
 type TTooltipPlacement = "top" | "right" | "bottom" | "left"
 
@@ -17,9 +21,14 @@ type TTooltipProps = {
     activateOnHover?: boolean
     placement?: TTooltipPlacement
     onActiveChange?: (isActive: boolean) => void
-    //dependency to stop size recalculation.
-    //use when the tooltop changes position
-    layoutDependency?: any
+    ref?: Ref<TExposedMethods>
+}
+
+type TTooltipMotionConfig = {
+    style: CSSProperties
+    initial: Record<string, number | string>
+    animate: Record<string, number | string>
+    exit: Record<string, number | string>
 }
 
 const placementClassNameMap: Record<TTooltipPlacement, string> = {
@@ -29,6 +38,109 @@ const placementClassNameMap: Record<TTooltipPlacement, string> = {
     left: classes["tooltip--left"],
 }
 
+const tooltipMotionConfigMap: Record<TTooltipPlacement, TTooltipMotionConfig> = {
+    top: {
+        style: {
+            left: "50%",
+            bottom: "calc(100% + var(--spacing-s))",
+            transformOrigin: "bottom center",
+        },
+        initial: {
+            opacity: 0,
+            scale: 0.96,
+            x: "-50%",
+            y: "var(--spacing-xs)",
+        },
+        animate: {
+            opacity: 1,
+            scale: 1,
+            x: "-50%",
+            y: 0,
+        },
+        exit: {
+            opacity: 0,
+            scale: 0.96,
+            x: "-50%",
+            y: "var(--spacing-xs)",
+        },
+    },
+    right: {
+        style: {
+            top: "50%",
+            left: "calc(100% + var(--spacing-s))",
+            transformOrigin: "left center",
+        },
+        initial: {
+            opacity: 0,
+            scale: 0.96,
+            x: "calc(var(--spacing-xs) * -1)",
+            y: "-50%",
+        },
+        animate: {
+            opacity: 1,
+            scale: 1,
+            x: 0,
+            y: "-50%",
+        },
+        exit: {
+            opacity: 0,
+            scale: 0.96,
+            x: "calc(var(--spacing-xs) * -1)",
+            y: "-50%",
+        },
+    },
+    bottom: {
+        style: {
+            top: "calc(100% + var(--spacing-s))",
+            left: "50%",
+            transformOrigin: "top center",
+        },
+        initial: {
+            opacity: 0,
+            scale: 0.96,
+            x: "-50%",
+            y: "calc(var(--spacing-xs) * -1)",
+        },
+        animate: {
+            opacity: 1,
+            scale: 1,
+            x: "-50%",
+            y: 0,
+        },
+        exit: {
+            opacity: 0,
+            scale: 0.96,
+            x: "-50%",
+            y: "calc(var(--spacing-xs) * -1)",
+        },
+    },
+    left: {
+        style: {
+            top: "50%",
+            right: "calc(100% + var(--spacing-s))",
+            transformOrigin: "right center",
+        },
+        initial: {
+            opacity: 0,
+            scale: 0.96,
+            x: "var(--spacing-xs)",
+            y: "-50%",
+        },
+        animate: {
+            opacity: 1,
+            scale: 1,
+            x: 0,
+            y: "-50%",
+        },
+        exit: {
+            opacity: 0,
+            scale: 0.96,
+            x: "var(--spacing-xs)",
+            y: "-50%",
+        },
+    },
+}
+
 const Tooltip = ({
     children,
     content,
@@ -36,40 +148,31 @@ const Tooltip = ({
     contentClassName,
     id,
     isActive,
-    activateOnHover = true,
+    activateOnHover = false,
     placement = "top",
     onActiveChange,
-    layoutDependency
+    ref
 }: TTooltipProps) => {
+
     const generatedId = useId()
     const tooltipId = id ?? generatedId
     const [isHoverActive, setIsHoverActive] = useState(false)
     const shouldShowTooltip = Boolean(isActive || (activateOnHover && isHoverActive))
-    const [isTooltipActive, setIsTooltipActive] = useState(false)
-
-    useEffect(() => {
-        if (!shouldShowTooltip) {
-            setIsTooltipActive(false)
-            return
-        }
-
-        const animationFrame = requestAnimationFrame(() => {
-            setIsTooltipActive(true)
-        })
-
-        return () => {
-            cancelAnimationFrame(animationFrame)
-        }
-    }, [shouldShowTooltip])
+    const motionConfig = tooltipMotionConfigMap[placement]
 
     const setHoverActive = (nextIsActive: boolean) => {
         if (!activateOnHover) {
             return
         }
-
         setIsHoverActive(nextIsActive)
         onActiveChange?.(nextIsActive)
     }
+
+    const [key, setKey] = useState(() => crypto.randomUUID())
+
+    useImperativeHandle(ref, () => ({
+        remount: () => setKey(crypto.randomUUID())
+    }))
 
     return (
         <span
@@ -85,43 +188,31 @@ const Tooltip = ({
                 {children}
             </span>
 
-            <AnimatePresence>
-                <motion.div
-                    id={tooltipId}
-                    role="tooltip"
-                    className={clsx(
-                        classes["tooltip__content"],
-                        isTooltipActive && classes["tooltip__content--active"],
-                        contentClassName
-                    )}
-                    initial={{
-                        scale: 0,
-                        translateY: "50%"
-                    }}
-                    animate={{
-                        scale: 1,
-                        translateY: 0
-                    }}
-                    style={{
-                        left: "50%",
-                        bottom: "calc(100% + var(--spacing-s))"
-                    }}
-                    layout="y"
-                    transformTemplate={(_, generatedTransform) =>
-                        `translateX(-50%) ${generatedTransform}`
-                    }
-                    transition={{ duration: 0.3, type: "spring" }}
-                >
-                    <span className={classes["tooltip__arrow"]} />
+            <AnimatePresence propagate>
+                {shouldShowTooltip && (
                     <motion.div
-                        data-is-fill-gaps-tooltip={true}
-                        layout="x"
-                        transition={{ duration: 0.3, type: "spring" }}
-                        layoutDependency={layoutDependency}
+                        key={key}
+                        id={tooltipId}
+                        role="tooltip"
+                        className={clsx(classes["tooltip__content"], contentClassName)}
+                        initial={motionConfig.initial}
+                        animate={motionConfig.animate}
+                        exit={motionConfig.exit}
+                        style={{
+                            position: "absolute",
+                            ...motionConfig.style,
+                        }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 900,
+                            damping: 55,
+                            mass: 0.6
+                        }}
                     >
                         {content}
+                        <span className={classes["tooltip__arrow"]} />
                     </motion.div>
-                </motion.div>
+                )}
             </AnimatePresence>
         </span >
     )

@@ -52,8 +52,6 @@ const AnimatedStackItem: FC<TAnimatedStackItemProps> = ({
         }
     }
 
-    console.log(appearAnimationPlayedArr)
-
     return (
         <motion.div
             ref={ref}
