@@ -37,12 +37,15 @@ const FillGapsHighlightedText: FC<TFillGapsHighlightedTextProps> = ({
 
     //to show the right tooltip content immediately
     useEffect(function doubleClickHandler() {
+        const TIME_BETWEEN_CLICKS = 550
         let betweenDoubleClickTimer: NodeJS.Timeout
+
         const handleClick = () => {
             setIsClickedRecently(true)
+            clearTimeout(betweenDoubleClickTimer)
             betweenDoubleClickTimer = setTimeout(() => {
                 setIsClickedRecently(false)
-            }, 200);
+            }, TIME_BETWEEN_CLICKS);
         }
 
         document.addEventListener("click", handleClick)
