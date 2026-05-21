@@ -75,7 +75,11 @@
     width: 1px;
 }
 
-.withBorder>*:last-child::after {
+.directionColumn.withBorder>*:last-child::after {
+    display: none;
+}
+
+.directionRow.withBorder>*:first-child::after {
     display: none;
 }
 
