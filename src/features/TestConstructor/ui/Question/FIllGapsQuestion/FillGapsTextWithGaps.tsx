@@ -5,6 +5,7 @@ import FillGapsGap from "./FillGapsGap";
 type TFillGapsTextWithGapsProps = {
     text: string
     gapArr: TFillGapsGap[]
+    deleteGap: (gapId: string) => void
     onGapResizeStart: (
         gapId: TFillGapsGap["id"],
         side: TFillGapsGapResizeSide,
@@ -16,6 +17,7 @@ const FillGapsTextWithGaps: FC<TFillGapsTextWithGapsProps> = ({
     text,
     gapArr,
     onGapResizeStart,
+    deleteGap
 }) => {
 
     const sortedGapArr = useMemo(
@@ -30,6 +32,7 @@ const FillGapsTextWithGaps: FC<TFillGapsTextWithGapsProps> = ({
         parts.push(text.slice(cursor, gap.start))
         parts.push(
             <FillGapsGap
+                deleteGap={deleteGap}
                 key={gap.id}
                 gap={gap}
                 onResizeStart={onGapResizeStart}

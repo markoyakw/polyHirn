@@ -24,7 +24,8 @@ const FillGapsQuestion: FC<TFillGapsQuestionProps> = () => {
         textareaValue,
         resizeState,
         isHighlighting,
-        handleHighlightEnd
+        handleHighlightEnd,
+        deleteGap
     } = useFillGapsQuestion()
 
     const gapsMirrorDivClassName = clsx(
@@ -55,6 +56,7 @@ const FillGapsQuestion: FC<TFillGapsQuestionProps> = () => {
                         text={textareaValue}
                         gapArr={gapArr}
                         onGapResizeStart={handleGapResizeStart}
+                        deleteGap={deleteGap}
                     />
                 </div>
                 <Textarea

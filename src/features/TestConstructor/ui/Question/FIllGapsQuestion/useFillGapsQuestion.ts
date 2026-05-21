@@ -35,11 +35,24 @@ const useFillGapsQuestion = () => {
         setHighlightedGap(getFillGapsGap(textareaValue, 0, 0, TEMP_HIGHLIGHTED_GAP_ID))
     }
 
+    const deleteGap = (gapId: string) => {
+        setGapArr(oldArr => oldArr.filter(gap => gap.id !== gapId))
+    }
+
     const [isHighlighting, setIsHighlighting] = useState(false)
 
     const handleHighlightEnd = () => {
         setIsHighlighting(false)
     }
+
+    useEffect(function handleKeyboardHighlightEnd() {
+        const onShiftKeyUp = (e: KeyboardEvent) => {
+            if (e.key === "Shift") {
+                handleHighlightEnd()
+            }
+        }
+        document.addEventListener("keyup", onShiftKeyUp)
+    }, [])
 
     useEffect(function highlightHandler() {
         const textarea = textareaRef.current
@@ -155,7 +168,8 @@ const useFillGapsQuestion = () => {
         textareaValue,
         resizeState,
         isHighlighting,
-        handleHighlightEnd
+        handleHighlightEnd,
+        deleteGap
     }
 }
 
