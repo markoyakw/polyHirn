@@ -46,4 +46,5 @@ const FillGapsTextWithGaps: FC<TFillGapsTextWithGapsProps> = ({
     return parts
 };
 
-export default FillGapsTextWithGaps;
+export default FillGapsTextWithGaps
+

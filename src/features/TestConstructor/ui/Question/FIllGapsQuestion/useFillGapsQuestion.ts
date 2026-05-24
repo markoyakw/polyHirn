@@ -49,6 +49,8 @@ const useFillGapsQuestion = () => {
         const onShiftKeyUp = (e: KeyboardEvent) => {
             if (e.key === "Shift") {
                 handleHighlightEnd()
+                if (!textareaRef.current) return
+                textareaRef.current.setSelectionRange(3, 3)
             }
         }
         document.addEventListener("keyup", onShiftKeyUp)

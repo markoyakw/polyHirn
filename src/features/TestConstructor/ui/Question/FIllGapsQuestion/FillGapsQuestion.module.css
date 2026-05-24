@@ -137,6 +137,7 @@ textarea.textarea:focus {
 .gap__options-toggle-trigger {
     --size: 16px;
     --bottom-offset: -4px;
+    --options-size: 115px;
     transform-origin: 50% calc(100% + var(--bottom-offset));
     user-select: none;
     bottom: calc(100% + var(--bottom-offset));
@@ -149,6 +150,21 @@ textarea.textarea:focus {
     padding: 3px;
     transform: scaleY(0);
 }
+
+
+/* dummy block to make the hover area bigger */
+.gap__options-toggle-trigger::after {
+    display: block;
+    position: absolute;
+    content: "";
+    width: var(--options-size);
+    left: calc(var(--options-size) * -0.5 + 50%);
+    height: 10px;
+    bottom: 4px;
+    pointer-events: auto;
+}
+
+/* ===================== */
 
 .gap__size-handle:nth-of-type(2)>* {
     rotate: 180deg;
@@ -200,14 +216,16 @@ textarea.textarea:focus {
 }
 
 .gap__options {
-    --width: 100px;
-    font-size: var(--font-size-xs);
+    background-color: var(--color-brand-accent);
+    font-size: var(--font-size-s);
     position: absolute;
     bottom: calc(-1 * var(--bottom-offset) + var(--spacing-xs));
-    left: calc(50% - var(--width)/2);
-    width: var(--width);
+    left: calc(50% - var(--options-size)/2);
+    width: var(--options-size);
+    height: 1lh;
     display: flex;
-    justify-content: space-between;
+    justify-content: stretch;
+    overflow: hidden;
     border-radius: var(--radius-s);
     box-shadow: var(--box-shadow);
     opacity: 0;
@@ -216,6 +234,25 @@ textarea.textarea:focus {
     transition:
         transform var(--duration-m) var(--ease-spring),
         opacity var(--duration-s) var(--ease-default);
+}
+
+.gap__options-group {
+    transition:
+        transform var(--duration-m) var(--ease-spring),
+        opacity var(--duration-s) var(--ease-default);
+    transform-origin: bottom;
+    position: absolute;
+    display: flex;
+    opacity: 0;
+    width: 100%;
+    transform: translateX(7px);
+    pointer-events: none;
+}
+
+.gap__options-group--visible {
+    transform: translateX(0px);
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .gap__options-toggle-trigger:hover .gap__options {
@@ -228,28 +265,19 @@ textarea.textarea:focus {
     height: 1lh;
     width: 1px;
     background-color: var(--color-text-primary);
+    flex-shrink: 0;
 }
 
 .gap__options button {
     display: flex;
     justify-content: space-between;
-    gap: var(--spacing-xs);
+    gap: var(--spacing-xxs);
     background-color: var(--color-brand-accent);
-    flex-grow: 1;
     cursor: pointer;
-
-    border-radius: var(--radius-s);
+    flex-grow: 1;
+    flex-wrap: nowrap;
+    white-space: nowrap;
     padding: 0px var(--spacing-xxs);
-}
-
-.gap__options button:first-child {
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
-}
-
-.gap__options button:last-child {
-    border-top-left-radius: 0px;
-    border-bottom-left-radius: 0px;
 }
 
 .gap__options button:hover {
@@ -259,4 +287,46 @@ textarea.textarea:focus {
 .gap__options button>* {
     flex-shrink: 0;
     height: 1lh;
+}
+
+.gap--is-editing {
+    pointer-events: none;
+}
+
+.gap--is-editing:hover .gap__size-handle {
+    transition:
+        transform var(--duration-s) var(--ease-default),
+        opacity var(--duration-s) var(--ease-default);
+    transform: scale(0);
+}
+
+.gap--is-editing .gap__options {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+    z-index: 1;
+}
+
+.gap--is-editing .gap__options-toggle-trigger,
+.gap--is-editing .gap__options-toggle-trigger:hover {
+    transform: scale(1);
+    opacity: 1;
+    background-color: transparent;
+}
+
+.gap--is-editing:hover {
+    background-color: var(--translucent-bg-color);
+}
+
+.gap--is-editing .gap__options {
+    --options-size: 107px;
+}
+
+.gap--is-editing .gap__options button {
+    border-radius: var(--radius-s);
+}
+
+.gap__options:hover .gap__options-toggle-trigger {
+    color: transparent;
+    background-color: transparent;
 }
