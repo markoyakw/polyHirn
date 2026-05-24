@@ -95,7 +95,9 @@ const getOverlappingExistingGap = (
 ) => {
     return gapArr.find(existingGap => {
         if (newGap.id === existingGap.id) return false
-        if (existingGap.end > newGap.start && existingGap.start < newGap.end) return true
+        if (existingGap.end > newGap.start && existingGap.start < newGap.end) {
+            if (existingGap.end !== existingGap.start) return true
+        }
     })
 }
 

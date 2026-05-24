@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState, type FC, type PointerEvent } from "react"
+import { useEffect, useLayoutEffect, useRef, type FC, type PointerEvent } from "react"
 import type { TFillGapsGap, TFillGapsGapResizeSide } from "./utils"
 import { BiSolidLeftArrow } from "react-icons/bi"
 import classes from "./FillGapsQuestion.module.css"
@@ -7,25 +7,40 @@ import clsx from "clsx"
 import { RiDeleteBin5Line } from "react-icons/ri"
 import { AiOutlineEdit } from "react-icons/ai"
 import { LuSave } from "react-icons/lu"
-import { AnimatePresence, motion } from "motion/react"
+import { motion } from "motion/react"
 
 type TFillGapsGapProps = {
     gap: TFillGapsGap
     deleteGap: (gapId: string) => void
+    onEditingEnd: () => void
+    onEditingStart: (gapId: string) => void
     onResizeStart: (
         gapId: string,
         side: TFillGapsGapResizeSide,
         event: PointerEvent
     ) => void
+    setGapElementRef: (id: string, element: HTMLSpanElement | null) => void
 }
 
 const FillGapsGap: FC<TFillGapsGapProps> = ({
     gap,
+    onEditingEnd,
+    onEditingStart,
     onResizeStart,
-    deleteGap
+    deleteGap,
+    setGapElementRef,
 }) => {
 
     const gapRef = useRef<HTMLSpanElement | null>(null)
+
+    const setGapRef = (element: HTMLSpanElement | null) => {
+        gapRef.current = element
+        setGapElementRef(gap.id, element)
+    }
+
+    useEffect(() => {
+        return () => setGapElementRef(gap.id, null)
+    }, [])
 
     useLayoutEffect(function calculateRightResizeHandlePosition() {
         if (!gapRef.current) return
@@ -42,44 +57,24 @@ const FillGapsGap: FC<TFillGapsGapProps> = ({
     const handleGapDelete = () => {
         deleteGap(gap.id)
     }
-    const [isGapEditing, setIsGapEditing] = useState(false)
+
     const onGapEditingStart = () => {
-        setIsGapEditing(true)
+        onEditingStart(gap.id)
     }
+
     const onGapEditingEnd = () => {
-        setIsGapEditing(false)
+        onEditingEnd()
     }
-
-    useEffect(function endGapEditingOnClickOutsideGap() {
-        if (!isGapEditing) return
-        const handleDocumentClick = (event: MouseEvent) => {
-            if (!gapRef.current) return
-            const rects = gapRef.current.getClientRects()
-
-            const getIsClickInGapRect = (gapRect: DOMRect) =>
-                event.clientX >= gapRect.left &&
-                event.clientX <= gapRect.right &&
-                event.clientY >= gapRect.top &&
-                event.clientY <= gapRect.bottom
-
-            const isClickOnGap = [...rects].find(rect => getIsClickInGapRect(rect))
-            if (isClickOnGap) return
-            onGapEditingEnd()
-        }
-
-        document.addEventListener("click", handleDocumentClick)
-        return () => document.removeEventListener("click", handleDocumentClick)
-    }, [isGapEditing])
 
     return (
         <motion.span
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.1 }}
-            ref={gapRef}
+            ref={setGapRef}
             className={clsx(
                 classes["gap"],
-                isGapEditing && classes["gap--is-editing"])
+                gap.isEditing && classes["gap--is-editing"])
             }
             data-gap-id={gap.id}
             data-gap-start={gap.start}
@@ -93,12 +88,12 @@ const FillGapsGap: FC<TFillGapsGapProps> = ({
                 )}
             >
                 <div className={classes["gap__options"]}>
-                    <div className={clsx(classes["gap__options-group"], isGapEditing && classes["gap__options-group--visible"])}>
+                    <div className={clsx(classes["gap__options-group"], gap.isEditing && classes["gap__options-group--visible"])}>
                         <button onClick={onGapEditingEnd}>
                             <LuSave />finish editing
                         </button>
                     </div>
-                    <div className={clsx(classes["gap__options-group"], !isGapEditing && classes["gap__options-group--visible"])}>
+                    <div className={clsx(classes["gap__options-group"], !gap.isEditing && classes["gap__options-group--visible"])}>
                         <button onClick={onGapEditingStart}>
                             <AiOutlineEdit />edit
                         </button>

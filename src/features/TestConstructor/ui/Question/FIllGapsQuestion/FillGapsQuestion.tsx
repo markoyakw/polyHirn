@@ -1,5 +1,5 @@
 import type { TFillGapsQuestion } from "@/types/test";
-import { useState, type FC } from "react";
+import { type FC } from "react";
 import classes from "./FillGapsQuestion.module.css"
 import clsx from "clsx";
 import Textarea from "@/components/ui/Textarea/Textarea";
@@ -25,7 +25,10 @@ const FillGapsQuestion: FC<TFillGapsQuestionProps> = () => {
         resizeState,
         isHighlighting,
         handleHighlightEnd,
-        deleteGap
+        deleteGap,
+        finishGapEditing,
+        setGapElementRef,
+        startGapEditing,
     } = useFillGapsQuestion()
 
     const gapsMirrorDivClassName = clsx(
@@ -57,6 +60,9 @@ const FillGapsQuestion: FC<TFillGapsQuestionProps> = () => {
                         gapArr={gapArr}
                         onGapResizeStart={handleGapResizeStart}
                         deleteGap={deleteGap}
+                        finishGapEditing={finishGapEditing}
+                        setGapElementRef={setGapElementRef}
+                        startGapEditing={startGapEditing}
                     />
                 </div>
                 <Textarea

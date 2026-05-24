@@ -1,5 +1,5 @@
 import { detectChange } from "@/lib/changeDetector"
-import { type ChangeEvent, type PointerEvent, useEffect, useRef, useState } from "react"
+import { type ChangeEvent, type PointerEvent, useCallback, useEffect, useRef, useState } from "react"
 import {
     TEMP_HIGHLIGHTED_GAP_ID,
     getFillGapsGap,
@@ -16,28 +16,93 @@ const DUMMY_TEXT = `Contrary to popular belief, Lorem Ipsum is not simply random
 
 const useFillGapsQuestion = () => {
     const textareaRef = useRef<HTMLTextAreaElement>(null)
+    const gapElementsRef = useRef<(HTMLSpanElement | null)[]>([])
+    const caretPositionBeforeGapEditingRef = useRef<number | null>(null)
 
     const [textareaValue, setTextareaValue] = useState(DUMMY_TEXT)
     const [highlightedGap, setHighlightedGap] = useState<TFillGapsGap>(
-        getFillGapsGap(DUMMY_TEXT, 0, 0, TEMP_HIGHLIGHTED_GAP_ID)
+        getFillGapsGap({
+            text: DUMMY_TEXT,
+            start: 0,
+            end: 0,
+            id: TEMP_HIGHLIGHTED_GAP_ID,
+        })
     )
 
     const [gapArr, setGapArr] = useState<TFillGapsGap[]>([])
     const [resizeState, setResizeState] = useState<TFillGapsGapResizeState | null>(null)
+
+    useEffect(function syncGapElementRefsLength() {
+        gapElementsRef.current.length = gapArr.length
+    }, [gapArr.length])
 
     const handleInsertGap = (gap: TFillGapsGap) => {
         if (!gap.value.trim()) return
 
         setGapArr((oldGapArr) => [
             ...oldGapArr,
-            getFillGapsGap(textareaValue, gap.start, gap.end),
+            getFillGapsGap({
+                text: textareaValue,
+                start: gap.start,
+                end: gap.end,
+            }),
         ])
-        setHighlightedGap(getFillGapsGap(textareaValue, 0, 0, TEMP_HIGHLIGHTED_GAP_ID))
+        setHighlightedGap(getFillGapsGap({
+            text: textareaValue,
+            start: 0,
+            end: 0,
+            id: TEMP_HIGHLIGHTED_GAP_ID,
+        }))
     }
 
     const deleteGap = (gapId: string) => {
         setGapArr(oldArr => oldArr.filter(gap => gap.id !== gapId))
     }
+
+    const restoreCaretPositionBeforeGapEditing = useCallback(() => {
+        const textarea = textareaRef.current
+        const caretPosition = caretPositionBeforeGapEditingRef.current
+
+        if (!textarea || caretPosition == null) return
+
+        textarea.focus()
+        textarea.setSelectionRange(caretPosition, caretPosition)
+        caretPositionBeforeGapEditingRef.current = null
+    }, [])
+
+    const finishGapEditing = useCallback(() => {
+        setGapArr((oldGapArr) =>
+            oldGapArr.map((gap) => ({
+                ...gap,
+                isEditing: false,
+            }))
+        )
+        restoreCaretPositionBeforeGapEditing()
+    }, [restoreCaretPositionBeforeGapEditing])
+
+    const startGapEditing = useCallback((gapId: TFillGapsGap["id"]) => {
+        const textarea = textareaRef.current
+        const gapToEdit = gapArr.find((gap) => gap.id === gapId)
+
+        if (!textarea || !gapToEdit) return
+
+        if (caretPositionBeforeGapEditingRef.current == null) {
+            caretPositionBeforeGapEditingRef.current = textarea.selectionStart
+        }
+        setGapArr((oldGapArr) =>
+            oldGapArr.map((gap) => ({
+                ...gap,
+                isEditing: gap.id === gapId,
+            }))
+        )
+
+        textarea.focus()
+        textarea.setSelectionRange(gapToEdit.start, gapToEdit.start)
+    }, [gapArr])
+
+    const setGapElementRef = useCallback((id: string, element: HTMLSpanElement | null) => {
+        setGapArr(oldGapArr => oldGapArr.map(gap => gap.id === id ? { ...gap, element } : gap))
+    }, [])
 
     const [isHighlighting, setIsHighlighting] = useState(false)
 
@@ -49,8 +114,6 @@ const useFillGapsQuestion = () => {
         const onShiftKeyUp = (e: KeyboardEvent) => {
             if (e.key === "Shift") {
                 handleHighlightEnd()
-                if (!textareaRef.current) return
-                textareaRef.current.setSelectionRange(3, 3)
             }
         }
         document.addEventListener("keyup", onShiftKeyUp)
@@ -65,12 +128,12 @@ const useFillGapsQuestion = () => {
 
             setIsHighlighting(true)
 
-            let highlightGap = getFillGapsGap(
-                textarea.value,
-                textarea.selectionStart,
-                textarea.selectionEnd,
-                TEMP_HIGHLIGHTED_GAP_ID
-            )
+            const highlightGap = getFillGapsGap({
+                text: textarea.value,
+                start: textarea.selectionStart,
+                end: textarea.selectionEnd,
+                id: TEMP_HIGHLIGHTED_GAP_ID,
+            })
 
             const overlappingGaps = gapArr.filter(existingGap =>
                 existingGap.end > highlightGap.start && existingGap.start < highlightGap.end
@@ -105,6 +168,32 @@ const useFillGapsQuestion = () => {
         )
         setTextareaValue(nextValue)
     }
+
+    useEffect(function endGapEditingOnTextareaClickOutsideGapRects() {
+
+        const editingGap = gapArr.find((gap) => gap.isEditing)
+        if (!editingGap) return
+        if (!editingGap.element) return
+
+        const handleDocumentClick = (event: MouseEvent) => {
+            console.log(event)
+            const getIsClickInGapRect = (gapRect: DOMRect) =>
+                event.clientX >= gapRect.left &&
+                event.clientX <= gapRect.right &&
+                event.clientY >= gapRect.top &&
+                event.clientY <= gapRect.bottom
+
+            const rects = editingGap.element?.getClientRects()
+            if (!rects) return
+            const isClickOnEditingGapRect = [...rects].some(rect => getIsClickInGapRect(rect))
+            if (isClickOnEditingGapRect) return
+
+            finishGapEditing()
+        }
+
+        document.addEventListener("click", handleDocumentClick)
+        return () => document.removeEventListener("click", handleDocumentClick)
+    }, [finishGapEditing, gapArr])
 
     useEffect(function gapResizingHandler() {
         if (!resizeState) return
@@ -171,7 +260,10 @@ const useFillGapsQuestion = () => {
         resizeState,
         isHighlighting,
         handleHighlightEnd,
-        deleteGap
+        deleteGap,
+        finishGapEditing,
+        setGapElementRef,
+        startGapEditing,
     }
 }
 

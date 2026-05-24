@@ -6,18 +6,24 @@ type TFillGapsTextWithGapsProps = {
     text: string
     gapArr: TFillGapsGap[]
     deleteGap: (gapId: string) => void
+    finishGapEditing: () => void
     onGapResizeStart: (
-        gapId: TFillGapsGap["id"],
+        gapId: string,
         side: TFillGapsGapResizeSide,
         event: PointerEvent
     ) => void
+    setGapElementRef: (id: string, element: HTMLSpanElement | null) => void
+    startGapEditing: (gapId: string) => void
 }
 
 const FillGapsTextWithGaps: FC<TFillGapsTextWithGapsProps> = ({
     text,
     gapArr,
     onGapResizeStart,
-    deleteGap
+    deleteGap,
+    finishGapEditing,
+    setGapElementRef,
+    startGapEditing,
 }) => {
 
     const sortedGapArr = useMemo(
@@ -35,7 +41,10 @@ const FillGapsTextWithGaps: FC<TFillGapsTextWithGapsProps> = ({
                 deleteGap={deleteGap}
                 key={gap.id}
                 gap={gap}
+                onEditingEnd={finishGapEditing}
+                onEditingStart={startGapEditing}
                 onResizeStart={onGapResizeStart}
+                setGapElementRef={setGapElementRef}
             />
         )
         cursor = gap.end
@@ -47,4 +56,3 @@ const FillGapsTextWithGaps: FC<TFillGapsTextWithGapsProps> = ({
 };
 
 export default FillGapsTextWithGaps
-
