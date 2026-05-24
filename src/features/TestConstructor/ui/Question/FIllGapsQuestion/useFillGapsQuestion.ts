@@ -140,10 +140,22 @@ const useFillGapsQuestion = () => {
             )
 
             for (const overlappingGap of overlappingGaps) {
-                if (highlightGap.end > overlappingGap.start && highlightGap.start < overlappingGap.start) {
-                    highlightGap.end = overlappingGap.start
-                } else if (highlightGap.start < overlappingGap.end && highlightGap.end > overlappingGap.end) {
+                const highlightStartsInside = highlightGap.start >= overlappingGap.start && highlightGap.start < overlappingGap.end
+                const highlightEndsInside = highlightGap.end > overlappingGap.start && highlightGap.end <= overlappingGap.end
+
+                if (highlightStartsInside) {
                     highlightGap.start = overlappingGap.end
+                } else if (highlightEndsInside) {
+                    highlightGap.end = overlappingGap.start
+                } else if (highlightGap.start < overlappingGap.start && highlightGap.end > overlappingGap.end) {
+                    // highlight fully contains the gap — pick the larger side
+                    const leftSize = overlappingGap.start - highlightGap.start
+                    const rightSize = highlightGap.end - overlappingGap.end
+                    if (leftSize >= rightSize) {
+                        highlightGap.end = overlappingGap.start
+                    } else {
+                        highlightGap.start = overlappingGap.end
+                    }
                 }
             }
 
