@@ -3,7 +3,6 @@
     border-radius: var(--button-radius);
     background-color: var(--button-background);
     color: var(--button-color);
-    font-family: var(--font-sans), sans-serif;
     font-size: var(--button-font-size);
     font-weight: var(--font-weight-medium);
     padding: var(--button-padding-y) var(--button-padding-x);

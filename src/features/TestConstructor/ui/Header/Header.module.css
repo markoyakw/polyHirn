@@ -1,4 +1,5 @@
 .sticky-container {
+    font-family: var(--font-editor);
     align-self: flex-start;
 }
 

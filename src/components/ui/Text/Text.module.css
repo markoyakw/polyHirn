@@ -8,11 +8,11 @@
 }
 
 .body {
-    --text-font-family: var(--font-main), var(--font-sans), sans-serif;
+    --text-font-family: var(--font-main), sans-serif;
 }
 
 .heading {
-    --text-font-family: var(--font-headings), var(--font-sans), sans-serif;
+    --text-font-family: var(--font-headings), sans-serif;
 }
 
 .primary {

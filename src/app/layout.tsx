@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Manrope, Inter } from "next/font/google";
+import { Manrope, Inter, JetBrains_Mono, Space_Grotesk, Geist } from "next/font/google";
 import "@/globalStyles/reset.css"
 import NavBar from "@/components/layout/nav/NavBar/NavBar";
 import classes from "./layout.module.css"
@@ -11,13 +11,18 @@ import { ThemeProvider } from "next-themes";
 import Header from "@/components/layout/header/Header";
 import Card from "@/components/ui/Card/Card";
 
-const manrope = Manrope({
+const manrope = Geist({
   variable: "--font-main",
   subsets: ["latin"],
 });
 
-const inter = Inter({
+const inter = JetBrains_Mono({
   variable: "--font-headings",
+  subsets: ["latin"],
+});
+
+const jetBrainsMono = JetBrains_Mono({
+  variable: "--font-editor",
   subsets: ["latin"],
 });
 
@@ -33,7 +38,7 @@ export default function RootLayout({
 }>) {
 
   return (
-    <html lang="en" className={clsx(manrope.variable, inter.variable)} suppressHydrationWarning>
+    <html lang="en" className={clsx(manrope.variable, inter.variable, jetBrainsMono.variable)} suppressHydrationWarning>
       <Card as="body" spacing="s" className={classes["layout"]}>
         <ThemeProvider>
           <Header />

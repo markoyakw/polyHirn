@@ -15,7 +15,6 @@
     border-radius: var(--input-radius);
     background-color: var(--input-background);
     color: var(--color-text-primary);
-    font-family: var(--font-main), var(--font-sans), sans-serif;
     font-size: var(--input-font-size);
     line-height: var(--line-height-normal);
     padding: var(--input-padding-y) var(--input-padding-x);

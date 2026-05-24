@@ -7,7 +7,6 @@ import clsx from "clsx"
 import { RiDeleteBin5Line } from "react-icons/ri"
 import { AiOutlineEdit } from "react-icons/ai"
 import { LuSave } from "react-icons/lu"
-import { motion } from "motion/react"
 
 type TFillGapsGapProps = {
     gap: TFillGapsGap
@@ -52,7 +51,8 @@ const FillGapsGap: FC<TFillGapsGapProps> = ({
         gapRef.current.style.setProperty("--last-row-right", lastRowWidth - firstRowRelativeLeft + "px")
     }, [gap])
 
-    //TODO: add an "edit" button and delete, fix the bug when an 0 gap messes with highlight
+    //TODO: if edit is at the start of gap, edit the gap text, not add text before the gap + add pseudoelements to make a gap bigger on edit. maybe make the border radius less or add spaces to textArea value and
+    //make the gap bigger on the same value
 
     const handleGapDelete = () => {
         deleteGap(gap.id)
@@ -67,10 +67,7 @@ const FillGapsGap: FC<TFillGapsGapProps> = ({
     }
 
     return (
-        <motion.span
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.1 }}
+        <span
             ref={setGapRef}
             className={clsx(
                 classes["gap"],
@@ -124,7 +121,7 @@ const FillGapsGap: FC<TFillGapsGapProps> = ({
             >
                 <BiSolidLeftArrow />
             </span>
-        </motion.span>
+        </span>
     )
 }
 

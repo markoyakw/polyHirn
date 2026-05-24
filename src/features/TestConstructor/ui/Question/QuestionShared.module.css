@@ -1,5 +1,6 @@
 .card-layout {
     width: var(--max-question-width);
+    font-family: var(--font-editor);
 }
 
 .delete-button {
