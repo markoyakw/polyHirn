@@ -4,9 +4,20 @@ const TEMP_HIGHLIGHTED_GAP_ID = "tempHighlighted"
 
 type TFillGapsGap = {
     id: string
+    isEditing: boolean
     start: number
     end: number
     value: string
+    element: HTMLSpanElement | null
+}
+
+type TGetFillGapsGapParams = {
+    text: string
+    start: number
+    end: number
+    id?: string
+    element?: HTMLSpanElement | null
+    isEditing?: boolean
 }
 
 type TFillGapsGapResizeSide = "start" | "end"
@@ -22,17 +33,21 @@ const getGapValue = (text: string, start: number, end: number) => {
     return text.slice(start, end)
 }
 
-const getFillGapsGap = (
-    text: string,
-    start: number,
-    end: number,
-    id = cryptoUID()
-): TFillGapsGap => {
+const getFillGapsGap = ({
+    text,
+    start,
+    end,
+    id = cryptoUID(),
+    element = null,
+    isEditing = false,
+}: TGetFillGapsGapParams): TFillGapsGap => {
     return {
         id,
+        isEditing,
         start,
         end,
         value: getGapValue(text, start, end),
+        element
     }
 }
 
@@ -64,7 +79,14 @@ const getResizedGap = (
         ? Math.max(globalOffset, gap.start + 1)
         : gap.end
 
-    return getFillGapsGap(text, nextStart, nextEnd, gap.id)
+    return getFillGapsGap({
+        text,
+        start: nextStart,
+        end: nextEnd,
+        id: gap.id,
+        element: gap.element,
+        isEditing: gap.isEditing,
+    })
 }
 
 const getOverlappingExistingGap = (
@@ -82,31 +104,20 @@ const getGapWithTextChange = (
     change: TChangeData,
     nextText: string
 ): TFillGapsGap | null => {
-    const { end, id, start } = gap
+    const { end, id, start, element, isEditing } = gap
     const charsCountDifference = change.lengthChange - (change.to - change.from)
     const shift = change.to - change.from
 
-    if (!getGapValue(nextText, start, end).trim()) return null
-    if (start === end) return null
+    const createGap = (s: number, e: number) =>
+        getFillGapsGap({ text: nextText, start: s, end: e, id, element, isEditing })
 
-    if (change.from >= end) {
-        return getFillGapsGap(nextText, start, end, id)
-    }
+    if (!getGapValue(nextText, start, end).trim() || start === end) return null
+    if (change.from >= end) return createGap(start, end)
+    if (change.to <= start) return charsCountDifference > 0
+        ? createGap(start + charsCountDifference, end + charsCountDifference)
+        : createGap(start - shift, end - shift)
 
-    if (change.to <= start) {
-        if (charsCountDifference > 0) {
-            return getFillGapsGap(
-                nextText,
-                start + charsCountDifference,
-                end + charsCountDifference,
-                id
-            )
-        }
-
-        return getFillGapsGap(nextText, start - shift, end - shift, id)
-    }
-
-    return getFillGapsGap(nextText, start, end + change.lengthChange, id)
+    return createGap(start, end + change.lengthChange)
 }
 
 export {
@@ -119,6 +130,7 @@ export {
 }
 export type {
     TFillGapsGap,
+    TGetFillGapsGapParams,
     TFillGapsGapResizeSide,
     TFillGapsGapResizeState,
 }
