@@ -54,14 +54,16 @@ const FillGapsGap: FC<TFillGapsGapProps> = ({
         if (!isGapEditing) return
         const handleDocumentClick = (event: MouseEvent) => {
             if (!gapRef.current) return
-            const gapRect = gapRef.current.getBoundingClientRect()
-            const isClickInGapRect =
+            const rects = gapRef.current.getClientRects()
+
+            const getIsClickInGapRect = (gapRect: DOMRect) =>
                 event.clientX >= gapRect.left &&
                 event.clientX <= gapRect.right &&
                 event.clientY >= gapRect.top &&
                 event.clientY <= gapRect.bottom
 
-            if (isClickInGapRect) return
+            const isClickOnGap = [...rects].find(rect => getIsClickInGapRect(rect))
+            if (isClickOnGap) return
             onGapEditingEnd()
         }
 
