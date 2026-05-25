@@ -1,4 +1,4 @@
-import { detectChange } from "@/lib/changeDetector"
+import { detectChange } from "@/utils/changeDetector"
 import { type ChangeEvent, type PointerEvent, useCallback, useEffect, useRef, useState } from "react"
 import {
     TEMP_HIGHLIGHTED_GAP_ID,
@@ -15,10 +15,13 @@ import {
 const DUMMY_TEXT = `Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.`
 
 const useFillGapsQuestion = () => {
+    // ====== refs ======
     const textareaRef = useRef<HTMLTextAreaElement>(null)
     const gapElementsRef = useRef<(HTMLSpanElement | null)[]>([])
     const caretPositionBeforeGapEditingRef = useRef<number | null>(null)
+    const selectPositionRef = useRef<{ start: number, end: number }>({ start: 0, end: 0 })
 
+    // ====== base state ======
     const [textareaValue, setTextareaValue] = useState(DUMMY_TEXT)
     const [highlightedGap, setHighlightedGap] = useState<TFillGapsGap>(
         getFillGapsGap({
@@ -31,11 +34,18 @@ const useFillGapsQuestion = () => {
 
     const [gapArr, setGapArr] = useState<TFillGapsGap[]>([])
     const [resizeState, setResizeState] = useState<TFillGapsGapResizeState | null>(null)
+    const [isHighlighting, setIsHighlighting] = useState(false)
 
+    // ====== gap refs ======
     useEffect(function syncGapElementRefsLength() {
         gapElementsRef.current.length = gapArr.length
     }, [gapArr.length])
 
+    const setGapElementRef = useCallback((id: string, element: HTMLSpanElement | null) => {
+        setGapArr(oldGapArr => oldGapArr.map(gap => gap.id === id ? { ...gap, element } : gap))
+    }, [])
+
+    // ====== gaps ======
     const handleInsertGap = (gap: TFillGapsGap) => {
         if (!gap.value.trim()) return
 
@@ -59,6 +69,7 @@ const useFillGapsQuestion = () => {
         setGapArr(oldArr => oldArr.filter(gap => gap.id !== gapId))
     }
 
+    // ====== gap editing ======
     const restoreCaretPositionBeforeGapEditing = useCallback(() => {
         const textarea = textareaRef.current
         const caretPosition = caretPositionBeforeGapEditingRef.current
@@ -100,12 +111,32 @@ const useFillGapsQuestion = () => {
         textarea.setSelectionRange(gapToEdit.start, gapToEdit.start)
     }, [gapArr])
 
-    const setGapElementRef = useCallback((id: string, element: HTMLSpanElement | null) => {
-        setGapArr(oldGapArr => oldGapArr.map(gap => gap.id === id ? { ...gap, element } : gap))
-    }, [])
+    useEffect(function endGapEditingOnTextareaClickOutsideGapRects() {
 
-    const [isHighlighting, setIsHighlighting] = useState(false)
+        const editingGap = gapArr.find((gap) => gap.isEditing)
+        if (!editingGap) return
+        if (!editingGap.element) return
 
+        const handleDocumentClick = (event: MouseEvent) => {
+            const getIsClickInGapRect = (gapRect: DOMRect) =>
+                event.clientX >= gapRect.left &&
+                event.clientX <= gapRect.right &&
+                event.clientY >= gapRect.top &&
+                event.clientY <= gapRect.bottom
+
+            const rects = editingGap.element?.getClientRects()
+            if (!rects) return
+            const isClickOnEditingGapRect = [...rects].some(rect => getIsClickInGapRect(rect))
+            if (isClickOnEditingGapRect) return
+
+            finishGapEditing()
+        }
+
+        document.addEventListener("click", handleDocumentClick)
+        return () => document.removeEventListener("click", handleDocumentClick)
+    }, [finishGapEditing, gapArr])
+
+    // ====== text highlighting ======
     const handleHighlightEnd = () => {
         setIsHighlighting(false)
     }
@@ -125,6 +156,9 @@ const useFillGapsQuestion = () => {
 
         const handleSelectionChange = () => {
             if (document.activeElement !== textarea) return
+
+            selectPositionRef.current.start = textarea.selectionStart
+            selectPositionRef.current.end = textarea.selectionEnd
 
             setIsHighlighting(true)
 
@@ -169,9 +203,18 @@ const useFillGapsQuestion = () => {
         }
     }, [gapArr, textareaValue])
 
+    // ====== textarea changes ======
     const handleTextareaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const nextValue = event.target.value
-        const change = detectChange(textareaValue, nextValue)
+        const selectStart = selectPositionRef.current?.start
+        const selectEnd = selectPositionRef.current?.end
+        
+        const change = detectChange({
+            oldText: textareaValue,
+            newText: nextValue,
+            selectStart,
+            selectEnd
+        })
 
         setGapArr((oldGapArr) =>
             oldGapArr
@@ -181,32 +224,7 @@ const useFillGapsQuestion = () => {
         setTextareaValue(nextValue)
     }
 
-    useEffect(function endGapEditingOnTextareaClickOutsideGapRects() {
-
-        const editingGap = gapArr.find((gap) => gap.isEditing)
-        if (!editingGap) return
-        if (!editingGap.element) return
-
-        const handleDocumentClick = (event: MouseEvent) => {
-            console.log(event)
-            const getIsClickInGapRect = (gapRect: DOMRect) =>
-                event.clientX >= gapRect.left &&
-                event.clientX <= gapRect.right &&
-                event.clientY >= gapRect.top &&
-                event.clientY <= gapRect.bottom
-
-            const rects = editingGap.element?.getClientRects()
-            if (!rects) return
-            const isClickOnEditingGapRect = [...rects].some(rect => getIsClickInGapRect(rect))
-            if (isClickOnEditingGapRect) return
-
-            finishGapEditing()
-        }
-
-        document.addEventListener("click", handleDocumentClick)
-        return () => document.removeEventListener("click", handleDocumentClick)
-    }, [finishGapEditing, gapArr])
-
+    // ====== gap resize ======
     useEffect(function gapResizingHandler() {
         if (!resizeState) return
 

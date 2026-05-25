@@ -1,4 +1,4 @@
-import type { TChangeData } from "@/lib/changeDetector"
+import type { TChangeData } from "@/utils/changeDetector"
 
 const TEMP_HIGHLIGHTED_GAP_ID = "tempHighlighted"
 
@@ -107,17 +107,20 @@ const getGapWithTextChange = (
     nextText: string
 ): TFillGapsGap | null => {
     const { end, id, start, element, isEditing } = gap
-    const charsCountDifference = change.lengthChange - (change.to - change.from)
-    const shift = change.to - change.from
+    const charsCountDifference = change.lengthChange
+
+    //if isEditing = true, wile editing text right before or after the gap,
+    //text should appear in the gap. When isEditing = false, outside.
+    const isEditingNormaliser = isEditing ? 0 : 1
 
     const createGap = (s: number, e: number) =>
         getFillGapsGap({ text: nextText, start: s, end: e, id, element, isEditing })
 
     if (!getGapValue(nextText, start, end).trim() || start === end) return null
-    if (change.from >= end) return createGap(start, end)
-    if (change.to <= start) return charsCountDifference > 0
-        ? createGap(start + charsCountDifference, end + charsCountDifference)
-        : createGap(start - shift, end - shift)
+    if (change.from + isEditingNormaliser > end) return createGap(start, end)
+    if (change.to < start + isEditingNormaliser) {
+        return createGap(start + charsCountDifference, end + charsCountDifference)
+    }
 
     return createGap(start, end + change.lengthChange)
 }

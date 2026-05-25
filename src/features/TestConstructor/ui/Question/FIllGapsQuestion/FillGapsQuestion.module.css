@@ -143,14 +143,18 @@ textarea.textarea:focus {
     bottom: calc(100% + var(--bottom-offset));
     left: calc(50% - var(--size)/2);
     height: var(--height);
-    background-color: var(--color-brand-accent);
     border-radius: var(--radius-s);
     line-height: var(--size);
     width: var(--size);
     padding: 3px;
     transform: scaleY(0);
+    box-shadow: var(--box-shadow);
 }
 
+.gap--is-editing .gap__options-toggle-trigger {
+    background-color: transparent;
+    box-shadow: none;
+}
 
 /* dummy block to make the hover area bigger */
 .gap__options-toggle-trigger::after {
@@ -299,13 +303,13 @@ textarea.textarea:focus {
 }
 
 /* gap left and right border while editing */
-.gap--is-editing::after {
+.gap--is-editing::before {
     display: block;
     position: absolute;
     content: "";
     /* rough to account for the border */
     height: calc(1lh + 0.8px);
-    top: -1px;
+    top: -2px;
     /* =============================== */
     border-left: 2px solid;
     border-image: linear-gradient(to right, var(--color-brand-accent) 50%, var(--translucent-bg-color) 50%) 2;
@@ -314,13 +318,13 @@ textarea.textarea:focus {
     pointer-events: none;
 }
 
-.gap--is-editing::before {
+.gap--is-editing::after {
     display: block;
     position: absolute;
     content: "";
     /* rough to account for the border */
-    height: calc(1lh + 0.8px);
-    top: -1px;
+    height: calc(1lh + 2px);
+    bottom: -2px;
     /* =============================== */
     border-left: 2px solid;
     border-image: linear-gradient(to right, var(--translucent-bg-color) 50%, var(--color-brand-accent) 50%) 2;
