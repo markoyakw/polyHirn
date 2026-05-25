@@ -13,7 +13,7 @@ type TFillGapsQuestionProps = {
     question: TFillGapsQuestion
 }
 
-const FillGapsQuestion: FC<TFillGapsQuestionProps> = () => {
+const FillGapsQuestion: FC<TFillGapsQuestionProps> = ({ question }) => {
     const {
         gapArr,
         handleGapResizeStart,
@@ -29,7 +29,7 @@ const FillGapsQuestion: FC<TFillGapsQuestionProps> = () => {
         finishGapEditing,
         setGapElementRef,
         startGapEditing,
-    } = useFillGapsQuestion()
+    } = useFillGapsQuestion(question)
 
     const gapsMirrorDivClassName = clsx(
         classes["mirror-div"],

@@ -22,16 +22,12 @@ export {
 } from "./shortAnswer"
 
 export {
-    MINIMUM_FILL_GAPS_ACCEPTED_ANSWER_COUNT,
-    MINIMUM_FILL_GAPS_FILL_ITEM_COUNT,
-    MINIMUM_FILL_GAPS_TEXT_ITEM_COUNT,
-    addFillGapsAcceptedAnswer,
-    addFillGapsItem,
-    deleteFillGapsAcceptedAnswer,
-    deleteFillGapsItem,
-    isFillGapsItemDeleteDisabled,
-    updateFillGapsAnswer,
-    updateFillGapsTextItem,
+    getFillGapsFillValue,
+    getFillGapsItemsFromTextAndGaps,
+    getFillGapsRangeArr,
+    getFillGapsText,
+    setFillGapsContent,
 } from "./fillGaps"
+export type { TFillGapsRange, TSetFillGapsContentParams } from "./fillGaps"
 
 export { updateTrueFalseAnswer } from "./trueFalse"

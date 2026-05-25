@@ -51,9 +51,6 @@ const FillGapsGap: FC<TFillGapsGapProps> = ({
         gapRef.current.style.setProperty("--last-row-right", lastRowWidth - firstRowRelativeLeft + "px")
     }, [gap])
 
-    //TODO: if edit is at the start of gap, edit the gap text, not add text before the gap + add pseudoelements to make a gap bigger on edit. maybe make the border radius less or add spaces to textArea value and
-    //make the gap bigger on the same value
-
     const handleGapDelete = () => {
         deleteGap(gap.id)
     }
