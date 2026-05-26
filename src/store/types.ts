@@ -8,7 +8,7 @@ type TestTestConstructorSlice = {
     reorderQuestions: (sourceIndex: number, targetIndex: number) => void
     resetDraft: () => void
     updateQuestion<T extends TQuestion>(id: T["id"], update: Partial<Omit<T, "id" | "type">>): void
-    updateQuestionFn(questionId: TQuestion["id"], update: (question: TQuestion) => TQuestion): void
+    updateQuestionFn<T extends TQuestion>(questionId: T["id"], update: (question: T) => T): void
 }
 
 type RootStore = TestTestConstructorSlice

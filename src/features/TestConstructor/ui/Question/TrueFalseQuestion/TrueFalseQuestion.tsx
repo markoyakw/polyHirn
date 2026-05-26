@@ -4,18 +4,24 @@ import Input from "@/components/ui/Input/Input"
 import { Stack } from "@/components/ui/Stack/Stack"
 import Button from "@/components/ui/Button/Button"
 import { useStore } from "@/store"
+import {
+    selectTrueFalseQuestionById,
+    selectUpdateQuestion,
+    selectUpdateQuestionFn,
+} from "@/store/slices/testConstructor.selectors"
 import { updateTrueFalseAnswer } from "@/features/TestConstructor/model/utils/update"
 
 type TTrueFalseQuestionProps = {
-    question: TTrueFalseQuestion
+    questionId: TTrueFalseQuestion["id"]
 }
 
-const TrueFalseQuestion: FC<TTrueFalseQuestionProps> = ({ question }) => {
-    const updateQuestion = useStore((state) => state.updateQuestion)
-    const updateQuestionFn = useStore((state) => state.updateQuestionFn)
+const TrueFalseQuestion: FC<TTrueFalseQuestionProps> = ({ questionId }) => {
+    const question = useStore(selectTrueFalseQuestionById(questionId))
+    const updateQuestion = useStore(selectUpdateQuestion)
+    const updateQuestionFn = useStore(selectUpdateQuestionFn)
 
     const handleCorrectAnswerChange = (newValue: TTrueFalseQuestion["answer"]) => {
-        updateQuestionFn(question.id, updateTrueFalseAnswer(newValue))
+        updateQuestionFn(questionId, updateTrueFalseAnswer(newValue))
     }
 
     return (
@@ -25,7 +31,7 @@ const TrueFalseQuestion: FC<TTrueFalseQuestionProps> = ({ question }) => {
                 tone={2}
                 placeholder="Question text"
                 onChange={(event) =>
-                    updateQuestion(question.id, { questionText: event.target.value })
+                    updateQuestion(questionId, { questionText: event.target.value })
                 }
             />
 

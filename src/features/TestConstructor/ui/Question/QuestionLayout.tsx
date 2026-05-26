@@ -1,4 +1,4 @@
-import { useEffect, useRef, type FC } from "react"
+import { useRef, type FC } from "react"
 import type { TQuestion } from "@/types/test"
 import Card from "@/components/ui/Card/Card"
 import Heading from "@/components/ui/Heading/Heading"
@@ -6,6 +6,11 @@ import { Stack } from "@/components/ui/Stack/Stack"
 import { QUESTION_TYPE_LABELS } from "../../model/constants"
 import classes from "./QuestionShared.module.css"
 import { useStore } from "@/store"
+import {
+    selectQuestionById,
+    selectQuestionCount,
+    selectRemoveQuestion,
+} from "@/store/slices/testConstructor.selectors"
 import IconButton, { ICON_BUTTON_ICON_MAP } from "@/components/ui/IconButton/IconButton"
 import DragableIcon from "@/components/ui/DragableIcon/DragableIcon"
 import { useSortable } from "@dnd-kit/react/sortable"
@@ -15,9 +20,10 @@ import { closestCenter } from '@dnd-kit/collision'
 import dragClasses from "@/globalStyles/drag.module.css"
 import AnimatedStackItem from "@/components/ui/Stack/AnimatedStackItem"
 import { ParentDragDropProvider } from "@/hooks/useParentDragDrop"
+import usePreservedValue from "@/hooks/usePreservedValue"
 
 type TQuestionProps = {
-    question: TQuestion,
+    questionId: TQuestion["id"],
     index: number,
     isDragOverlay?: boolean,
     isDragging?: boolean,
@@ -25,25 +31,31 @@ type TQuestionProps = {
 }
 
 const QuestionLayout: FC<TQuestionProps> = ({
-    question,
+    questionId,
     index,
     isDragOverlay,
     isDragging: passedIsDragging,
     isDropping: passedIsDropping,
 }) => {
-    const questionCount = useStore((state) => state.draft.questionArr.length)
-    const removeQuestion = useStore((state) => state.removeQuestion)
+    const question = usePreservedValue(useStore(selectQuestionById(questionId)))
+    const questionCount = useStore(selectQuestionCount)
+    const removeQuestion = useStore(selectRemoveQuestion)
     const handleRef = useRef<HTMLDivElement>(null)
 
-    const QuestionHeading = `QUESTION ${index + 1} – ${QUESTION_TYPE_LABELS[question.type].toLocaleUpperCase()}`
-    const questionId = "question-" + question.id
     const { ref: sortableRef, isDragging, isDropping } = useSortable({
-        id: question.id,
+        id: questionId,
         index,
         collisionDetector: closestCenter,
-        data: question,
+        data: {
+            id: questionId,
+        },
         handle: handleRef
     })
+
+    if (question == null) return null
+
+    const QuestionHeading = `QUESTION ${index + 1} – ${QUESTION_TYPE_LABELS[question.type].toLocaleUpperCase()}`
+    const questionElementId = "question-" + question.id
     const effectiveIsDragging = passedIsDragging ?? isDragging
     const effectiveIsDropping = passedIsDropping ?? isDropping
 
@@ -56,7 +68,7 @@ const QuestionLayout: FC<TQuestionProps> = ({
 
     return (
         <AnimatedStackItem
-            id={questionId}
+            id={questionElementId}
             width="var(--max-question-width)"
             ref={sortableRef}
         >
@@ -89,7 +101,7 @@ const QuestionLayout: FC<TQuestionProps> = ({
                                 className={classes["delete-button"]}
                             />
                         </Stack>
-                        <QuestionRenderer question={question} />
+                        <QuestionRenderer questionId={question.id} />
                     </Stack>
                 </ParentDragDropProvider>
             </Card>

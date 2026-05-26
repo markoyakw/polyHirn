@@ -9,6 +9,11 @@ import { Stack } from "@/components/ui/Stack/Stack"
 import { useStore } from "@/store"
 import { useState } from "react"
 import {
+    selectAddQuestion,
+    selectDraftName,
+    selectSetTitle,
+} from "@/store/slices/testConstructor.selectors"
+import {
     QUESTION_TYPE_LABELS,
     QUESTION_TYPE_ORDER,
 } from "../../model/constants"
@@ -16,9 +21,9 @@ import clsx from "clsx"
 import classes from "./Header.module.css"
 
 const Header = () => {
-    const name = useStore((state) => state.draft.name)
-    const setTitle = useStore((state) => state.setTitle)
-    const addQuestion = useStore((state) => state.addQuestion)
+    const name = useStore(selectDraftName)
+    const setTitle = useStore(selectSetTitle)
+    const addQuestion = useStore(selectAddQuestion)
     const [isQuestionTypeDropdownOpen, setIsQuestionTypeDropdownOpen] = useState(false)
     const [isHeaderStuck, setIsHeaderStuck] = useState(false)
 

@@ -10,8 +10,6 @@ import type {
     TShortAnswerAcceptedAnswer,
     TMatchPairsAnswer,
     TFillGapsQuestion,
-    TFillGapsFillItem,
-    TFillGapsTextItem,
 } from "@/types/test"
 
 const DEFAULT_DRAFT_QUESTION_ID = "default-question-1"
@@ -140,35 +138,7 @@ const getBlankFillGapsQuestion = (
         type: "fillGaps",
         questionText: "",
         pointsPerAnswer: DEFAULT_POINTS_PER_ANSWER,
-        items: [
-            getBlankFillGapsTextItem(),
-            getBlankFillGapsFillItem(),
-        ]
-    }
-}
-
-const getBlankFillGapsTextItem = (passedId?: string): TFillGapsTextItem => {
-    return {
-        id: passedId || crypto.randomUUID(),
-        type: "text",
-        text: "",
-    }
-}
-
-const getBlankFillGapsFillItem = (passedId?: string): TFillGapsFillItem => {
-    return {
-        id: passedId || crypto.randomUUID(),
-        type: "fill",
-        correctAnswerArr: [
-            getBlankFillGapsAcceptedAnswer()
-        ],
-    }
-}
-
-const getBlankFillGapsAcceptedAnswer = (): TFillGapsFillItem["correctAnswerArr"][number] => {
-    return {
-        id: crypto.randomUUID(),
-        answer: "",
+        gapArr: [],
     }
 }
 
@@ -193,10 +163,7 @@ export {
     getBlankTrueFalseQuestion,
     getBlankMultipleChoiceAnswer,
     getDefaultDraft,
-    getBlankFillGapsAcceptedAnswer,
-    getBlankFillGapsFillItem,
     getBlankFillGapsQuestion,
-    getBlankFillGapsTextItem,
     getBlankMatchPairsPair,
     getBlankMatchPairsAnswer,
 }

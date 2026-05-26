@@ -1,6 +1,6 @@
 import Card from "@/components/ui/Card/Card";
 import { Stack } from "@/components/ui/Stack/Stack";
-import type { TMatchPairsAnswerPair, TMatchPairsAnswerPosition } from "@/types/test";
+import type { TMatchPairsAnswerPair, TMatchPairsAnswerPosition, TMatchPairsQuestion } from "@/types/test";
 import { FC } from "react";
 import classes from "./MatchPairsQuestion.module.css"
 import IconButton, { ICON_BUTTON_ICON_MAP } from "@/components/ui/IconButton/IconButton";
@@ -10,9 +10,13 @@ import {
     getMatchPairsAnswerFlatIndex,
     getMatchPairsAnswerLabel,
 } from "./lib";
+import { useStore } from "@/store";
+import { selectMatchPairsPairById } from "@/store/slices/testConstructor.selectors";
+import usePreservedValue from "@/hooks/usePreservedValue";
 
 type TMatchPairsAnswerPairProps = {
-    answerPair: TMatchPairsAnswerPair,
+    questionId: TMatchPairsQuestion["id"],
+    pairId: TMatchPairsAnswerPair["id"],
     index: number,
     onAnswerChange: (
         pairId: string,
@@ -24,12 +28,17 @@ type TMatchPairsAnswerPairProps = {
 }
 
 const MatchPairsAnswerPair: FC<TMatchPairsAnswerPairProps> = ({
-    answerPair,
+    questionId,
+    pairId,
     index,
     onAnswerChange,
     onDelete,
     isDeleteDisabled,
 }) => {
+    const answerPair = usePreservedValue(useStore(selectMatchPairsPairById(questionId, pairId)))
+
+    if (answerPair == null) return null
+
     const leftInputId = `match-pairs-left-${answerPair.id}`
     const rightInputId = `match-pairs-right-${answerPair.id}`
     const answerPairId = `match-pairs-answer-pair-${answerPair.id}`

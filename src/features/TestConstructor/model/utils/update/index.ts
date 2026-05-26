@@ -22,12 +22,8 @@ export {
 } from "./shortAnswer"
 
 export {
-    getFillGapsFillValue,
-    getFillGapsItemsFromTextAndGaps,
-    getFillGapsRangeArr,
-    getFillGapsText,
     setFillGapsContent,
 } from "./fillGaps"
-export type { TFillGapsRange, TSetFillGapsContentParams } from "./fillGaps"
+export type { TSetFillGapsContentParams } from "./fillGaps"
 
 export { updateTrueFalseAnswer } from "./trueFalse"

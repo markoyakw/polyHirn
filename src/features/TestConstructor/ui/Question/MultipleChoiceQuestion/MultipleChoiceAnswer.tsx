@@ -1,7 +1,7 @@
 import Card from "@/components/ui/Card/Card";
 import Input from "@/components/ui/Input/Input";
 import { Stack } from "@/components/ui/Stack/Stack";
-import type { TMultipleChoiceAnswer } from "@/types/test";
+import type { TMultipleChoiceAnswer, TMultipleChoiceQuestion } from "@/types/test";
 import { FC } from "react"
 import getLetterByIndex from "@/utils/getLetterByIndex";
 import Checkbox from "@/components/ui/Checkbox/Checkbox";
@@ -12,9 +12,13 @@ import { useSortable } from "@dnd-kit/react/sortable";
 import clsx from "clsx";
 import dragClasses from "@/globalStyles/drag.module.css"
 import AnimatedStackItem from "@/components/ui/Stack/AnimatedStackItem"
+import { useStore } from "@/store";
+import { selectMultipleChoiceAnswerById } from "@/store/slices/testConstructor.selectors";
+import usePreservedValue from "@/hooks/usePreservedValue";
 
 type TMultipleChoiceAnswerProps = {
-    answer: TMultipleChoiceAnswer,
+    questionId: TMultipleChoiceQuestion["id"],
+    answerId: TMultipleChoiceAnswer["id"],
     updateAnswer: (answerId: TMultipleChoiceAnswer['id'], newAnswer: TMultipleChoiceAnswer) => void,
     index: number
     onDelete: (answerId: TMultipleChoiceAnswer["id"]) => void
@@ -23,21 +27,24 @@ type TMultipleChoiceAnswerProps = {
 }
 
 const MultipleChoiceAnswer: FC<TMultipleChoiceAnswerProps> = ({
-    answer,
+    questionId,
+    answerId,
     updateAnswer,
     index,
     onDelete,
     isDeleteDisabled,
     isDragOverlay
 }) => {
+    const answer = usePreservedValue(useStore(selectMultipleChoiceAnswerById(questionId, answerId)))
+    const { ref: sortableRef, isDragging } = useSortable({ index, id: answerId })
+    if (answer == null) return null
+
     const checkboxId = `multiple-choice-answer-correct-${answer.id}`
     const inputId = `multiple-choice-answer-text-${answer.id}`
-    const answerId = `multiple-choice-answer-${answer.id}`
+    const answerElementId = `multiple-choice-answer-${answer.id}`
 
     const onIsRightChange = (isRight: boolean) => updateAnswer(answer.id, { ...answer, isRight: isRight })
     const onAnswerTextChange = (answerText: string) => updateAnswer(answer.id, { ...answer, answerText: answerText })
-
-    const { ref: sortableRef, isDragging } = useSortable({ index, id: answer.id })
 
     const cardClassName = clsx(
         isDragging && !isDragOverlay && dragClasses["drag-item--is-dragging"],
@@ -45,7 +52,7 @@ const MultipleChoiceAnswer: FC<TMultipleChoiceAnswerProps> = ({
     )
 
     return (
-        <AnimatedStackItem ref={sortableRef} id={answerId} >
+        <AnimatedStackItem ref={sortableRef} id={answerElementId} >
             <Card tone={2} spacing="s" withBorder className={cardClassName}>
 
                 <Stack gap="s">

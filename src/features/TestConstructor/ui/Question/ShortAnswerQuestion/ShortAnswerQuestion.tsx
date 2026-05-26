@@ -5,6 +5,13 @@ import { Stack } from "@/components/ui/Stack/Stack"
 import Button from "@/components/ui/Button/Button"
 import { useStore } from "@/store"
 import {
+    selectShortAnswerQuestionById,
+    selectShortAnswerCount,
+    selectShortAnswerIds,
+    selectUpdateQuestion,
+    selectUpdateQuestionFn,
+} from "@/store/slices/testConstructor.selectors"
+import {
     MINIMUM_SHORT_ANSWER_COUNT,
     addShortAnswer,
     removeShortAnswer,
@@ -12,25 +19,29 @@ import {
 } from "@/features/TestConstructor/model/utils/update"
 import { AnimatePresence } from "motion/react"
 import ShortAnswerQuestionAnswer from "./ShortAnswerQuestionAnswer"
+import { useShallow } from "zustand/react/shallow"
 
 type TShortAnswerQuestionProps = {
-    question: TShortAnswerQuestion
+    questionId: TShortAnswerQuestion["id"]
 }
 
-const ShortAnswerQuestion: FC<TShortAnswerQuestionProps> = ({ question }) => {
-    const updateQuestion = useStore((state) => state.updateQuestion)
-    const updateQuestionFn = useStore((state) => state.updateQuestionFn)
+const ShortAnswerQuestion: FC<TShortAnswerQuestionProps> = ({ questionId }) => {
+    const question = useStore(selectShortAnswerQuestionById(questionId))
+    const answerIds = useStore(useShallow(selectShortAnswerIds(questionId)))
+    const answerCount = useStore(selectShortAnswerCount(questionId))
+    const updateQuestion = useStore(selectUpdateQuestion)
+    const updateQuestionFn = useStore(selectUpdateQuestionFn)
 
     const handleAnswerAdd = () => {
-        updateQuestionFn(question.id, addShortAnswer())
+        updateQuestionFn(questionId, addShortAnswer())
     }
 
     const handleAnswerRemove = (answerId: string) => {
-        updateQuestionFn(question.id, removeShortAnswer(answerId))
+        updateQuestionFn(questionId, removeShortAnswer(answerId))
     }
 
     const handleAnswerChange = (answerId: string, newValue: string) => {
-        updateQuestionFn(question.id, updateShortAnswer(answerId, newValue))
+        updateQuestionFn(questionId, updateShortAnswer(answerId, newValue))
     }
 
     return (
@@ -40,23 +51,24 @@ const ShortAnswerQuestion: FC<TShortAnswerQuestionProps> = ({ question }) => {
                 tone={2}
                 placeholder="Question text"
                 onChange={(event) =>
-                    updateQuestion(question.id, { questionText: event.target.value })
+                    updateQuestion(questionId, { questionText: event.target.value })
                 }
             />
 
             <Stack gap="s">
                 <AnimatePresence>
-                    {question.correctAnswerArr.map((answer, index) => {
+                    {answerIds.map((answerId, index) => {
                         const answerInputId = `short-answer-${question.id}-${index}`
 
                         return (
                             <ShortAnswerQuestionAnswer
                                 key={answerInputId}
-                                answer={answer}
+                                questionId={questionId}
+                                answerId={answerId}
                                 inputId={answerInputId}
                                 index={index}
                                 isDeleteDisabled={
-                                    question.correctAnswerArr.length <= MINIMUM_SHORT_ANSWER_COUNT
+                                    answerCount <= MINIMUM_SHORT_ANSWER_COUNT
                                 }
                                 onAnswerChange={handleAnswerChange}
                                 onAnswerRemove={handleAnswerRemove}

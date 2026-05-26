@@ -2,6 +2,13 @@ import { type FC } from "react"
 import type { TMultipleChoiceAnswer, TMultipleChoiceQuestion } from "@/types/test"
 import Input from "@/components/ui/Input/Input"
 import { useStore } from "@/store"
+import {
+  selectMultipleChoiceAnswerCount,
+  selectMultipleChoiceAnswerIds,
+  selectMultipleChoiceQuestionById,
+  selectUpdateQuestion,
+  selectUpdateQuestionFn,
+} from "@/store/slices/testConstructor.selectors"
 import MultipleChoiceAnswer from "./MultipleChoiceAnswer"
 import { Stack } from "@/components/ui/Stack/Stack"
 import Button from "@/components/ui/Button/Button"
@@ -18,34 +25,39 @@ import { DragDropProvider, DragOverlay, type DragEndEvent } from "@dnd-kit/react
 import { isSortable } from "@dnd-kit/react/sortable"
 import Portal from "@/components/ui/Portal/Portal"
 import { AnimatePresence } from "motion/react"
+import { useShallow } from "zustand/react/shallow"
 
 type TMultipleChoiceQuestionProps = {
-  question: TMultipleChoiceQuestion,
+  questionId: TMultipleChoiceQuestion["id"],
 }
 
-const MultipleChoiceQuestion: FC<TMultipleChoiceQuestionProps> = ({ question }) => {
+const MultipleChoiceQuestion: FC<TMultipleChoiceQuestionProps> = ({ questionId }) => {
 
-  const { id, questionText, answerArr } = question
-  const onQuestionUpdate = useStore(state => state.updateQuestion)
-  const updateQuestionFn = useStore(state => state.updateQuestionFn)
+  const question = useStore(selectMultipleChoiceQuestionById(questionId))
+  const answerIds = useStore(useShallow(selectMultipleChoiceAnswerIds(questionId)))
+  const answerCount = useStore(selectMultipleChoiceAnswerCount(questionId))
+  const onQuestionUpdate = useStore(selectUpdateQuestion)
+  const updateQuestionFn = useStore(selectUpdateQuestionFn)
+
+  const { id, questionText } = question
 
   const applyUpdateAnswer = (answerId: TMultipleChoiceAnswer['id'], newAnswer: TMultipleChoiceAnswer) => {
-    return updateQuestionFn(question.id, updateMultipleChoiceAnswer(answerId, newAnswer))
+    return updateQuestionFn(questionId, updateMultipleChoiceAnswer(answerId, newAnswer))
   }
 
   const handleNewAnswerAdd = () => {
-    updateQuestionFn(question.id, () => addMultipleChoiceAnswer(question))
+    updateQuestionFn(questionId, () => addMultipleChoiceAnswer(question))
   }
 
   const handleAnswerDelete = (answerId: TMultipleChoiceAnswer["id"]) => {
-    updateQuestionFn(question.id, deleteMultipleChoiceAnswer(answerId))
+    updateQuestionFn(questionId, deleteMultipleChoiceAnswer(answerId))
   }
 
   const onDragEnd = (e: DragEndEvent) => {
     const { source } = e.operation;
     if (isSortable(source)) {
       const { initialIndex, index } = source
-      updateQuestionFn(question.id, reorderMultipleChoiceAnswers(index, initialIndex))
+      updateQuestionFn(questionId, reorderMultipleChoiceAnswers(index, initialIndex))
     }
   }
 
@@ -60,14 +72,15 @@ const MultipleChoiceQuestion: FC<TMultipleChoiceQuestionProps> = ({ question }) 
         />
         <Stack gap="s">
           <AnimatePresence>
-            {answerArr.map((answer, index) =>
+            {answerIds.map((answerId, index) =>
               <MultipleChoiceAnswer
                 index={index}
                 updateAnswer={applyUpdateAnswer}
                 onDelete={handleAnswerDelete}
-                isDeleteDisabled={answerArr.length <= MINIMUM_MULTIPLE_CHOICE_ANSWER_COUNT}
-                key={answer.id}
-                answer={answer} />
+                isDeleteDisabled={answerCount <= MINIMUM_MULTIPLE_CHOICE_ANSWER_COUNT}
+                key={answerId}
+                questionId={questionId}
+                answerId={answerId} />
             )}
           </AnimatePresence>
         </Stack>
@@ -87,7 +100,8 @@ const MultipleChoiceQuestion: FC<TMultipleChoiceQuestionProps> = ({ question }) 
                   updateAnswer={() => { }}
                   onDelete={() => { }}
                   isDeleteDisabled={true}
-                  answer={answerArr.find(answer => answer.id === id) || answerArr[0]}
+                  questionId={questionId}
+                  answerId={id.toString()}
                   isDragOverlay={true}
                 />
               }

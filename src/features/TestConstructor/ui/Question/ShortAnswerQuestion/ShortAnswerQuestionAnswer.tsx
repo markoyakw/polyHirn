@@ -1,14 +1,18 @@
 import type { FC } from "react"
-import type { TShortAnswerAcceptedAnswer } from "@/types/test"
+import type { TShortAnswerAcceptedAnswer, TShortAnswerQuestion } from "@/types/test"
 import Card from "@/components/ui/Card/Card"
 import IconButton, { ICON_BUTTON_ICON_MAP } from "@/components/ui/IconButton/IconButton"
 import Input from "@/components/ui/Input/Input"
 import Label from "@/components/ui/Label/Label"
 import { Stack } from "@/components/ui/Stack/Stack"
 import AnimatedStackItem from "@/components/ui/Stack/AnimatedStackItem"
+import { useStore } from "@/store"
+import { selectShortAnswerById } from "@/store/slices/testConstructor.selectors"
+import usePreservedValue from "@/hooks/usePreservedValue"
 
 type TShortAnswerQuestionAnswerProps = {
-    answer: TShortAnswerAcceptedAnswer
+    questionId: TShortAnswerQuestion["id"]
+    answerId: TShortAnswerAcceptedAnswer["id"]
     inputId: string
     index: number
     isDeleteDisabled: boolean
@@ -17,17 +21,22 @@ type TShortAnswerQuestionAnswerProps = {
 }
 
 const ShortAnswerQuestionAnswer: FC<TShortAnswerQuestionAnswerProps> = ({
-    answer,
+    questionId,
+    answerId,
     inputId,
     index,
     isDeleteDisabled,
     onAnswerChange,
     onAnswerRemove,
 }) => {
-    const answerId = `short-answer-answer-${answer.id}`
+    const answer = usePreservedValue(useStore(selectShortAnswerById(questionId, answerId)))
+
+    if (answer == null) return null
+
+    const answerElementId = `short-answer-answer-${answer.id}`
 
     return (
-        <AnimatedStackItem id={answerId}>
+        <AnimatedStackItem id={answerElementId}>
             <Card tone={2} spacing="s" withBorder>
                 <Stack gap="s">
                     <Label htmlFor={inputId}>

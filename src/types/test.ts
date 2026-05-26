@@ -56,26 +56,15 @@ type TShortAnswerQuestion = TBaseQuestion<"shortAnswer"> & {
     correctAnswerArr: TShortAnswerAcceptedAnswer[]
 }
 
-type TFillGapsFillItem = {
-    type: "fill"
+type TFillGapsGap = {
     id: string
-    correctAnswerArr: {
-        id: string
-        answer: string
-    }[]
+    start: number
+    end: number
 }
-
-type TFillGapsTextItem = {
-    type: "text"
-    id: string
-    text: string
-}
-
-type TFillGapsItem = TFillGapsFillItem | TFillGapsTextItem
 
 type TFillGapsQuestion = TBaseQuestion<"fillGaps"> & {
     pointsPerAnswer: number
-    items: TFillGapsItem[]
+    gapArr: TFillGapsGap[]
 }
 
 type TQuestion =
@@ -122,10 +111,8 @@ type TTestResultFolder = {
 }
 
 export type {
-    TFillGapsFillItem,
-    TFillGapsItem,
+    TFillGapsGap,
     TFillGapsQuestion,
-    TFillGapsTextItem,
     TMatchPairsAnswer,
     TMatchPairsAnswerPair,
     TMatchPairsAnswerPosition,

@@ -1,9 +1,13 @@
 import { detectChange } from "@/utils/changeDetector"
 import { useStore } from "@/store"
-import type { TFillGapsQuestion } from "@/types/test"
 import {
-    getFillGapsRangeArr,
-    getFillGapsText,
+    selectFillGapsGapArr,
+    selectFillGapsText,
+    selectUpdateQuestionFn,
+} from "@/store/slices/testConstructor.selectors"
+import type { TFillGapsQuestion } from "@/types/test"
+import { useShallow } from "zustand/react/shallow"
+import {
     setFillGapsContent,
 } from "@/features/TestConstructor/model/utils/update"
 import { type ChangeEvent, type PointerEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"
@@ -19,18 +23,16 @@ import {
     type TFillGapsGapResizeState,
 } from "./utils"
 
-const useFillGapsQuestion = (question: TFillGapsQuestion) => {
-    const updateQuestionFn = useStore((state) => state.updateQuestionFn)
+const useFillGapsQuestion = (questionId: TFillGapsQuestion["id"]) => {
+    const updateQuestionFn = useStore(selectUpdateQuestionFn)
+    const textareaValue = useStore(selectFillGapsText(questionId))
+    const storedGapArr = useStore(useShallow(selectFillGapsGapArr(questionId)))
 
     // ====== refs ======
     const textareaRef = useRef<HTMLTextAreaElement>(null)
     const gapElementMapRef = useRef<Record<string, HTMLSpanElement | null>>({})
     const caretPositionBeforeGapEditingRef = useRef<number | null>(null)
     const selectPositionRef = useRef<{ start: number, end: number }>({ start: 0, end: 0 })
-
-    // ====== store-derived state ======
-    const textareaValue = useMemo(() => getFillGapsText(question), [question])
-    const storedGapArr = useMemo(() => getFillGapsRangeArr(question), [question])
 
     // ====== local ui state ======
     const [editingGapId, setEditingGapId] = useState<TFillGapsGap["id"] | null>(null)
@@ -59,11 +61,11 @@ const useFillGapsQuestion = (question: TFillGapsQuestion) => {
     )
 
     const commitGaps = useCallback((text: string, nextGapArr: Pick<TFillGapsGap, "id" | "start" | "end">[]) => {
-        updateQuestionFn(question.id, setFillGapsContent({
+        updateQuestionFn(questionId, setFillGapsContent({
             text,
             gapArr: nextGapArr,
         }))
-    }, [question.id, updateQuestionFn])
+    }, [questionId, updateQuestionFn])
 
     // ====== gap refs ======
     const setGapElementRef = useCallback((id: string, element: HTMLSpanElement | null) => {

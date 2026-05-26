@@ -1,5 +1,9 @@
 "use client"
 import { useStore } from "@/store"
+import {
+    selectQuestionIds,
+    selectReorderQuestions,
+} from "@/store/slices/testConstructor.selectors"
 import { Stack } from "@/components/ui/Stack/Stack"
 import { Header } from "./Header/Header"
 import { DragDropProvider, DragEndEvent, DragOverlay } from "@dnd-kit/react"
@@ -8,10 +12,11 @@ import QuestionLayout from "./Question/QuestionLayout"
 import Portal from "@/components/ui/Portal/Portal"
 import { AnimatePresence } from "motion/react"
 import dragClasses from "@/globalStyles/drag.module.css"
+import { useShallow } from "zustand/react/shallow"
 
 const TestConstructor = () => {
-    const questionArr = useStore(state => state.draft.questionArr)
-    const reorderQuestions = useStore(state => state.reorderQuestions)
+    const questionIds = useStore(useShallow(selectQuestionIds))
+    const reorderQuestions = useStore(selectReorderQuestions)
 
     const handleDragEnd = (e: DragEndEvent) => {
         const { source } = e.operation;
@@ -28,10 +33,10 @@ const TestConstructor = () => {
                 <Stack gap="m">
                     <AnimatePresence>
                         {
-                            questionArr.map((question, index) =>
+                            questionIds.map((questionId, index) =>
                                 <QuestionLayout
-                                    key={question.id}
-                                    question={question}
+                                    key={questionId}
+                                    questionId={questionId}
                                     index={index}
                                 />
                             )
@@ -45,12 +50,9 @@ const TestConstructor = () => {
                     {source => {
                         if (!isSortable(source)) return null
 
-                        const draggedQuestion = source.data
-                        if (!draggedQuestion) return null
-
                         return (
                             <QuestionLayout
-                                question={draggedQuestion}
+                                questionId={source.id.toString()}
                                 index={source.initialIndex}
                                 isDragOverlay
                             />

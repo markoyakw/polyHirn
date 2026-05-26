@@ -7,7 +7,7 @@ import type { StateCreator } from "zustand"
 import type { RootStore, TestTestConstructorSlice } from "../types"
 import { reorderQuestionArr } from "@/features/TestConstructor/model/utils/updateTest"
 
-export const createTestBuilderSlice: StateCreator<
+export const createtestConstructorSlice: StateCreator<
     RootStore,
     [["zustand/immer", never]],
     [],
@@ -26,11 +26,16 @@ export const createTestBuilderSlice: StateCreator<
         }))
     },
 
-    updateQuestionFn: (questionId, update) => {
+    updateQuestionFn: <T extends RootStore["draft"]["questionArr"][number]>(questionId: string, update: (question: T) => T) => {
         set((state) => ({
             draft: {
                 ...state.draft,
-                questionArr: state.draft.questionArr.map(question => question.id === questionId ? update(question) : question)
+                questionArr: state.draft.questionArr.map((question) => {
+                    if (question.id !== questionId) return question
+
+                    // The generic question subtype is tied to the id at the call site.
+                    return update(question as T)
+                })
             }
         }))
     },

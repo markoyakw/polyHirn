@@ -10,10 +10,10 @@ import { Stack } from "@/components/ui/Stack/Stack";
 import Text from "@/components/ui/Text/Text";
 
 type TFillGapsQuestionProps = {
-    question: TFillGapsQuestion
+    questionId: TFillGapsQuestion["id"]
 }
 
-const FillGapsQuestion: FC<TFillGapsQuestionProps> = ({ question }) => {
+const FillGapsQuestion: FC<TFillGapsQuestionProps> = ({ questionId }) => {
     const {
         gapArr,
         handleGapResizeStart,
@@ -29,11 +29,10 @@ const FillGapsQuestion: FC<TFillGapsQuestionProps> = ({ question }) => {
         finishGapEditing,
         setGapElementRef,
         startGapEditing,
-    } = useFillGapsQuestion(question)
+    } = useFillGapsQuestion(questionId)
 
     const gapsMirrorDivClassName = clsx(
         classes["mirror-div"],
-        classes["mirror-div--gaps"],
         resizeState && classes["mirror-div--resizing"]
     )
 

@@ -39,7 +39,7 @@ const FillGapsGap: FC<TFillGapsGapProps> = ({
 
     useEffect(() => {
         return () => setGapElementRef(gap.id, null)
-    }, [])
+    }, [gap.id, setGapElementRef])
 
     useLayoutEffect(function calculateRightResizeHandlePosition() {
         if (!gapRef.current) return
@@ -77,21 +77,21 @@ const FillGapsGap: FC<TFillGapsGapProps> = ({
         >
             <div
                 className={clsx(
-                    classes["gap__options-toggle-trigger"],
+                    classes["gap__action-menu-toggle-trigger"],
                     classes["gap__controls"]
                 )}
             >
-                <div className={classes["gap__options"]}>
-                    <div className={clsx(classes["gap__options-group"], gap.isEditing && classes["gap__options-group--visible"])}>
+                <div className={classes["gap__action-menu"]}>
+                    <div className={clsx(classes["gap__action-menu-group"], gap.isEditing && classes["gap__action-menu-group--visible"])}>
                         <button onClick={onGapEditingEnd}>
                             <LuSave />finish editing
                         </button>
                     </div>
-                    <div className={clsx(classes["gap__options-group"], !gap.isEditing && classes["gap__options-group--visible"])}>
+                    <div className={clsx(classes["gap__action-menu-group"], !gap.isEditing && classes["gap__action-menu-group--visible"])}>
                         <button onClick={onGapEditingStart}>
                             <AiOutlineEdit />edit
                         </button>
-                        <span className={classes["gap__options-divider"]} />
+                        <span className={classes["gap__action-menu-divider"]} />
                         <button onClick={handleGapDelete}>
                             <RiDeleteBin5Line />delete
                         </button>

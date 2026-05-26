@@ -42,7 +42,7 @@ const MatchPairsAnswer: FC<TMatchPairsAnswerProps> = ({
 }) => {
     const { isDragging: isParentDragging, isDropping: isParentDropping } = useParentDragDrop()
     const isParentDragDrop = isParentDragging || isParentDropping
-    const answerId = `match-pairs-answer-${answer.id}`
+    const answerElementId = `match-pairs-answer-${answer.id}`
 
     const { sourceRef, targetRef, isDragging: isAnswerDragging, isDropTarget } = useSortable({
         id: answer.id,
@@ -65,7 +65,7 @@ const MatchPairsAnswer: FC<TMatchPairsAnswerProps> = ({
 
     return (
         <AnimatedStackItem
-            id={answerId}
+            id={answerElementId}
             ref={targetRef}
             layout="y"
             layoutId={isDragOverlay || isParentDragDrop ? undefined : answer.id}

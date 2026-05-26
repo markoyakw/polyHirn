@@ -27,8 +27,15 @@ const FillGapsHighlightedText: FC<TFillGapsHighlightedTextProps> = ({
     const isHighlightingNonZeroText = !isZeroGap && isHighlighting
     const isHighlightingResolved = !isClickedRecently && isHighlightingNonZeroText
 
+    //use previous valid value so the exit animation plays on the right spot,
+    //where the element was, instead of jumping to a new caret position
+
     const lastNonZeroGapRef = useRef(gap)
     if (!isZeroGap) {
+        // disable the lint message, because the ref depends on the
+        // value that triggers rerenders and creating a new state is not needed
+
+        // eslint-disable-next-line react-hooks/refs
         lastNonZeroGapRef.current = gap
     }
     const displayedGap = lastNonZeroGapRef.current
@@ -57,6 +64,7 @@ const FillGapsHighlightedText: FC<TFillGapsHighlightedTextProps> = ({
 
     return (
         <>
+            {/* eslint-disable-next-line react-hooks/refs */}
             {text.slice(0, displayedGap.start)}
             <Tooltip
                 isActive={!consistsOfSpacing}
@@ -69,9 +77,11 @@ const FillGapsHighlightedText: FC<TFillGapsHighlightedTextProps> = ({
                 }
             >
                 <span className={highlightedTextClassName}>
+                    {/* eslint-disable-next-line react-hooks/refs */}
                     {displayedGap.value}
                 </span >
             </Tooltip >
+            {/* eslint-disable-next-line react-hooks/refs */}
             {text.slice(displayedGap.end, text.length)}
         </>
     )

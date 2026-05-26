@@ -1,5 +1,5 @@
-import { useEffect, type FC } from "react"
-import { AnimatePresence, motion } from "motion/react"
+import { type FC } from "react"
+import { motion } from "motion/react"
 import Button from "@/components/ui/Button/Button"
 import BouncingItem from "@/components/ui/BouncingItem/BouncingItem"
 import { IoMdAddCircleOutline } from "react-icons/io"

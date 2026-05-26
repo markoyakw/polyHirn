@@ -1,3 +1,5 @@
+/* layout ================================= */
+
 .container {
     position: relative;
 }
@@ -30,6 +32,8 @@ textarea.textarea:focus {
     filter: none;
 }
 
+/* highlight ================================= */
+
 .highlighted-text {
     pointer-events: auto;
     gap: 0px;
@@ -39,6 +43,8 @@ textarea.textarea:focus {
     padding: 0px;
     margin: 0px;
 }
+
+/* insert gap ================================= */
 
 .insert-gap-container span {
     display: inline-flex;
@@ -78,6 +84,8 @@ textarea.textarea:focus {
     user-select: none;
 }
 
+/* gap ================================= */
+
 .gap {
     transition:
         transform var(--duration-m) var(--ease-spring),
@@ -92,6 +100,28 @@ textarea.textarea:focus {
     color: var(--color-text-primary);
     position: relative;
     pointer-events: auto;
+}
+
+/* gap controls ================================= */
+
+.gap__controls {
+    transition:
+        transform var(--duration-l) var(--ease-spring),
+        opacity var(--duration-m) var(--ease-default);
+    opacity: 0;
+    z-index: -1;
+    position: absolute;
+}
+
+.gap__size-handle {
+    --width: 16px;
+    width: var(--width);
+    display: flex;
+    align-items: center;
+    height: calc(1lh * 0.8);
+    cursor: ew-resize;
+
+    transform: scaleX(0);
 }
 
 .gap__size-handle:nth-of-type(1) {
@@ -114,27 +144,11 @@ textarea.textarea:focus {
     transform-origin: left;
 }
 
-.gap__controls {
-    transition:
-        transform var(--duration-l) var(--ease-spring),
-        opacity var(--duration-m) var(--ease-default);
-    opacity: 0;
-    z-index: -1;
-    position: absolute;
+.gap__size-handle:nth-of-type(2)>* {
+    rotate: 180deg;
 }
 
-.gap__size-handle {
-    --width: 16px;
-    width: var(--width);
-    display: flex;
-    align-items: center;
-    height: calc(1lh * 0.8);
-    cursor: ew-resize;
-
-    transform: scaleX(0);
-}
-
-.gap__options-toggle-trigger {
+.gap__action-menu-toggle-trigger {
     --size: 16px;
     --bottom-offset: -4px;
     --options-size: 115px;
@@ -151,13 +165,8 @@ textarea.textarea:focus {
     box-shadow: var(--box-shadow);
 }
 
-.gap--is-editing .gap__options-toggle-trigger {
-    background-color: transparent;
-    box-shadow: none;
-}
-
 /* dummy block to make the hover area bigger */
-.gap__options-toggle-trigger::after {
+.gap__action-menu-toggle-trigger::after {
     display: block;
     position: absolute;
     content: "";
@@ -168,11 +177,7 @@ textarea.textarea:focus {
     pointer-events: auto;
 }
 
-/* ===================== */
-
-.gap__size-handle:nth-of-type(2)>* {
-    rotate: 180deg;
-}
+/* gap hover ================================= */
 
 .gap:hover,
 .gap:hover .gap__controls {
@@ -195,9 +200,11 @@ textarea.textarea:focus {
     transform: scaleX(1);
 }
 
-.gap:hover .gap__options-toggle-trigger {
+.gap:hover .gap__action-menu-toggle-trigger {
     transform: scaleY(1);
 }
+
+/* gap resizing ================================= */
 
 .mirror-div--resizing .gap,
 .mirror-div--resizing .gap:hover {
@@ -214,12 +221,14 @@ textarea.textarea:focus {
     transform: scaleX(0);
 }
 
-.mirror-div--resizing .gap__options-toggle-trigger,
-.mirror-div--resizing .gap:hover .gap__options-toggle-trigger {
+.mirror-div--resizing .gap__action-menu-toggle-trigger,
+.mirror-div--resizing .gap:hover .gap__action-menu-toggle-trigger {
     transform: scaleY(0);
 }
 
-.gap__options {
+/* gap options ================================= */
+
+.gap__action-menu {
     background-color: var(--color-brand-accent);
     font-size: var(--font-size-s);
     position: absolute;
@@ -240,7 +249,7 @@ textarea.textarea:focus {
         opacity var(--duration-s) var(--ease-default);
 }
 
-.gap__options-group {
+.gap__action-menu-group {
     transition:
         transform var(--duration-m) var(--ease-spring),
         opacity var(--duration-s) var(--ease-default);
@@ -254,26 +263,26 @@ textarea.textarea:focus {
     pointer-events: none;
 }
 
-.gap__options-group--visible {
+.gap__action-menu-group--visible {
     transform: translateX(0px);
     opacity: 1;
     pointer-events: auto;
 }
 
-.gap__options-toggle-trigger:hover .gap__options {
+.gap__action-menu-toggle-trigger:hover .gap__action-menu {
     z-index: 1;
     opacity: 1;
     transform: scale(1);
 }
 
-.gap__options-divider {
+.gap__action-menu-divider {
     height: 1lh;
     width: 1px;
     background-color: var(--color-text-primary);
     flex-shrink: 0;
 }
 
-.gap__options button {
+.gap__action-menu button {
     font-family: var(--font-main);
     display: flex;
     justify-content: space-between;
@@ -286,14 +295,21 @@ textarea.textarea:focus {
     padding: var(--spacing-xxs);
 }
 
-.gap__options button:hover {
+.gap__action-menu button:hover {
     filter: brightness(1.3);
 }
 
-.gap__options button>* {
+.gap__action-menu button>* {
     flex-shrink: 0;
     height: 1lh;
 }
+
+.gap__action-menu:hover .gap__action-menu-toggle-trigger {
+    color: transparent;
+    background-color: transparent;
+}
+
+/* gap editing ================================= */
 
 .gap--is-editing {
     pointer-events: none;
@@ -335,7 +351,10 @@ textarea.textarea:focus {
     pointer-events: none;
 }
 
-/* ===================================== */
+.gap--is-editing .gap__action-menu-toggle-trigger {
+    background-color: transparent;
+    box-shadow: none;
+}
 
 .gap--is-editing:hover .gap__size-handle {
     transition:
@@ -344,15 +363,15 @@ textarea.textarea:focus {
     transform: scale(0);
 }
 
-.gap--is-editing .gap__options {
+.gap--is-editing .gap__action-menu {
     opacity: 1;
     transform: scale(1);
     pointer-events: auto;
     z-index: 1;
 }
 
-.gap--is-editing .gap__options-toggle-trigger,
-.gap--is-editing .gap__options-toggle-trigger:hover {
+.gap--is-editing .gap__action-menu-toggle-trigger,
+.gap--is-editing .gap__action-menu-toggle-trigger:hover {
     transform: scale(1);
     opacity: 1;
     background-color: transparent;
@@ -362,15 +381,10 @@ textarea.textarea:focus {
     background-color: var(--translucent-bg-color);
 }
 
-.gap--is-editing .gap__options {
+.gap--is-editing .gap__action-menu {
     --options-size: 107px;
 }
 
-.gap--is-editing .gap__options button {
+.gap--is-editing .gap__action-menu button {
     border-radius: var(--radius-s);
-}
-
-.gap__options:hover .gap__options-toggle-trigger {
-    color: transparent;
-    background-color: transparent;
 }
