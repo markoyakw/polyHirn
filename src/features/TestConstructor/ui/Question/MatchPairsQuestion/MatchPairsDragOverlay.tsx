@@ -4,16 +4,13 @@ import Portal from "@/components/ui/Portal/Portal"
 import MatchPairsAnswer from "./MatchPairsAnswer"
 import classes from "./MatchPairsQuestion.module.css"
 import type { TDraggedMatchPairsAnswerViewData } from "./lib"
-import type { TMatchPairsQuestion } from "@/types/test"
 
 type TMatchPairsDragOverlayProps = {
     draggedAnswerViewData: TDraggedMatchPairsAnswerViewData | null
-    questionId: TMatchPairsQuestion["id"]
 }
 
 const MatchPairsDragOverlay: FC<TMatchPairsDragOverlayProps> = ({
     draggedAnswerViewData,
-    questionId,
 }) => {
     return (
         <Portal>
@@ -26,7 +23,7 @@ const MatchPairsDragOverlay: FC<TMatchPairsDragOverlayProps> = ({
                     return (
                         <div className={classes["overlay"]}>
                             <MatchPairsAnswer
-                                questionId={questionId}
+                                answer={draggedAnswerViewData.answer}
                                 answerPosition={draggedAnswerViewData.answerPosition}
                                 pairId={draggedAnswerViewData.pairId}
                                 inputId={`match-pairs-overlay-${draggedAnswerViewData.answer.id}`}

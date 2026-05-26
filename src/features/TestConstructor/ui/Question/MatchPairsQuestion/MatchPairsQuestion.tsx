@@ -90,7 +90,6 @@ const MatchPairsQuestion: FC<TMatchPairsQuestionProps> = ({ questionId }) => {
             </Stack>
             <MatchPairsDragOverlay
                 draggedAnswerViewData={draggedAnswerViewData}
-                questionId={questionId}
             />
         </DragDropProvider >
     )
