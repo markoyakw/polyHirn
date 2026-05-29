@@ -63,7 +63,7 @@ const AnimatedStackItem: FC<TAnimatedStackItemProps> = ({
                 scaleX: 0.3,
                 scaleY: 0,
                 //keep marginBottom change on exit or change handleAnimationComplete logic
-                marginBottom: "calc(var(--stack-gap-size, 0px) * -1)",
+                marginBottom: "calc(var(--stack-gap-size) * -1)",
                 transition: {
                     type: "spring",
                     stiffness: 1200,

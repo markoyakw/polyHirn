@@ -1,0 +1,85 @@
+.answer {
+    width: 100%;
+    cursor: grab;
+    user-select: none;
+}
+
+.answer:active {
+    cursor: grabbing;
+}
+
+.slot {
+    flex: 1;
+    min-height: 44px;
+    border: 2px dashed var(--box-shadow-border-color);
+    border-radius: var(--radius-m);
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-xs);
+    transition:
+        border-color var(--duration-m) var(--ease-default),
+        box-shadow var(--duration-m) var(--ease-default);
+}
+
+.slot--over {
+    border-color: var(--color-brand-accent);
+    box-shadow: var(--box-shadow-is-dragging);
+}
+
+.slot__hint {
+    width: 100%;
+    text-align: center;
+}
+
+.pool {
+    position: relative;
+    border: 2px dashed var(--box-shadow-border-color);
+    border-radius: var(--radius-m);
+    padding: var(--spacing-m);
+    min-height: 56px;
+    transition:
+        border-color var(--duration-m) var(--ease-default),
+        box-shadow var(--duration-m) var(--ease-default);
+}
+
+.pool--over {
+    border-color: var(--color-brand-accent);
+    box-shadow: var(--box-shadow-is-dragging);
+}
+
+.pool__grid {
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+    grid-auto-rows: auto;
+    grid-auto-flow: dense;
+    gap: var(--spacing-s);
+    align-content: start;
+}
+
+.pool__cell {
+    min-width: 0;
+    transform-origin: center;
+}
+
+/* Hidden layer used only to measure each answer's natural single-line width. */
+.pool__measurer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.pool__measurer-card {
+    width: max-content;
+}
+
+.left-label {
+    width: 40%;
+    flex-shrink: 0;
+}

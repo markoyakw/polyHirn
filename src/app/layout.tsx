@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Manrope, Inter, JetBrains_Mono, Space_Grotesk, Geist } from "next/font/google";
+import { JetBrains_Mono, Geist } from "next/font/google";
 import "@/globalStyles/reset.css"
 import NavBar from "@/components/layout/nav/NavBar/NavBar";
 import classes from "./layout.module.css"

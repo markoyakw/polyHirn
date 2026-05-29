@@ -1,0 +1,8 @@
+.option {
+    cursor: pointer;
+}
+
+.option__label {
+    cursor: pointer;
+    flex: 1;
+}
