@@ -6,17 +6,17 @@ type TTextareaTone = 1 | 2 | 3 | 4
 type TTextareaRadius = "s" | "m" | "l" | "xl"
 
 const toneClassNameMap: Record<TTextareaTone, string> = {
-    1: classes["tone1"],
-    2: classes["tone2"],
-    3: classes["tone3"],
-    4: classes["tone4"],
+    1: classes["tone-1"],
+    2: classes["tone-2"],
+    3: classes["tone-3"],
+    4: classes["tone-4"],
 }
 
 const radiusClassNameMap: Record<TTextareaRadius, string> = {
-    s: classes["radiusS"],
-    m: classes["radiusM"],
-    l: classes["radiusL"],
-    xl: classes["radiusXl"],
+    s: classes["radius-s"],
+    m: classes["radius-m"],
+    l: classes["radius-l"],
+    xl: classes["radius-xl"],
 }
 
 type TTextareaProps = ComponentProps<"textarea"> & {

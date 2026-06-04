@@ -18,17 +18,17 @@ type TButtonProps = ComponentPropsWithRef<"button"> & {
 }
 
 const toneClassNameMap: Record<TButtonTone, string> = {
-    1: classes["tone1"],
-    2: classes["tone2"],
-    3: classes["tone3"],
-    4: classes["tone4"],
+    1: classes["tone-1"],
+    2: classes["tone-2"],
+    3: classes["tone-3"],
+    4: classes["tone-4"],
     primary: classes["primary"],
     ghost: classes["ghost"],
 }
 
 const hoverClassNameMap: Record<TButtonHover, string | undefined> = {
     brightness: classes["brightness"],
-    brandColorBg: classes["brandColorBg"],
+    brandColorBg: classes["brand-color-bg"],
     none: undefined
 }
 
@@ -40,10 +40,10 @@ const sizeClassNameMap: Record<TButtonSize, string> = {
 
 const radiusClassNameMap: Record<TButtonRadius, string | undefined> = {
     none: undefined,
-    s: classes["radiusS"],
-    m: classes["radiusM"],
-    l: classes["radiusL"],
-    xl: classes["radiusXl"],
+    s: classes["radius-s"],
+    m: classes["radius-m"],
+    l: classes["radius-l"],
+    xl: classes["radius-xl"],
 }
 
 const Button = ({
@@ -66,8 +66,8 @@ const Button = ({
                 sizeClassNameMap[buttonSize],
                 radiusClassNameMap[radius],
                 hoverClassNameMap[hover],
-                fullWidth && classes["fullWidth"],
-                withBorder && classes["withBorder"],
+                fullWidth && classes["full-width"],
+                withBorder && classes["with-border"],
                 className
             )}
             {...props}

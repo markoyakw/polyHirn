@@ -10,201 +10,201 @@
     --stack-half-gap: calc(var(--stack-gap-size) / 2);
 }
 
-.directionRow {
+.direction-row {
     flex-direction: row;
 }
 
-.directionColumn {
+.direction-column {
     flex-direction: column;
 }
 
-.alignmentStart {
+.alignment-start {
     justify-content: flex-start;
 }
 
-.alignmentCenter {
+.alignment-center {
     justify-content: center;
 }
 
-.alignmentEnd {
+.alignment-end {
     justify-content: flex-end;
 }
 
-.alignmentSpaceBetween {
+.alignment-space-between {
     justify-content: space-between;
 }
 
-.secondaryAxisAlignmentStart {
+.secondary-axis-alignment-start {
     align-items: flex-start;
 }
 
-.secondaryAxisAlignmentCenter {
+.secondary-axis-alignment-center {
     align-items: center;
 }
 
-.secondaryAxisAlignmentEnd {
+.secondary-axis-alignment-end {
     align-items: flex-end;
 }
 
-.secondaryAxisAlignmentStretch {
+.secondary-axis-alignment-stretch {
     align-items: stretch;
 }
 
-.withBorder>* {
+.with-border>* {
     position: relative;
 }
 
-.withBorder>*::after {
+.with-border>*::after {
     content: "";
     position: absolute;
     pointer-events: none;
     background-color: var(--box-shadow-border-color);
 }
 
-.directionColumn.withBorder>*::after {
+.direction-column.with-border>*::after {
     right: var(--stack-border-inline-end, 0px);
     bottom: calc(var(--stack-half-gap) * -1);
     left: var(--stack-border-inline-start, 0px);
     height: 1px;
 }
 
-.directionRow.withBorder>*::after {
+.direction-row.with-border>*::after {
     top: var(--stack-border-block-start, 0px);
     bottom: var(--stack-border-block-end, 0px);
     left: 0px;
     width: 1px;
 }
 
-.directionColumn.withBorder>*:last-child::after {
+.direction-column.with-border>*:last-child::after {
     display: none;
 }
 
-.directionRow.withBorder>*:first-child::after {
+.direction-row.with-border>*:first-child::after {
     display: none;
 }
 
-.borderWholeSize {
+.border-whole-size {
     --stack-border-inline-start: 0px;
     --stack-border-inline-end: 0px;
     --stack-border-block-start: 0px;
     --stack-border-block-end: 0px;
 }
 
-.borderConsiderPadding {
+.border-consider-padding {
     --stack-border-inline-start: var(--stack-padding-inline);
     --stack-border-inline-end: var(--stack-padding-inline);
     --stack-border-block-start: var(--stack-padding-block);
     --stack-border-block-end: var(--stack-padding-block);
 }
 
-.paddingNone {
+.padding-none {
     --stack-padding-size: 0px;
 }
 
-.paddingXxs {
+.padding-xxs {
     --stack-padding-size: var(--spacing-xxs);
 }
 
-.paddingXs {
+.padding-xs {
     --stack-padding-size: var(--spacing-xs);
 }
 
-.paddingS {
+.padding-s {
     --stack-padding-size: var(--spacing-s);
 }
 
-.paddingM {
+.padding-m {
     --stack-padding-size: var(--spacing-m);
 }
 
-.paddingL {
+.padding-l {
     --stack-padding-size: var(--spacing-l);
 }
 
-.paddingXl {
+.padding-xl {
     --stack-padding-size: var(--spacing-xl);
 }
 
-.paddingBlockNone {
+.padding-block-none {
     --stack-padding-block: 0px;
 }
 
-.paddingBlockXxs {
+.padding-block-xxs {
     --stack-padding-block: var(--spacing-xxs);
 }
 
-.paddingBlockXs {
+.padding-block-xs {
     --stack-padding-block: var(--spacing-xs);
 }
 
-.paddingBlockS {
+.padding-block-s {
     --stack-padding-block: var(--spacing-s);
 }
 
-.paddingBlockM {
+.padding-block-m {
     --stack-padding-block: var(--spacing-m);
 }
 
-.paddingBlockL {
+.padding-block-l {
     --stack-padding-block: var(--spacing-l);
 }
 
-.paddingBlockXl {
+.padding-block-xl {
     --stack-padding-block: var(--spacing-xl);
 }
 
-.paddingInlineNone {
+.padding-inline-none {
     --stack-padding-inline: 0px;
 }
 
-.paddingInlineXxs {
+.padding-inline-xxs {
     --stack-padding-inline: var(--spacing-xxs);
 }
 
-.paddingInlineXs {
+.padding-inline-xs {
     --stack-padding-inline: var(--spacing-xs);
 }
 
-.paddingInlineS {
+.padding-inline-s {
     --stack-padding-inline: var(--spacing-s);
 }
 
-.paddingInlineM {
+.padding-inline-m {
     --stack-padding-inline: var(--spacing-m);
 }
 
-.paddingInlineL {
+.padding-inline-l {
     --stack-padding-inline: var(--spacing-l);
 }
 
-.paddingInlineXl {
+.padding-inline-xl {
     --stack-padding-inline: var(--spacing-xl);
 }
 
-.gapNone {
+.gap-none {
     --stack-gap-size: 0px;
 }
 
-.gapXxs {
+.gap-xxs {
     --stack-gap-size: var(--spacing-xxs);
 }
 
-.gapXs {
+.gap-xs {
     --stack-gap-size: var(--spacing-xs);
 }
 
-.gapS {
+.gap-s {
     --stack-gap-size: var(--spacing-s);
 }
 
-.gapM {
+.gap-m {
     --stack-gap-size: var(--spacing-m);
 }
 
-.gapL {
+.gap-l {
     --stack-gap-size: var(--spacing-l);
 }
 
-.gapXl {
+.gap-xl {
     --stack-gap-size: var(--spacing-xl);
 }

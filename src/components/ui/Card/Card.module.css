@@ -5,82 +5,82 @@
     transition: background-color var(--duration-l) var(--ease-default);
 }
 
-.overflowHidden {
+.overflow-hidden {
     overflow: hidden;
 }
 
-.overflowVisible {
+.overflow-visible {
     overflow: visible;
 }
 
-.withBorder {
+.with-border {
     box-shadow: var(--box-shadow);
 }
 
-.widthFull {
+.width-full {
     width: 100%;
 }
 
-.widthFitContent {
+.width-fit-content {
     width: fit-content;
 }
 
-.spacingNone {
+.spacing-none {
     padding: 0px;
 }
 
-.spacingXxs {
+.spacing-xxs {
     padding: var(--spacing-xxs);
 }
 
-.spacingXs {
+.spacing-xs {
     padding: var(--spacing-xs);
 }
 
-.spacingS {
+.spacing-s {
     padding: var(--spacing-s);
 }
 
-.spacingM {
+.spacing-m {
     padding: var(--spacing-m);
 }
 
-.spacingL {
+.spacing-l {
     padding: var(--spacing-l);
 }
 
-.spacingXl {
+.spacing-xl {
     padding: var(--spacing-xl);
 }
 
-.radiusS {
+.radius-s {
     --card-radius: var(--radius-s);
 }
 
-.radiusM {
+.radius-m {
     --card-radius: var(--radius-m);
 }
 
-.radiusL {
+.radius-l {
     --card-radius: var(--radius-l);
 }
 
-.radiusXl {
+.radius-xl {
     --card-radius: var(--radius-xl);
 }
 
-.tone1 {
+.tone-1 {
     --card-background: var(--color-bg-card-1);
 }
 
-.tone2 {
+.tone-2 {
     --card-background: var(--color-bg-card-2);
 }
 
-.tone3 {
+.tone-3 {
     --card-background: var(--color-bg-card-3);
 }
 
-.tone4 {
+.tone-4 {
     --card-background: var(--color-bg-card-4);
 }

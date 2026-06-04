@@ -18,10 +18,10 @@ type TInputProps = InputHTMLAttributes<HTMLInputElement> & {
 }
 
 const toneClassNameMap: Record<TInputTone, string> = {
-    1: classes["tone1"],
-    2: classes["tone2"],
-    3: classes["tone3"],
-    4: classes["tone4"],
+    1: classes["tone-1"],
+    2: classes["tone-2"],
+    3: classes["tone-3"],
+    4: classes["tone-4"],
 }
 
 const sizeClassNameMap: Record<TInputSize, string> = {
@@ -31,10 +31,10 @@ const sizeClassNameMap: Record<TInputSize, string> = {
 }
 
 const radiusClassNameMap: Record<TInputRadius, string> = {
-    s: classes["radiusS"],
-    m: classes["radiusM"],
-    l: classes["radiusL"],
-    xl: classes["radiusXl"],
+    s: classes["radius-s"],
+    m: classes["radius-m"],
+    l: classes["radius-l"],
+    xl: classes["radius-xl"],
 }
 
 const Input = ({
@@ -56,7 +56,7 @@ const Input = ({
         toneClassNameMap[tone],
         sizeClassNameMap[inputSize],
         radiusClassNameMap[radius],
-        fullWidth && classes["fullWidth"],
+        fullWidth && classes["full-width"],
         className
     )
 

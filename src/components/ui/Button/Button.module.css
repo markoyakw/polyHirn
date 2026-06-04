@@ -19,7 +19,7 @@
     filter: brightness(1.12);
 }
 
-.button.brandColorBg:hover:not(:disabled) {
+.button.brand-color-bg:hover:not(:disabled) {
     background-color: var(--color-brand-accent);
 }
 
@@ -46,25 +46,25 @@
     --button-shadow: var(--box-shadow);
 }
 
-.tone1 {
+.tone-1 {
     --button-background: var(--color-bg-card-1);
     --button-color: var(--color-text-primary);
     --button-shadow: var(--box-shadow);
 }
 
-.tone2 {
+.tone-2 {
     --button-background: var(--color-bg-card-2);
     --button-color: var(--color-text-primary);
     --button-shadow: var(--box-shadow);
 }
 
-.tone3 {
+.tone-3 {
     --button-background: var(--color-bg-card-3);
     --button-color: var(--color-text-primary);
     --button-shadow: var(--box-shadow);
 }
 
-.tone4 {
+.tone-4 {
     --button-background: var(--color-bg-card-4);
     --button-color: var(--color-text-primary);
     --button-shadow: var(--box-shadow);
@@ -94,26 +94,26 @@
     --button-padding-y: var(--spacing-s);
 }
 
-.radiusS {
+.radius-s {
     --button-radius: var(--radius-s);
 }
 
-.radiusM {
+.radius-m {
     --button-radius: var(--radius-m);
 }
 
-.radiusL {
+.radius-l {
     --button-radius: var(--radius-l);
 }
 
-.radiusXl {
+.radius-xl {
     --button-radius: var(--radius-xl);
 }
 
-.fullWidth {
+.full-width {
     width: 100%;
 }
 
-.withBorder {
+.with-border {
     box-shadow: var(--button-shadow);
 }

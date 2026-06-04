@@ -13,7 +13,7 @@ const InputContainer: FC<TInputContainerProps> = ({ fullWidth, hasLabel, childre
     if (hasLabel) {
         const fieldClassName = clsx(
             classes["field"],
-            fullWidth && classes["field--fullWidth"]
+            fullWidth && classes["field--full-width"]
         )
 
         return (

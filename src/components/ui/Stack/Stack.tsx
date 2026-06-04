@@ -39,67 +39,67 @@ type TStackComponent = <T extends ElementType = "div">(
 ) => ReactElement
 
 const directionClassNameMap: Record<TStackDirection, string> = {
-    row: classes["directionRow"],
-    column: classes["directionColumn"],
+    row: classes["direction-row"],
+    column: classes["direction-column"],
 }
 
 const paddingClassNameMap: Record<TStackSize, string> = {
-    xxs: classes["paddingXxs"],
-    xs: classes["paddingXs"],
-    s: classes["paddingS"],
-    m: classes["paddingM"],
-    l: classes["paddingL"],
-    xl: classes["paddingXl"],
-    none: classes["paddingNone"],
+    xxs: classes["padding-xxs"],
+    xs: classes["padding-xs"],
+    s: classes["padding-s"],
+    m: classes["padding-m"],
+    l: classes["padding-l"],
+    xl: classes["padding-xl"],
+    none: classes["padding-none"],
 }
 
 const paddingBlockClassNameMap: Record<TStackSize, string> = {
-    xxs: classes["paddingBlockXxs"],
-    xs: classes["paddingBlockXs"],
-    s: classes["paddingBlockS"],
-    m: classes["paddingBlockM"],
-    l: classes["paddingBlockL"],
-    xl: classes["paddingBlockXl"],
-    none: classes["paddingBlockNone"],
+    xxs: classes["padding-block-xxs"],
+    xs: classes["padding-block-xs"],
+    s: classes["padding-block-s"],
+    m: classes["padding-block-m"],
+    l: classes["padding-block-l"],
+    xl: classes["padding-block-xl"],
+    none: classes["padding-block-none"],
 }
 
 const paddingInlineClassNameMap: Record<TStackSize, string> = {
-    xxs: classes["paddingInlineXxs"],
-    xs: classes["paddingInlineXs"],
-    s: classes["paddingInlineS"],
-    m: classes["paddingInlineM"],
-    l: classes["paddingInlineL"],
-    xl: classes["paddingInlineXl"],
-    none: classes["paddingInlineNone"],
+    xxs: classes["padding-inline-xxs"],
+    xs: classes["padding-inline-xs"],
+    s: classes["padding-inline-s"],
+    m: classes["padding-inline-m"],
+    l: classes["padding-inline-l"],
+    xl: classes["padding-inline-xl"],
+    none: classes["padding-inline-none"],
 }
 
 const gapClassNameMap: Record<TStackSize, string> = {
-    xxs: classes["gapXxs"],
-    xs: classes["gapXs"],
-    s: classes["gapS"],
-    m: classes["gapM"],
-    l: classes["gapL"],
-    xl: classes["gapXl"],
-    none: classes["gapNone"],
+    xxs: classes["gap-xxs"],
+    xs: classes["gap-xs"],
+    s: classes["gap-s"],
+    m: classes["gap-m"],
+    l: classes["gap-l"],
+    xl: classes["gap-xl"],
+    none: classes["gap-none"],
 }
 
 const borderClassNameMap: Record<TStackBorder, string> = {
-    wholeSize: classes["borderWholeSize"],
-    considerPadding: classes["borderConsiderPadding"],
+    wholeSize: classes["border-whole-size"],
+    considerPadding: classes["border-consider-padding"],
 }
 
 const alignmentClassNameMap: Record<TStackAlignment, string> = {
-    start: classes["alignmentStart"],
-    center: classes["alignmentCenter"],
-    end: classes["alignmentEnd"],
-    spaceBetween: classes["alignmentSpaceBetween"],
+    start: classes["alignment-start"],
+    center: classes["alignment-center"],
+    end: classes["alignment-end"],
+    spaceBetween: classes["alignment-space-between"],
 }
 
 const secondaryAxisAlignmentClassNameMap: Record<TStackSecondaryAxisAlignment, string> = {
-    start: classes["secondaryAxisAlignmentStart"],
-    center: classes["secondaryAxisAlignmentCenter"],
-    end: classes["secondaryAxisAlignmentEnd"],
-    stretch: classes["secondaryAxisAlignmentStretch"],
+    start: classes["secondary-axis-alignment-start"],
+    center: classes["secondary-axis-alignment-center"],
+    end: classes["secondary-axis-alignment-end"],
+    stretch: classes["secondary-axis-alignment-stretch"],
 }
 
 const StackInner = <T extends ElementType = "div">({
@@ -129,7 +129,7 @@ const StackInner = <T extends ElementType = "div">({
                 paddingBlock && paddingBlockClassNameMap[paddingBlock],
                 paddingInline && paddingInlineClassNameMap[paddingInline],
                 gapClassNameMap[gap],
-                border && classes["withBorder"],
+                border && classes["with-border"],
                 border && borderClassNameMap[border],
                 alignment && alignmentClassNameMap[alignment],
                 secondaryAxisAlignment &&

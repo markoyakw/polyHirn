@@ -33,34 +33,34 @@
     opacity: 0.7;
 }
 
-.tone1 {
+.tone-1 {
     --input-background: var(--color-bg-card-1);
 }
 
-.tone2 {
+.tone-2 {
     --input-background: var(--color-bg-card-2);
 }
 
-.tone3 {
+.tone-3 {
     --input-background: var(--color-bg-card-3);
 }
 
-.tone4 {
+.tone-4 {
     --input-background: var(--color-bg-card-4);
 }
 
-.radiusS {
+.radius-s {
     --input-radius: var(--radius-s);
 }
 
-.radiusM {
+.radius-m {
     --input-radius: var(--radius-m);
 }
 
-.radiusL {
+.radius-l {
     --input-radius: var(--radius-l);
 }
 
-.radiusXl {
+.radius-xl {
     --input-radius: var(--radius-xl);
 }

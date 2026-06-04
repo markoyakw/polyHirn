@@ -39,38 +39,38 @@ type TCardComponent = <T extends ElementType = "div">(
 ) => ReactElement | null
 
 const toneClassNameMap: Record<TCardTone, string> = {
-    1: classes["tone1"],
-    2: classes["tone2"],
-    3: classes["tone3"],
-    4: classes["tone4"],
+    1: classes["tone-1"],
+    2: classes["tone-2"],
+    3: classes["tone-3"],
+    4: classes["tone-4"],
 }
 
 const spacingClassNameMap: Record<TCardSpacing, string> = {
-    xxs: classes["spacingXxs"],
-    xs: classes["spacingXs"],
-    s: classes["spacingS"],
-    m: classes["spacingM"],
-    l: classes["spacingL"],
-    xl: classes["spacingXl"],
-    none: classes["spacingNone"]
+    xxs: classes["spacing-xxs"],
+    xs: classes["spacing-xs"],
+    s: classes["spacing-s"],
+    m: classes["spacing-m"],
+    l: classes["spacing-l"],
+    xl: classes["spacing-xl"],
+    none: classes["spacing-none"]
 }
 
 const radiusClassNameMap: Record<TCardRadius, string> = {
-    s: classes["radiusS"],
-    m: classes["radiusM"],
-    l: classes["radiusL"],
-    xl: classes["radiusXl"],
+    s: classes["radius-s"],
+    m: classes["radius-m"],
+    l: classes["radius-l"],
+    xl: classes["radius-xl"],
 }
 
 const widthClassNameMap: Record<TCardWidth, string | undefined> = {
     auto: undefined,
-    full: classes["widthFull"],
-    fitContent: classes["widthFitContent"],
+    full: classes["width-full"],
+    fitContent: classes["width-fit-content"],
 }
 
 const overflowClassNameMap: Record<TCardOverflow, string> = {
-    hidden: classes["overflowHidden"],
-    visible: classes["overflowVisible"],
+    hidden: classes["overflow-hidden"],
+    visible: classes["overflow-visible"],
 }
 
 const CardInner = <T extends ElementType = "div">({
@@ -98,7 +98,7 @@ const CardInner = <T extends ElementType = "div">({
                 radiusClassNameMap[radius],
                 widthClassNameMap[width],
                 overflowClassNameMap[overflow],
-                withBorder && classes["withBorder"],
+                withBorder && classes["with-border"],
                 className
             )}
             style={style}
