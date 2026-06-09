@@ -28,27 +28,11 @@ preception in dark and light
     transition: filter var(--duration-m) var(--ease-default);
 }
 
-/* ============== */
-
 .theme-button--dark:hover {
     filter: brightness(2);
 }
 
-.theme-button--light .theme-icon--light {
-    animation: disappear var(--duration-m) var(--ease-spring) forwards;
-}
-
-.theme-button--light .theme-icon--dark {
-    animation: appear var(--duration-m) var(--ease-spring) forwards;
-}
-
-.theme-button--dark .theme-icon--dark {
-    animation: disappear var(--duration-m) var(--ease-spring) forwards;
-}
-
-.theme-button--dark .theme-icon--light {
-    animation: appear var(--duration-m) var(--ease-spring) forwards;
-}
+/* ============== */
 
 .theme-button:hover .theme-icon {
     rotate: -15deg;
@@ -64,6 +48,39 @@ preception in dark and light
     transition: top var(--duration-m) var(--ease-default),
         rotate var(--duration-m) var(--ease-spring),
         scale var(--duration-m) var(--ease-spring);
+}
+
+.theme-button--should-animate.theme-button--dark .theme-icon--light {
+    animation: disappear var(--duration-m) var(--ease-spring) forwards;
+}
+
+.theme-button--should-animate.theme-button--light .theme-icon--light {
+    animation: appear var(--duration-m) var(--ease-spring) forwards;
+}
+
+.theme-button--should-animate.theme-button--light .theme-icon--dark {
+    animation: disappear var(--duration-m) var(--ease-spring) forwards;
+}
+
+.theme-button--should-animate.theme-button--dark .theme-icon--dark {
+    animation: appear var(--duration-m) var(--ease-spring) forwards;
+}
+
+
+.theme-button--dark .theme-icon--light {
+    top: calc(-1 * (var(--spacing-s) + var(--container-size)))
+}
+
+.theme-button--light .theme-icon--dark {
+    top: calc(-1 * (var(--spacing-s) + var(--container-size)))
+}
+
+.theme-icon--light {
+    top: var(--spacing-s);
+}
+
+.theme-icon--dark {
+    top: var(--spacing-s);
 }
 
 @keyframes appear {
