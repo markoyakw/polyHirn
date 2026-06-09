@@ -10,7 +10,6 @@
     height: var(--container-size);
     cursor: pointer;
     overflow: hidden;
-
 }
 
 /* different hover speeds and filter values because of different color
@@ -34,6 +33,10 @@ preception in dark and light
 
 /* ============== */
 
+.theme-button--is-server .theme-icon {
+    opacity: 0;
+}
+
 .theme-button:hover .theme-icon {
     rotate: -15deg;
     scale: 1.1;
@@ -45,7 +48,8 @@ preception in dark and light
     width: var(--icon-size);
     height: var(--icon-size);
 
-    transition: top var(--duration-m) var(--ease-default),
+    transition:
+        opacity var(--duration-l),
         rotate var(--duration-m) var(--ease-spring),
         scale var(--duration-m) var(--ease-spring);
 }
@@ -65,7 +69,6 @@ preception in dark and light
 .theme-button--should-animate.theme-button--dark .theme-icon--dark {
     animation: appear var(--duration-m) var(--ease-spring) forwards;
 }
-
 
 .theme-button--dark .theme-icon--light {
     top: calc(-1 * (var(--spacing-s) + var(--container-size)))

@@ -13,13 +13,17 @@ const ThemeChanger = () => {
     const { resolvedTheme, setTheme } = useTheme()
     const [isInitial, setIsInitial] = useState(true)
 
-    if (!isClient) return null
+    //to avoid the hydration error. ResolvedTheme is rendered differently
+    //in client and server conponents.
+    const clientSideButtonClassName = clsx(
+        resolvedTheme === "light" && classes["theme-button--light"],
+        resolvedTheme === "dark" && classes["theme-button--dark"],
+    )
 
     const buttonClassName = clsx(
         !isInitial && classes["theme-button--should-animate"],
         classes["theme-button"],
-        resolvedTheme === "light" && classes["theme-button--light"],
-        resolvedTheme === "dark" && classes["theme-button--dark"]
+        isClient ? clientSideButtonClassName : classes["theme-button--is-server"] //to hide button when no state (server)
     )
 
     const lightModeIconClassname = clsx(classes["theme-icon"], classes["theme-icon--light"])
